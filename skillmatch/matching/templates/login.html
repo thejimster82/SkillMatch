@@ -1,1 +1,11 @@
-<p> log in page </p>
+{% load socialaccount %}
+{% providers_media_js %}
+<html>
+  <head>
+    <title>Log in</title>
+  </head>
+  <body>
+    {{user}}
+    <a href="{% provider_login_url "google" %}">Sign in with Google</a>
+  </body>
+</html>
