@@ -1,0 +1,1 @@
+web: gunicorn skillmatching.wsgi:application --log-file -
