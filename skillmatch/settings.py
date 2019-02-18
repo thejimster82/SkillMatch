@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')3n15995qd=v@$e&c$wes2e^f8$1tbqmp1_=s8o@wfj2**uxoi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['django-practice-gnr7aj.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    #for styling
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
