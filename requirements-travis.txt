@@ -1,0 +1,4 @@
+Django==2.1.5
+gunicorn==19.9.0
+django-bootstrap4==0.0.7
+django-allauth==0.38.0
