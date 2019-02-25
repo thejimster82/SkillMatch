@@ -1,13 +1,16 @@
+{% extends 'base.html' %}
 {% load socialaccount %}
 {% providers_media_js %}
-<html>
-  <head>
-    <title>Log in</title>
-  </head>
-  <body>
-    <h1 class="align-center" style=font-size:50px><i>Study Buddies</i></h1>
-    <a class="align-center" href="{% provider_login_url "google" %}">Sign in with Google</a>
-    <body background="https://www.jamk.fi/globalassets/koulutus--education/avoin-amk/header_1600x625_oranssipaitainen_nainen_kirjoittaa_kalenteriin.jpg"></body>
-    <a class="align-center" href="/register">Register an account</a>
-  </body>
-</html>
+{%block content%}
+
+<head>
+  <title>Log in</title>
+</head>
+
+<body>
+  <a class="align-center" href="{% provider_login_url "google" %}">Sign in with Google</a>
+  <p></p>
+  <a class="align-center" href="/register">Register an account</a>
+</body>
+
+{%endblock%}
