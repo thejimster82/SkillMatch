@@ -41,14 +41,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'matching',
-    #for google sign in using django allauth
+    # for google sign in using django allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    #for styling
+    # for styling
     'bootstrap4',
+    # forms w/ bs4
+    'crispy_forms',
+
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -129,14 +133,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-#django allauth settings
+
+# django allauth settings
 AUTHENTICATION_BACKENDS = (
-    #need to log in to admin with username and password regardless of allauth
+    # need to log in to admin with username and password regardless of allauth
     'django.contrib.auth.backends.ModelBackend',
 
-    #allauth specific authentication methods, such as log in by email
+    # allauth specific authentication methods, such as log in by email
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 

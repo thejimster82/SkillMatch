@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+
+
 class User(models.Model):
     GENDER_CHOICES = [('M', 'Male'), ('F', 'Female'), ('O', 'Other')]
     name = models.CharField(max_length=100)
@@ -12,10 +14,12 @@ class User(models.Model):
     team = models.ManyToManyField('Team', blank=True)
     match = models.ManyToManyField('User', blank=True)
 
+
 class Team(models.Model):
     name = models.CharField(max_length=100)
     subject = models.CharField(max_length=100)
     description = models.TextField()
+
 
 class Match(models.Model):
     match_date = models.DateTimeField()
