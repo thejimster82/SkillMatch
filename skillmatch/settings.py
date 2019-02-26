@@ -23,9 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')3n15995qd=v@$e&c$wes2e^f8$1tbqmp1_=s8o@wfj2**uxoi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = False
 
-ALLOWED_HOSTS = ['skill-matching.herokuapp.com', 'localhost']
+# ALLOWED_HOSTS = ['skill-matching.herokuapp.com', 'localhost']
+
+DEBUG = True
+
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -50,6 +54,8 @@ INSTALLED_APPS = [
     'bootstrap4',
     # forms w/ bs4
     'crispy_forms',
+    #social django auth
+    'social_django', 
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -62,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware', #social_django_auth
 ]
 
 ROOT_URLCONF = 'skillmatch.urls'
@@ -69,7 +76,7 @@ ROOT_URLCONF = 'skillmatch.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR+'/matching/templates/matching'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,6 +84,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -84,6 +94,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'skillmatch.wsgi.application'
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1061382063618-9knv0ir8ri03g6bb27u3vedbijmf4940.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'lzR11GumvtNnorntHvqrvFr_'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = '/'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -138,6 +155,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # django allauth settings
 AUTHENTICATION_BACKENDS = (
+    # for Google authentication
+    'social_core.backends.open_id.OpenIdAuth',  
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+
     # need to log in to admin with username and password regardless of allauth
     'django.contrib.auth.backends.ModelBackend',
 
