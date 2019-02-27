@@ -45,17 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'matching',
-    # for google sign in using django allauth
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
     # for styling
     'bootstrap4',
     # forms w/ bs4
     'crispy_forms',
-    #social django auth
-    'social_django', 
+    # social django auth
+    'social_django',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -68,7 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware', #social_django_auth
+    'social_django.middleware.SocialAuthExceptionMiddleware',  # social_django_auth
 ]
 
 ROOT_URLCONF = 'skillmatch.urls'
@@ -156,7 +151,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # django allauth settings
 AUTHENTICATION_BACKENDS = (
     # for Google authentication
-    'social_core.backends.open_id.OpenIdAuth',  
+    'social_core.backends.open_id.OpenIdAuth',
     'social_core.backends.google.GoogleOpenId',
     'social_core.backends.google.GoogleOAuth2',
 
