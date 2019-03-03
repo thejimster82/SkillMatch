@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-{% extends 'base.html' %}
+{%load static%}
 {% load socialaccount %}
 {% providers_media_js %}
-{%block content%}
-{%load static%}
+
+
+<!--THIS IS ACTUALLY THE HOME PAGE-->
 
 <head>
   <title>Log In</title>
@@ -34,39 +35,50 @@
 
 </head>
 
-<!--THIS IS ACTUALLY THE HOME PAGE-->
-
-<!-- OLD CODE
-
 <body>
-  <a class="align-center" href="{% provider_login_url " google" %}">Sign in with Google</a>
-  <p></p>
-  <a class="align-center" href="/register">Register an account</a>
-</body>
+  <div class="site-wrapper">
 
--->
+    <div class="site-wrapper-inner">
 
-<div class="site-wrapper">
+      <div class="cover-container">
 
-  <div class="site-wrapper-inner">
+        <div class="inner cover">
+          <h1 class="cover-heading">Study Buddies</h1>
+          <p class="lead">Sign In or Register an Account</p>
+          <p class="lead">
+            <a class="btn btn-lg btn-secondary" href="{% provider_login_url " google" %}">Register</a>
+          </p>
+          <p class="lead">
+            <a href="/register" class="btn btn-lg btn-secondary">Sign In</a>
+          </p>
+        </div>
 
-    <div class="cover-container">
-
-      <div class="inner cover">
-        <h1 class="cover-heading">Study Buddies</h1>
-        <p class="lead">Sign In or Register an Account</p>
-        <p class="lead">
-          <a href="{% provider_login_url " google" %}" class="btn btn-lg btn-secondary">Register</a>
-        </p>
-        <p class="lead">
-          <a href="/register" class="btn btn-lg btn-secondary">Sign In</a>
-        </p>
       </div>
 
     </div>
 
   </div>
+</body>
 
-</div>
+</html>
+
+<!-- OLD CODE
+
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% providers_media_js %}
+{%block content%}
+
+<head>
+  <title>Log in</title>
+</head>
+
+<body>
+  <a class="align-center" href="{% provider_login_url "google" %}">Sign in with Google</a>
+  <p></p>
+  <a class="align-center" href="/register">Register an account</a>
+</body>
 
 {%endblock%}
+
+-->
