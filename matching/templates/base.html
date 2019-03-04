@@ -9,10 +9,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'matching/styles.css'%}">
     <!-- Latest compiled and minified CSS -->
     <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"-->
+    <!--This is integrating bootstrap into our website -->
+    <!--helps our website look cleaner and more professional -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
         crossorigin="anonymous">
 
-    <!-- jQuery library -->
+    <!-- This loads in the jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -33,6 +35,7 @@
 <body>
     <div class="page-header-custom">
         <div class="row-logo h-100 my-auto">
+          <!--This loads the flame logo into the header -->
             <img src="{% static 'matching/logo_name_combo_big.png' %}" class=" img-fluid mx-auto d-block my-auto">
         </div>
     </div>
@@ -40,15 +43,19 @@
     <nav class="navbar-custom navbar-expand-sm">
         <ul class="navbar-nav justify-content-center nav-fill w-100">
             <li class="nav-item">
+              <!--When home is clicked, go to the home page -->
                 <a class="nav-link" href="/home">HOME</a>
             </li>
             <li class="nav-item">
+
                 <a class="nav-link" href="/home">PROFILE</a>
             </li>
             <li class="nav-item">
+              <!--We are yet to make the about us page so this currently goes no where -->
                 <a class="nav-link" href="">ABOUT US</a>
             </li>
             <li class="nav-item">
+              <!--Still working on making the matches page -->
                 <a class="nav-link" href="">MATCHES</a>
             </li>
         </ul>
