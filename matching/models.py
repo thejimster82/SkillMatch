@@ -1,8 +1,9 @@
 from django.db import models
 
-# Create your models here.
 
-
+#This is the model to create our database
+#We define what the fields will be and what kind of database
+#will be placed in them
 class User(models.Model):
     GENDER_CHOICES = [('M', 'Male'), ('F', 'Female'), ('O', 'Other')]
     name = models.CharField(max_length=100)
