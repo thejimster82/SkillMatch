@@ -1,16 +1,50 @@
-{% extends 'base.html' %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
+<!DOCTYPE html>
+<html lang="en">
+{%load static%}
 
-{% block title %}Sign in{% endblock %}
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{% static 'matching/styles.css'%}">
+  <!-- Latest compiled and minified CSS -->
+  <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"-->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous">
 
-{% block content %}
-<div class="container">
-	<div class="justify-content-center">
-		<h1 class="mt-2"> Sign In </h1>
-  	<a href="{% url 'social:begin' 'google-oauth2' %}">
-  	<button class="btn-outline-primary btn">Sign in with Google</button>
-  </a>
-	</div>
-</div>
-{% endblock %}
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script-->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP"
+    crossorigin="anonymous"></script>
+  
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="container-fluid h-100" style="background-color: rgb(219, 161, 0)">
+  <div class="row h-100 justify-content-center align-items-center">
+  <div>
+  <h1>Study Buddies</h1>
+  <p class="lead">Sign In or Register an Account</p>
+  <p class="lead">
+    <a class="btn btn-lg btn-secondary" href="{% url 'social:begin' 'google-oauth2' %}">Register</a>
+  </p>
+  <p class="lead">
+    <a class="btn btn-lg btn-secondary" href="{% url 'social:begin' 'google-oauth2' %}">Sign In With Google</a>
+  </p>
+  </div>
+  </div>
+  </div>
+</body>
+
+</html>
