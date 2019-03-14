@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="justify-content-center">
+			<h1 class="mt-2"> About Us </h1>
+		{% if user.is_authenticated %}
+	  		<p>Hello About Us!</p>
+	  		<a href="{% url 'logout'%}">
+	  			<button type="button" class="btn btn-primary">Logout</button>
+	  		</a>
+		{% else %}
+		  	<p>Please login with google</p>
+		  	<a href="{% url 'login' %}">Login with Google</a>
+		{% endif %}
+		</div>
+	</div>
+{% endblock %}
