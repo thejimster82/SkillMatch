@@ -14,22 +14,14 @@ class Profile(models.Model):
     bio = models.TextField()
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
 #     team = models.ManyToManyField('Team', blank=True)
-#     match = models.ManyToManyField('User', blank=True)
+    matches = models.ManyToManyField('Profile', blank=True)
 
-
-# class Team(models.Model):
-#     name = models.CharField(max_length=100)
-#     subject = models.CharField(max_length=100)
-#     description = models.TextField()
-
-
-# class Match(models.Model):
-#     match_date = models.DateTimeField()
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
