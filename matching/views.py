@@ -38,3 +38,9 @@ def profile(request):
     return render(request, 'profile.html', {
         "user": user,
     })
+
+
+@login_required
+def matches(request):
+    user = User.objects.get(username=request.user.username)
+    return render(request, 'matches.html')

@@ -25,7 +25,7 @@ from matching import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('matching/', include('matching.urls')),
+    path('matches/', include('matching.urls')),
     path('auth/', include('social_django.urls',
                           namespace='social')),  # for social auth
     path('', auth_views.LoginView.as_view(
