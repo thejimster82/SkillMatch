@@ -26,8 +26,11 @@ from matching import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('matching/', include('matching.urls')),
-    path('auth/', include('social_django.urls', namespace='social')),# for social auth
-    path('', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('auth/', include('social_django.urls',
+                          namespace='social')),  # for social auth
+    path('', auth_views.LoginView.as_view(
+        template_name='login.html'), name='login'),
     path('home/', views.home, name='home'),
+    path('about_us/', views.about_us, name='about_us'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
