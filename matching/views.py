@@ -43,4 +43,6 @@ def profile(request):
 @login_required
 def matches(request):
     user = User.objects.get(username=request.user.username)
-    return render(request, 'matches.html')
+    return render(request, 'matches.html', {
+        'user': user,
+    })
