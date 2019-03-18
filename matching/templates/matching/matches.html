@@ -11,11 +11,11 @@
         <!-- Add for loop here to display all current matches -->
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <!-- 
+                <h5 class="card-title">Match with {{ user.username }} ?</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Info</h6>
+                <p>Major: {{ user.profile.major}}</p>
+                <p>Graduation Year: {{ user.profile.grad_year}}</p>
+                <!--
                     Potentially add logic here to display next card and
                     hide the current card (more like Tinder) once one
                     of the buttons has been pressed.
