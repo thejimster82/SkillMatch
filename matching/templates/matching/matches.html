@@ -6,24 +6,5 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 {% block content %}
-<div class="container">
-    <div class="mx-auto" style="width: 20rem">
-        <!-- Add for loop here to display all current matches -->
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Match with {{ user.username }} ?</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Info</h6>
-                <p>Major: {{ user.profile.major}}</p>
-                <p>Graduation Year: {{ user.profile.grad_year}}</p>
-                <!--
-                    Potentially add logic here to display next card and
-                    hide the current card (more like Tinder) once one
-                    of the buttons has been pressed.
-                -->
-                <a href="#" class="btn btn-success">Match</a>
-                <a href="#" class="btn btn-danger">Nope</a>
-            </div>
-        </div>
-    </div>
-</div>
+
 {% endblock %}

@@ -2,18 +2,38 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-	<div class="container">
-		<div class="justify-content-center">
-			<h1 class="mt-2"> Home </h1>
+<div class="container">
+	<div class="justify-content-center">
+		<h1 class="mt-2"> Home </h1>
 		{% if user.is_authenticated %}
-	  		<p>Hello {{ user.username }}!</p>
-	  		<a href="{% url 'logout'%}">
-	  			<button type="button" class="btn btn-primary">Logout</button>
-	  		</a>
-		{% else %}
-		  	<p>Please login with google</p>
-		  	<a href="{% url 'login' %}">Login with Google</a>
-		{% endif %}
+		<p>Hello {{ user.username }}!</p>
+		<a href="{% url 'logout'%}">
+			<button type="button" class="btn btn-primary">Logout</button>
+		</a>
+		<div class="container">
+			<div class="mx-auto" style="width: 20rem">
+				<!-- Add for loop here to display all current matches -->
+				<div class="card" style="width: 18rem;">
+					<div class="card-body">
+						<h5 class="card-title">Match with {{ user.username }} ?</h5>
+						<h6 class="card-subtitle mb-2 text-muted">Info</h6>
+						<p>Major: {{ user.profile.major}}</p>
+						<p>Graduation Year: {{ user.profile.grad_year}}</p>
+						<!--
+							Potentially add logic here to display next card and
+							hide the current card (more like Tinder) once one
+							of the buttons has been pressed.
+						-->
+						<a href="#" class="btn btn-success">Match</a>
+						<a href="#" class="btn btn-danger">Nope</a>
+					</div>
+				</div>
+			</div>
 		</div>
+		{% else %}
+		<p>Please login with google</p>
+		<a href="{% url 'login' %}">Login with Google</a>
+		{% endif %}
 	</div>
+</div>
 {% endblock %}
