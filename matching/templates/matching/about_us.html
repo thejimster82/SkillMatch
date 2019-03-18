@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}About Study Buddies{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="justify-content-center">
+			<h1 class="mt-2"> About Us </h1>
+		{% if user.is_authenticated %}
+	  		<p>Study Buddies was made to facilitate finding people to study with. All too often, it is so difficult to find people
+				in your classes who are also looking for someone to study with. This app took some of it's inspirtation from Tinder,
+			and is a great tool for you to make new friends and get those grades up!</p>
+
+			<h2 class="mt-2" align="center"> Meet the Team! </h2>
+			<h5 class="mt-2"> Caleb </h5>
+			<p> *add pic and short bio here* </p>
+
+			<h5 class="mt-2"> David </h5>
+			<p> *add pic and short bio here* </p>
+
+			<h5 class="mt-2"> Grady </h5>
+			<p> *add pic and short bio here* </p>
+
+			<h5 class="mt-2"> Jimmy </h5>
+			<p> *add pic and short bio here* </p>
+
+			<h5 class="mt-2"> Mark </h5>
+			<p> *add pic and short bio here* </p>
+
+			<h5 class="mt-2"> Yiffan </h5>
+			<p> *add pic and short bio here* </p>
+
+		{% else %}
+		  	<p>Please login with google</p>
+		  	<a href="{% url 'login' %}">Login with Google</a>
+		{% endif %}
+		</div>
+	</div>
+{% endblock %}
