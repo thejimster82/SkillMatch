@@ -34,28 +34,42 @@
 </head>
 
 <body>
-
-    <div class="page-header-custom">
-        <div class="row-logo h-100 my-auto">
-            <img src="{% static 'matching/logo_name_combo_big.png' %}" class=" img-fluid mx-auto d-block my-auto">
+    <nav class="navbar navbar-expand-lg" style="background-color: #d78d00;">
+        <a class="navbar-brand">Study Buddies</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/matches">Matches</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About Us</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Hello {{ user.username }}!</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout'%}">Logout</a>
+                    </li>
+                </ul>
+                {% else %}
+                <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
+                </li>
+                </ul>
+                {% endif %}
+            </span>
         </div>
-    </div>
-
-    <nav class="navbar-custom navbar-expand-sm">
-        <ul class="navbar-nav justify-content-center nav-fill w-100">
-            <li class="nav-item">
-                <a class="nav-link" href="/home">HOME</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/profile">PROFILE</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="">ABOUT US</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/matches">MATCHES</a>
-            </li>
-        </ul>
     </nav>
 
 
