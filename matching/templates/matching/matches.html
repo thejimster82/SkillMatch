@@ -10,6 +10,8 @@
 <ul>
     {% for match in matches_list %}
     <li>{{ match.user.username }}</li>
+    {% empty %}
+    <li>No matches yet!</li>
     {% endfor %}
 </ul>
 {% endblock %}
