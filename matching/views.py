@@ -44,20 +44,9 @@ def profile(request):
 
 @login_required
 def matches(request):
-    # I am having trouble accessing the matches ManyToMany field
     user = User.objects.get(username=request.user.username)
-    #matches_list = user.profile.matches.all()
     profile = Profile.objects.get(user=user)
     matches_list = profile.matches.all()
     return render(request, 'matches.html', {
         'matches_list': matches_list,
     })
-
-
-# class MatchesView(LoginRequiredMixin, generic.ListView):
-#    model = Profile
-#    template_name = 'matches.html'
-#    context_object_name = 'matches_list'
-#
-#    def get_queryset(self):
-#        return Profile.matches.all()
