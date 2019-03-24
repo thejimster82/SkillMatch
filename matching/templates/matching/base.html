@@ -7,10 +7,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'matching/styles.css'%}">
-    <!-- Latest compiled and minified CSS -->
-    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"-->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -35,30 +34,36 @@
 
 <body>
     <nav class="navbar navbar-expand-lg" style="background-color: #d78d00;">
+    <div class="container-fluid">
         <a class="navbar-brand">Study Buddies</a>
-        <div class="collapse navbar-collapse">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navBar">
+                    <span class="dark-blue-text"><i class="fas fa-bars fa-1x"></i></span>               
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navBar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/home">Home</a>
+                    <a class="nav-link" href="/home" style="color: white">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/profile">Profile</a>
+                    <a class="nav-link" href="/profile" style="color: white">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/matches">Matches</a>
+                    <a class="nav-link" href="/matches" style="color: white">Matches</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About Us</a>
+                    <a class="nav-link" href="#" style="color: white">About Us</a>
                 </li>
             </ul>
-            <span class="navbar-text">
+            <span>
                 {% if user.is_authenticated %}
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/profile">Hello {{ user.username }}!</a>
+                        <a class="nav-link" href="/profile" style="color: white">Hello {{ user.username }}!</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout'%}">Logout</a>
+                        <a class="nav-link" href="{% url 'logout'%}" style="color: white">Logout</a>
                     </li>
                 </ul>
                 {% else %}
@@ -69,6 +74,7 @@
                 </ul>
                 {% endif %}
             </span>
+        </div>
         </div>
     </nav>
 
