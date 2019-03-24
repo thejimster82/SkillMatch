@@ -5,6 +5,11 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+<!-- This page should be a list of the current matches -->
 {% block content %}
-
+<ul>
+    {% for match in matches_list %}
+    <li>{{ match.user.username }}</li>
+    {% endfor %}
+</ul>
 {% endblock %}

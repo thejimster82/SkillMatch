@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import reverse
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import generic
 
 from .forms import UserForm, ProfileForm
+from .models import Profile
 # Create your views here.
 
 
@@ -42,7 +44,20 @@ def profile(request):
 
 @login_required
 def matches(request):
+    # I am having trouble accessing the matches ManyToMany field
     user = User.objects.get(username=request.user.username)
+    #matches_list = user.profile.matches.all()
+    profile = Profile.objects.get(user=user)
+    matches_list = profile.matches.all()
     return render(request, 'matches.html', {
-        'user': user,
+        'matches_list': matches_list,
     })
+
+
+# class MatchesView(LoginRequiredMixin, generic.ListView):
+#    model = Profile
+#    template_name = 'matches.html'
+#    context_object_name = 'matches_list'
+#
+#    def get_queryset(self):
+#        return Profile.matches.all()
