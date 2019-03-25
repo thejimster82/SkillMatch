@@ -6,16 +6,7 @@
 	<div class="justify-content-center">
 		{% if user.is_authenticated %}
 		<div class="container">
-<<<<<<< HEAD
-			<div class="mx-auto" style="width: 30rem">
-				<!-- Add for loop here to display all current matches -->
-				<div class="card" style="width: 30rem;">
-					<div class="card-body">
-						<h5 class="card-title" class="text-center">Match with {{ user.username }} ?</h5>
-						<h6 class="card-subtitle mb-2 text-muted" class="text-center">Info</h6>
-						<p class="text-center">Major: {{ user.profile.major}}</p>
-						<p class="text-center">Graduation Year: {{ user.profile.grad_year}}</p>
-=======
+			
 			<div class="mx-auto" style="width: 20rem">
 				<div class="card" style="width: 18rem;">
 					<div class="card-body">
@@ -23,7 +14,6 @@
 						<h6 class="card-subtitle mb-2 text-muted">Info</h6>
 						<p>Major: {{ user.profile.major}}</p>
 						<p>Graduation Year: {{ user.profile.grad_year}}</p>
->>>>>>> 739b889b6a5de5d049ed32c14bcda6705fcab018
 						<!--
 							Potentially add logic here to display next card and
 							hide the current card (more like Tinder) once one
