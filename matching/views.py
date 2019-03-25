@@ -13,7 +13,12 @@ from .models import Profile
 
 
 def home(request):
-    return render(request, 'home.html')
+    user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
+    matches_list = profile.matches.all()
+    return render(request, 'home.html', {
+        'matches_list': matches_list
+    })
 
 
 @login_required

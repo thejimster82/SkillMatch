@@ -5,14 +5,15 @@
 <div class="container">
 	<div class="justify-content-center">
 		{% if user.is_authenticated %}
-		<div class="container">
+		{% for match in matches_list %}
+		<div class="container" style="margin-top: 20px;">
 			<div class="mx-auto" style="width: 20rem">
 				<div class="card" style="width: 18rem;">
 					<div class="card-body">
-						<h5 class="card-title">Match with {{ user.username }}?</h5>
+						<h5 class="card-title">Match with {{ match.user.username }}?</h5>
 						<h6 class="card-subtitle mb-2 text-muted">Info</h6>
-						<p>Major: {{ user.profile.major}}</p>
-						<p>Graduation Year: {{ user.profile.grad_year}}</p>
+						<p>Major: {{ match.user.profile.major}}</p>
+						<p>Graduation Year: {{ match.user.profile.grad_year}}</p>
 						<!--
 							Potentially add logic here to display next card and
 							hide the current card (more like Tinder) once one
@@ -27,6 +28,9 @@
 				</div>
 			</div>
 		</div>
+		{% empty %}
+		<p>No current matches.</p>
+		{% endfor %}
 		{% else %}
 		<p>Please login with google</p>
 		<a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
