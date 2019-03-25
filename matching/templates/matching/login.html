@@ -32,18 +32,16 @@
 
 <body>
   <div class="container-fluid h-100" style="background-color: rgb(219, 161, 0)">
-  <div class="row h-100 justify-content-center align-items-center">
-  <div>
-  <h1>Study Buddies</h1>
-  <p class="lead">Sign In or Register an Account</p>
-  <p class="lead">
-    <a class="btn btn-lg btn-secondary" href="{% url 'social:begin' 'google-oauth2' %}">Register</a>
-  </p>
-  <p class="lead">
-    <a class="btn btn-lg btn-secondary" href="{% url 'social:begin' 'google-oauth2' %}">Sign In With Google</a>
-  </p>
-  </div>
-  </div>
+      <div class="row h-100 justify-content-center align-items-center">
+      <div class="card text-center" style="width: 18rem;">
+        <img src="{% static 'logo.png' %}" class="mx-auto" width="200" height="200">
+        <h1>Study Buddies</h1>
+        <p class="lead">Sign In or Register an Account</p>
+        <p class="lead">
+          <a class="btn btn-lg btn-secondary" href="{% url 'social:begin' 'google-oauth2' %}">Sign In With Google</a>
+        </p>
+      </div>
+    </div>
   </div>
 </body>
 

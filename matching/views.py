@@ -20,8 +20,8 @@ def about_us(request):
 @login_required
 def update_profile(request):
     if request.method == 'POST':
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
-        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        user_form = UserForm(request.POST, request.FILES, instance=request.user)
         if profile_form.is_valid() and user_form.is_valid():
             profile_form.save()
             user_form.save()
@@ -40,4 +40,12 @@ def profile(request):
     user = User.objects.get(username=request.user.username)
     return render(request, 'profile.html', {
         "user": user,
+    })
+
+
+@login_required
+def matches(request):
+    user = User.objects.get(username=request.user.username)
+    return render(request, 'matches.html', {
+        'user': user,
     })
