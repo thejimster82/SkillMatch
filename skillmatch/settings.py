@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
+# here are our settings
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -154,7 +154,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-#setting up s3 storage
+# setting up s3 storage
 
 AWS_ACCESS_KEY_ID = 'AKIAJMFCKQIB7QGDCMBA'
 AWS_SECRET_ACCESS_KEY = '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'

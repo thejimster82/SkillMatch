@@ -34,7 +34,6 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('profile/edit/', views.update_profile, name='update_profile'),
     path('profile/', views.profile, name='profile'),
+    path('about_us/', views.about_us, name='about_us'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
-
-
