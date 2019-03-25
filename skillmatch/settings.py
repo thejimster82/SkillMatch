@@ -155,9 +155,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-<< << << < HEAD
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-== == == =
 
 # setting up s3 storage
 
@@ -176,7 +174,6 @@ DEFAULT_FILE_STORAGE = 'skillmatch.storage_backends.MediaStorage'
 
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # MEDIA_URL = "/media/"
->>>>>> > profilePicture
 
 # django allauth settings
 AUTHENTICATION_BACKENDS = (
