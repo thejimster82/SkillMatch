@@ -15,6 +15,7 @@ class Profile(models.Model):
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
 #     team = models.ManyToManyField('Team', blank=True)
     matches = models.ManyToManyField('Profile', blank=True)
+    first_login = models.BooleanField(default=True)
 
     def __str__(self):
         return self.user.username
