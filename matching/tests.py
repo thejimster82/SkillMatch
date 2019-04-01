@@ -40,7 +40,7 @@ class LoginTest(TestCase):
         self.requestTest = RequestFactory()
         self.user1 = self.userProfile.objects.create_user(
             username="user1", email="user1@virginia.edu")
-        self.profile = Profile.objects.get(user=self.userProfile)
+        self.profile = Profile.objects.get(user=self.user1)
         self.server = UserSocialAuth.objects.create(
             user=self.user1, provider="google-oauth2", uid="1234")
         self.client = Client()
@@ -62,7 +62,7 @@ class LoginTest(TestCase):
         self.profile.first_login = True
         self.profile.save()
         response = self.client.get('/home/')
-        self.assertRedirects(response, 'profile/edit/')
+        self.assertTemplateNotUsed('home.html')
 
     def test_first_login_false(self):
         self.profile.first_login = False
