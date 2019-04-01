@@ -40,6 +40,7 @@ class LoginTest(TestCase):
         self.requestTest = RequestFactory()
         self.user1 = self.userProfile.objects.create_user(
             username="user1", email="user1@virginia.edu")
+        self.profile = Profile.objects.get(user=self.userProfile)
         self.server = UserSocialAuth.objects.create(
             user=self.user1, provider="google-oauth2", uid="1234")
         self.client = Client()
@@ -56,6 +57,18 @@ class LoginTest(TestCase):
     def test_unauthorized_user(self):
         response = self.client.get('/matches/')
         self.assertEqual(response.status_code, 302)
+
+    def test_first_login_true(self):
+        self.profile.first_login = True
+        self.profile.save()
+        response = self.client.get('/home/')
+        self.assertRedirects(response, 'profile/edit/')
+
+    def test_first_login_false(self):
+        self.profile.first_login = False
+        self.profile.save()
+        response = self.client.get('/home/')
+        self.assertTemplateUsed('home.html')
 
 
 class MatchesTest(TestCase):
