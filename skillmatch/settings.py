@@ -29,13 +29,13 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = ')3n15995qd=v@$e&c$wes2e^f8$1tbqmp1_=s8o@wfj2**uxoi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
+#
+# ALLOWED_HOSTS = ['skill-matching.herokuapp.com', 'localhost']
+
 DEBUG = True
 
-ALLOWED_HOSTS = ['skill-matching.herokuapp.com', 'localhost']
-
-# DEBUG = True
-
-# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -57,6 +57,10 @@ INSTALLED_APPS = [
     'crispy_forms',
     # social django auth
     'social_django',
+    # storage for media
+    'storages',
+    # clearing unused imagefield
+    # 'django_cleanup.apps.CleanupConfig',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -153,6 +157,24 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+#setting up s3 storage
+
+AWS_ACCESS_KEY_ID = 'AKIAJMFCKQIB7QGDCMBA'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'profile-picture-djangounchained'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+DEFAULT_FILE_STORAGE = 'skillmatch.storage_backends.MediaStorage'
+
+# media (profile images)
+
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = "/media/"
 
 # django allauth settings
 AUTHENTICATION_BACKENDS = (
