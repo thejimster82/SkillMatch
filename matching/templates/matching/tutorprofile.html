@@ -6,7 +6,7 @@
 
 {% block content %}
 
-{% if user.tutor %}
+{% if tutor is True %}
 <div class="container">
     <!--ADD DROPDOWN/RADIOBUTTON TO CHOOSE IF TUTOR IS ACTIVE OR NOT-->
 	<div class="justify-content-center">
@@ -29,7 +29,7 @@
 
 			<dt class="col-sm-3">Graduate Year</dt>
             <dd class="col-sm-9">{{user.profile.grad_year}}</dd>
-            
+
             <dt class="col-sm-3">GPA</dt>
             <dd class="col-sm-9">{{user.profile.tutor_gpa}}</dd>
 
@@ -45,7 +45,7 @@
 		<button type="button" class='btn btn-primary'>View Student Profile</button>
 	</a>
 </div>
-{% else %}
+{% elif tutor is False %}
     <a href="{% url 'update_become_tutor'%}">
 		<button type="button" class='btn btn-primary'>Become a Tutor</button>
 	</a>

@@ -29,7 +29,7 @@ def update_profile(request):
         if profile_form.is_valid() and user_form.is_valid():
             profile_form.save()
             user_form.save()
-            return redirect(reverse('tutorprofile'))
+            return redirect(reverse('profile'))
     else:
         profile_form = ProfileForm(instance=request.user.profile)
         user_form = UserForm(instance=request.user)
@@ -46,7 +46,7 @@ def update_become_tutor(request):
         if become_tutor_form.is_valid() and user_form.is_valid():
             become_tutor_form.save()
             user_form.save()
-            return redirect(reverse('profile'))
+            return redirect(reverse('tutorprofile'))
     else:
         become_tutor_form = BecomeTutorForm(instance=request.user.profile)
         user_form = UserForm(instance=request.user)
@@ -66,8 +66,11 @@ def profile(request):
 @login_required
 def tutorprofile(request):
     user = User.objects.get(username=request.user.username)
+    tutor_u = Profile.objects.get(user=user)
+    tutor = tutor_u.tutor
     return render(request, 'tutorprofile.html', {
         "user": user,
+        "tutor": tutor,
     })
 
 @login_required
