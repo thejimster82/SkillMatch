@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+{% block title %}Become a Tutor?{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="justify-content-center">
+		<h1 class="mt-2"> Become a Tutor? </h1>
+		<form method="post">
+			{% csrf_token %}
+			{% bootstrap_form user_form %}
+			{% bootstrap_form become_tutor_form %}
+			<input class="btn-primary btn btn mt-0 mb-3" type="submit" value="Update" style="float: right;">
+		</form>
+	</div>
+</div>
+{% endblock %}

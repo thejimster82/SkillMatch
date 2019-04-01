@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
-from .forms import UserForm, ProfileForm
+from .forms import UserForm, ProfileForm, BecomeTutorForm
 from .models import Profile
 # Create your views here.
 
@@ -29,13 +29,30 @@ def update_profile(request):
         if profile_form.is_valid() and user_form.is_valid():
             profile_form.save()
             user_form.save()
-            return redirect(reverse('profile'))
+            return redirect(reverse('tutorprofile'))
     else:
         profile_form = ProfileForm(instance=request.user.profile)
         user_form = UserForm(instance=request.user)
     return render(request, 'update_profile.html', {
         'user_form': user_form,
         'profile_form': profile_form,
+    })
+
+@login_required
+def update_become_tutor(request):
+    if request.method == 'POST':
+        become_tutor_form = BecomeTutorForm(request.POST, instance=request.user.profile)
+        user_form = UserForm(request.POST, instance=request.user)
+        if become_tutor_form.is_valid() and user_form.is_valid():
+            become_tutor_form.save()
+            user_form.save()
+            return redirect(reverse('profile'))
+    else:
+        become_tutor_form = BecomeTutorForm(instance=request.user.profile)
+        user_form = UserForm(instance=request.user)
+    return render(request, 'update_become_tutor.html', {
+        'user_form': user_form,
+        'become_tutor_form': become_tutor_form,
     })
 
 
@@ -46,6 +63,12 @@ def profile(request):
         "user": user,
     })
 
+@login_required
+def tutorprofile(request):
+    user = User.objects.get(username=request.user.username)
+    return render(request, 'tutorprofile.html', {
+        "user": user,
+    })
 
 @login_required
 def matches(request):

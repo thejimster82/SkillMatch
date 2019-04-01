@@ -33,5 +33,7 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('profile/edit/', views.update_profile, name='update_profile'),
     path('profile/', views.profile, name='profile'),
+    path('tutorprofile/', views.tutorprofile, name='tutorprofile'),
+    path('tutorprofile/becometutor', views.update_become_tutor, name='update_become_tutor'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]

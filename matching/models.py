@@ -15,6 +15,11 @@ class Profile(models.Model):
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
 #     team = models.ManyToManyField('Team', blank=True)
     matches = models.ManyToManyField('Profile', blank=True)
+#   TUTOR FIELDS
+    tutor = models.BooleanField(default=False)
+    tutor_bio = models.TextField(blank=True)
+    tutor_gpa = models.CharField(max_length=4, blank=True)
+
 
     def __str__(self):
         return self.user.username
