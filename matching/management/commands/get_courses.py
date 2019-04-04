@@ -1,14 +1,13 @@
 import requests
 
 from django.core.management.base import BaseCommand, CommandError
-from matching.models import Course
-
 """
 Grab all courses in the current term from the devhub
 API and store in the database. PostgreSQL supports
 automatic pk generation with bulk_create so the
 process is very fast.
 """
+from matching.models import Course
 
 
 class Command(BaseCommand):

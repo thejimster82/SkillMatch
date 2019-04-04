@@ -1,14 +1,13 @@
-import requests
-
-from django.core.management.base import BaseCommand, CommandError
-from matching.models import Course
-
 """
 Only grab a small number of courses for local testing because
 the SQLite3 database doesn't support automatic pk generation
 with bulk_create and thus all instances must be saved
 individually.
 """
+import requests
+
+from django.core.management.base import BaseCommand, CommandError
+from matching.models import Course
 
 
 class Command(BaseCommand):
