@@ -1,2 +1,2 @@
-release: python manage.py migrate && python ./matching/services.py update_courses
+release: python manage.py migrate && python manage.py update_courses
 web: gunicorn skillmatch.wsgi:application --log-file -
