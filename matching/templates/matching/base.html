@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'matching/styles.css'%}">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 
     <!-- jQuery library -->
@@ -28,53 +29,64 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
-
-    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg" style="background-color: #d78d00;">
-    <div class="container-fluid">
-        <a class="navbar-brand">Study Buddies</a>
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navBar">
-                    <span class="dark-blue-text"><i class="fas fa-bars fa-1x"></i></span>               
-            </button>
-        </div>
-        <div class="collapse navbar-collapse" id="navBar">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/home" style="color: white">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/profile" style="color: white">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/matches" style="color: white">Matches</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" style="color: white">About Us</a>
-                </li>
-            </ul>
-            <span>
-                {% if user.is_authenticated %}
+        <div class="container-fluid">
+            <a class="navbar-brand">
+            <img src="{% static 'logo.png' %}" class="mx-auto" width="40" height="40">
+            Study Buddies</a>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navBar">
+                    <span class="dark-blue-text"><i class="fas fa-bars fa-1x"></i></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navBar">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/profile" style="color: white">Hello {{ user.username }}!</a>
+                        <a class="nav-link" href="/home" style="color: white">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout'%}" style="color: white">Logout</a>
+                        <a class="nav-link" href="/profile" style="color: white">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/matches" style="color: white">Matches</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="color: white">About Us</a>
                     </li>
                 </ul>
-                {% else %}
-                <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
-                </li>
-                </ul>
-                {% endif %}
-            </span>
-        </div>
+                <form class="navbar-form navbar-left" action="/search" method="GET">
+                    <div class="input-group">
+                      <input type="search" class="form-control" placeholder="Search" id="search_box">
+                      <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                        <i class="fas fa-search" style="color:white;"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                <span>
+                    {% if user.is_authenticated %}
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout'%}" style="color: white">Logout</a>
+                        </li>
+                    </ul>
+                    {% else %}
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </span>
+            </div>
         </div>
     </nav>
 
