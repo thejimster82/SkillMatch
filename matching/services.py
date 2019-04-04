@@ -11,7 +11,7 @@ def update_courses():
     current_terms = ['2019 Spring', '2019 Fall', '2019 Summer']
     url = 'https://api.devhub.virginia.edu/v1/courses'
     r = requests.get(url)
-    courses = r.json()['records']
+    courses = r.json()['class_schedules']['records']
 
     current_courses = []
     for i in range(len(courses)):
