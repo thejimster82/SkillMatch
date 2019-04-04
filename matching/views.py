@@ -9,23 +9,29 @@ from django.views import generic
 
 from .forms import UserForm, ProfileForm
 from .models import Profile
-# Create your views here.
 
 
+@login_required
 def home(request):
     user = User.objects.get(username=request.user.username)
     profile = Profile.objects.get(user=user)
-    matches_list = profile.matches.all()
-    return render(request, 'home.html', {
-        'matches_list': matches_list
-    })
+
+    if (profile.first_login):
+        profile.first_login = False
+        profile.save()
+        return redirect('update_profile')
+    else:
+        matches_list = profile.matches.all()
+        return render(request, 'home.html', {
+            'matches_list': matches_list
+        })
 
 
 @login_required
 def update_profile(request):
     if request.method == 'POST':
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
-        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        user_form = UserForm(request.POST, request.FILES, instance=request.user)
         if profile_form.is_valid() and user_form.is_valid():
             profile_form.save()
             user_form.save()
