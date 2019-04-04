@@ -4,4 +4,14 @@ python:
 install:
   - pip install -r requirements-travis.txt
 script:
-  - python3 manage.py test
+  - python3 manage.py migrate
+  - python3 manage.py test --keepdb
+services:
+- postgresql
+before_script:
+  - psql -c "CREATE DATABASE travisdb;" -U postgres
+addons:
+    postgresql: "9.6"
+before_install:
+  - export DJ_DEBUG=False
+  - export DATABASE_URL=postgres://postgres@localhost/travisdb
