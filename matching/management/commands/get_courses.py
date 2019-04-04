@@ -28,5 +28,7 @@ class Command(BaseCommand):
         courses = []
         for i in range(len(all_courses)):
             if all_courses[i][12] in self.current_terms:
-                courses.append(Course(course_title=all_courses[i][4]))
+                course_title = all_courses[i][0] + \
+                    all_courses[i][1] + ': ' + all_courses[i][4]
+                courses.append(Course(course_title=course_title))
         return courses
