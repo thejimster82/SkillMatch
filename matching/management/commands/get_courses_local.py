@@ -4,23 +4,20 @@ from django.core.management.base import BaseCommand, CommandError
 from matching.models import Course
 
 """
-Grab all courses in the current term from the devhub
-API and store in the database. PostgreSQL supports
-automatic pk generation with bulk_create so the
-process is very fast.
+Only grab a small number of courses for local testing because
+the SQLite3 database doesn't support automatic pk generation
+with bulk_create and thus all instances must be saved
+individually.
 """
 
 
 class Command(BaseCommand):
-    help = 'Load new courses from the UVA devhub API'
-    current_terms = ['2019 Spring']
+    help = 'Load new courses from the UVA devhub API.'
+    current_terms = ['2019 January']
 
     def handle(self, *args, **options):
         self.delete_old_courses()
-        courses = self.get_courses()
-        Course.objects.bulk_create(courses)
-        self.stdout.write(self.style.SUCCESS(
-            'Successfully added %i courses' % len(courses)))
+        self.get_courses()
 
     def delete_old_courses(self):
         old_courses = Course.objects.all()
@@ -32,10 +29,12 @@ class Command(BaseCommand):
         r = requests.get(url)
         all_courses = r.json()['class_schedules']['records']
 
-        courses = []
+        num_courses = 0
         for i in range(len(all_courses)):
             if all_courses[i][12] in self.current_terms:
                 course_title = all_courses[i][0] + \
                     all_courses[i][1] + ': ' + all_courses[i][4]
-                courses.append(Course(course_title=course_title))
-        return courses
+                Course.objects.create(course_title=course_title)
+                num_courses += 1
+        self.stdout.write(self.style.SUCCESS(
+            'Successfully added %i courses' % num_courses))
