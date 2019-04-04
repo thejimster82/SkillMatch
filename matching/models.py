@@ -9,6 +9,9 @@ from django.dispatch import receiver
 class Course(models.Model):
     course_title = models.CharField(max_length=100, blank=False)
 
+    def __str__(self):
+        return self.course_title
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
