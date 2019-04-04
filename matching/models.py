@@ -15,6 +15,7 @@ class Profile(models.Model):
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
 #     team = models.ManyToManyField('Team', blank=True)
     matches = models.ManyToManyField('Profile', blank=True)
+    first_login = models.BooleanField(default=True)
     profilePicture = models.ImageField(upload_to='images', blank=True)
 
     def __str__(self):
