@@ -1,9 +1,10 @@
+import os
+import sys
 import requests
-
-from .models import Course
 
 
 def update_courses():
+    from .models import Course
     old_courses = Course.objects.all()
     if old_courses.exists():
         old_courses._raw_delete(old_courses.db)
@@ -18,8 +19,11 @@ def update_courses():
         if courses[i][12] in current_terms:
             current_courses.append(Course(course_title=courses[i][4]))
 
+    print('Added', len(current_courses), 'courses!')
     Course.objects.bulk_create(current_courses)
 
 
 if __name__ == '__main__':
-    update_courses()
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'skillmatch.settings')
+    __name__ = 'matching'
+    locals()[sys.argv[1]]()
