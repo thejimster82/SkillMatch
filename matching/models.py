@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .services import get_courses
-
 # Create your models here.
 
 
@@ -20,10 +18,10 @@ class Profile(models.Model):
     bio = models.TextField()
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
 #     team = models.ManyToManyField('Team', blank=True)
-    matches = models.ManyToManyField(Profile, blank=True)
+    matches = models.ManyToManyField('Profile', blank=True)
     first_login = models.BooleanField(default=True)
     profilePicture = models.ImageField(upload_to='images', blank=True)
-    courses = models.ManyToManyField(Course, blank=True)
+    courses = models.ManyToManyField('Course', blank=True)
 
     def __str__(self):
         return self.user.username
