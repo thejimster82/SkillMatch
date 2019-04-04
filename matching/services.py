@@ -19,3 +19,7 @@ def update_courses():
             current_courses.append(Course(course_title=courses[i][4]))
 
     Course.objects.bulk_create(current_courses)
+
+
+if __name__ == '__main__':
+    update_courses()
