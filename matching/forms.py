@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from django.core.files.images import get_image_dimensions
 
+
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
