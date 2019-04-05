@@ -20,11 +20,15 @@ class Profile(models.Model):
     grad_year = models.CharField(max_length=4)
     bio = models.TextField()
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
-#     team = models.ManyToManyField('Team', blank=True)
     matches = models.ManyToManyField('Profile', blank=True)
     first_login = models.BooleanField(default=True)
     profilePicture = models.ImageField(upload_to='images', blank=True)
     courses = models.ManyToManyField('Course', blank=True)
+
+    #   TUTOR FIELDS
+    tutor = models.BooleanField(default=False)
+    tutor_bio = models.TextField(blank=True)
+    tutor_gpa = models.CharField(max_length=4, blank=True)
 
     def __str__(self):
         return self.user.username

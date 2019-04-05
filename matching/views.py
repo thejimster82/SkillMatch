@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
-from .forms import UserForm, ProfileForm
+from .forms import UserForm, ProfileForm, BecomeTutorForm
 from .models import Profile
 
 
@@ -46,6 +46,23 @@ def update_profile(request):
         'profile_form': profile_form,
     })
 
+@login_required
+def update_become_tutor(request):
+    if request.method == 'POST':
+        become_tutor_form = BecomeTutorForm(request.POST, instance=request.user.profile)
+        user_form = UserForm(request.POST, instance=request.user)
+        if become_tutor_form.is_valid() and user_form.is_valid():
+            become_tutor_form.save()
+            user_form.save()
+            return redirect(reverse('tutorprofile'))
+    else:
+        become_tutor_form = BecomeTutorForm(instance=request.user.profile)
+        user_form = UserForm(instance=request.user)
+    return render(request, 'update_become_tutor.html', {
+        'user_form': user_form,
+        'become_tutor_form': become_tutor_form,
+    })
+
 
 @login_required
 def profile(request):
@@ -57,6 +74,15 @@ def profile(request):
         'courses': courses,
     })
 
+@login_required
+def tutorprofile(request):
+    user = User.objects.get(username=request.user.username)
+    tutor_u = Profile.objects.get(user=user)
+    tutor = tutor_u.tutor
+    return render(request, 'tutorprofile.html', {
+        "user": user,
+        "tutor": tutor,
+    })
 
 @login_required
 def matches(request):
