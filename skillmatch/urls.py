@@ -36,4 +36,5 @@ urlpatterns = [
     path('tutorprofile/', views.tutorprofile, name='tutorprofile'),
     path('tutorprofile/becometutor', views.update_become_tutor, name='update_become_tutor'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('search/', views.search, name='search'),
 ]

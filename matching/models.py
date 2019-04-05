@@ -13,16 +13,27 @@ class Profile(models.Model):
     grad_year = models.CharField(max_length=4)
     bio = models.TextField()
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
-#     team = models.ManyToManyField('Team', blank=True)
     matches = models.ManyToManyField('Profile', blank=True)
-#   TUTOR FIELDS
+    first_login = models.BooleanField(default=True)
+    profilePicture = models.ImageField(upload_to='images', blank=True)
+
+    #   TUTOR FIELDS
     tutor = models.BooleanField(default=False)
     tutor_bio = models.TextField(blank=True)
     tutor_gpa = models.CharField(max_length=4, blank=True)
 
-
     def __str__(self):
         return self.user.username
+
+    def save(self, *args, **kwargs):
+        # delete old file when replacing by updating the file
+        try:
+            this = Profile.objects.get(pk=self.pk)
+            if this.picture != self.picture:
+                this.picture.delete(save=False)
+        except:
+            pass  # when new photo then we do nothing, normal case
+        super(Profile, self).save(*args, **kwargs)
 
 
 @receiver(post_save, sender=User)
