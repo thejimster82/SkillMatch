@@ -8,8 +8,16 @@
 <div class="container">
 
 	<div class="justify-content-center">
-		<h1 class="mt-2">User Profile </h1>
+		<h1 class="mt-2">Student Profile </h1>
 		<dl class="row">
+			<dt class="col-sm-3">Profile Picture</dt>
+			{% if user.profile.profilePicture %}
+			<dd class="col-sm-9"><img src="{{user.profile.profilePicture.url}}" width="300px"></dd>
+			{% endif %}
+
+			<dt class="col-sm-3"></dt>
+			<dd class="col-sm-9"></dd>
+
 			<dt class="col-sm-3">First Name</dt>
 			<dd class="col-sm-9">{{user.first_name}}</dd>
 
@@ -28,16 +36,16 @@
 			<dt class="col-sm-3">Graduate Year</dt>
 			<dd class="col-sm-9">{{user.profile.grad_year}}</dd>
 
-            <dt class="col-sm-3">Profile Picture</dt>
-            {% if user.profile.profilePicture %}
-			<dd class="col-sm-9"><img src="{{user.profile.profilePicture.url}}" width="300px"></dd>
-            {% endif %}
-
+			<dt class="col-sm-3">Student Bio</dt>
+			<dd class="col-sm-9">{{user.profile.bio}}</dd>
 		</dl>
 	</div>
 
 	<a href="{% url 'update_profile'%}">
 		<button type="button" class='btn btn-primary'>Edit Profile</button>
+	</a>
+	<a href="{% url 'tutorprofile'%}">
+		<button type="button" class='btn btn-primary'>View Tutor Profile</button>
 	</a>
 </div>
 {% endblock %}

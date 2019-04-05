@@ -13,4 +13,11 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('gender', 'major', 'bio', 'grad_year', 'profilePicture')
+        fields = ('profilePicture', 'gender', 'major', 'bio',
+                  'grad_year', 'tutor', 'tutor_gpa', 'tutor_bio')
+
+
+class BecomeTutorForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('tutor',)

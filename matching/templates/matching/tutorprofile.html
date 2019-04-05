@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+{% block title %}Tutor Profile{% endblock %}
+
+{% block content %}
+
+{% if tutor is True %}
+<div class="container">
+    <!--ADD DROPDOWN/RADIOBUTTON TO CHOOSE IF TUTOR IS ACTIVE OR NOT-->
+	<div class="justify-content-center">
+		<h1 class="mt-2">Tutor Profile </h1>
+		<dl class="row">
+			<dt class="col-sm-3">First Name</dt>
+			<dd class="col-sm-9">{{user.first_name}}</dd>
+
+			<dt class="col-sm-3">Last Name</dt>
+			<dd class="col-sm-9">{{user.last_name}}</dd>
+
+			<dt class="col-sm-3">Username</dt>
+			<dd class="col-sm-9">{{user.username}}</dd>
+
+			<dt class="col-sm-3">Email</dt>
+			<dd class="col-sm-9">{{user.email}}</dd>
+
+			<dt class="col-sm-3">Major</dt>
+			<dd class="col-sm-9">{{user.profile.major}}</dd>
+
+			<dt class="col-sm-3">Graduate Year</dt>
+            <dd class="col-sm-9">{{user.profile.grad_year}}</dd>
+
+            <dt class="col-sm-3">GPA</dt>
+            <dd class="col-sm-9">{{user.profile.tutor_gpa}}</dd>
+
+            <dt class="col-sm-3">Tutor Bio</dt>
+            <dd class="col-sm-9">{{user.profile.tutor_bio}}</dd>
+
+		</dl>
+	</div>
+	<a href="{% url 'update_profile'%}">
+		<button type="button" class='btn btn-primary'>Edit Profile</button>
+    </a>
+    <a href="{% url 'profile'%}">
+		<button type="button" class='btn btn-primary'>View Student Profile</button>
+	</a>
+</div>
+{% elif tutor is False %}
+    <a href="{% url 'update_become_tutor'%}">
+		<button type="button" class='btn btn-primary'>Become a Tutor</button>
+	</a>
+{% endif %}
+
+{% endblock %}
