@@ -34,4 +34,5 @@ urlpatterns = [
     path('profile/edit/', views.update_profile, name='update_profile'),
     path('profile/', views.profile, name='profile'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('search/', views.search, name='search'),
 ]

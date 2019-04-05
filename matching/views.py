@@ -66,3 +66,14 @@ def matches(request):
     return render(request, 'matches.html', {
         'matches_list': matches_list,
     })
+
+
+def search(request):
+    if request.method == 'GET':  # If the form is submitted
+        search_query = request.GET.get('search_box', None)
+        print(search_query)
+        results_list = Profile.objects.raw(
+            "SELECT * from matching_profile where major LIKE %s", [search_query])
+    return render(request, 'search.html', {
+        'results_list': results_list,
+    })
