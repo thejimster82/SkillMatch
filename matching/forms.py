@@ -20,4 +20,4 @@ class ProfileForm(forms.ModelForm):
 class BecomeTutorForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('tutor')
+        fields = ('tutor',)
