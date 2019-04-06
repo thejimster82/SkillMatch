@@ -6,6 +6,13 @@ from django.dispatch import receiver
 # Create your models here.
 
 
+class Course(models.Model):
+    course_title = models.CharField(max_length=100, blank=False)
+
+    def __str__(self):
+        return self.course_title
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     GENDER_CHOICES = [('M', 'Male'), ('F', 'Female'), ('O', 'Other')]
@@ -16,6 +23,7 @@ class Profile(models.Model):
     matches = models.ManyToManyField('Profile', blank=True)
     first_login = models.BooleanField(default=True)
     profilePicture = models.ImageField(upload_to='images', blank=True)
+    courses = models.ManyToManyField('Course', blank=True)
 
     #   TUTOR FIELDS
     tutor = models.BooleanField(default=False)

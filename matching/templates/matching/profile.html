@@ -33,7 +33,16 @@
 			<dt class="col-sm-3">Major</dt>
 			<dd class="col-sm-9">{{user.profile.major}}</dd>
 
-			<dt class="col-sm-3">Graduate Year</dt>
+			<dt class="col-sm-3">Courses</dt>
+			<dd class="col-sm-9">
+				<ul>
+					{% for c in courses %}
+					<li>{{ c }}</li>
+					{% endfor %}
+				</ul>
+			</dd>
+
+			<dt class="col-sm-3">Graduation Year</dt>
 			<dd class="col-sm-9">{{user.profile.grad_year}}</dd>
 
 			<dt class="col-sm-3">Student Bio</dt>

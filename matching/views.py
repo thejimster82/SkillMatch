@@ -67,8 +67,11 @@ def update_become_tutor(request):
 @login_required
 def profile(request):
     user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
+    courses = profile.courses.all()
     return render(request, 'profile.html', {
-        "user": user,
+        'user': user,
+        'courses': courses,
     })
 
 @login_required
