@@ -13,6 +13,12 @@ class Course(models.Model):
         return self.course_title
 
 
+class MatchesTable(models.Model):
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE)
+    like = models.BooleanField(default=False)
+    rank = models.IntegerField()
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     GENDER_CHOICES = [('M', 'Male'), ('F', 'Female'), ('O', 'Other')]
@@ -20,7 +26,8 @@ class Profile(models.Model):
     grad_year = models.CharField(max_length=4)
     bio = models.TextField()
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
-    matches = models.ManyToManyField('Profile', blank=True)
+    matches = models.ManyToManyField(
+        'Profile', blank=True, through="MatchesTable")
     first_login = models.BooleanField(default=True)
     profilePicture = models.ImageField(upload_to='images', blank=True)
     courses = models.ManyToManyField('Course', blank=True)

@@ -11,6 +11,17 @@ from .forms import UserForm, ProfileForm, TutorProfileForm, BecomeTutorForm
 from .models import Profile
 
 
+def update_match(request, value=None):
+    user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
+    if value == 'False':
+        # decrease rank
+
+    else:
+        # set like to true
+    return redirect('home')
+
+
 @login_required
 def home(request):
     user = User.objects.get(username=request.user.username)
@@ -21,15 +32,23 @@ def home(request):
         profile.save()
         return redirect('update_profile', username=user)
     else:
-        matches_list = Profile.objects.raw(
-            "SELECT * from auth_User")
-            # "SELECT * from auth_User where username != %s", [user.username])
+        match = Profile.objects.all().order_by('rank')[:1]
         return render(request, 'home.html', {
-            'matches_list': matches_list
+            'match': match
         })
 
 
-# added in the about us webpage request here
+@login_required
+def matches(request):
+    user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
+    matches_list = profile.matches.all()
+    # SELECT matches from matching_Profile
+    return render(request, 'matches.html', {
+        'matches_list': matches_list,
+    })
+
+
 @login_required
 def about_us(request):
     return render(request, 'about_us.html')
@@ -117,16 +136,6 @@ def update_tutorprofile(request, username):
     return render(request, 'update_tutorprofile.html', {
         'user_form': user_form,
         'tutorprofile_form': tutorprofile_form,
-    })
-
-
-@login_required
-def matches(request):
-    user = User.objects.get(username=request.user.username)
-    profile = Profile.objects.get(user=user)
-    matches_list = profile.matches.all()
-    return render(request, 'matches.html', {
-        'matches_list': matches_list,
     })
 
 
