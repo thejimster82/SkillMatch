@@ -21,13 +21,15 @@ def home(request):
         profile.save()
         return redirect('update_profile', username=user)
     else:
-        matches_list = profile.matches.all()
+        matches_list = Profile.objects.raw(
+            "SELECT * from auth_User")
+            # "SELECT * from auth_User where username != %s", [user.username])
         return render(request, 'home.html', {
             'matches_list': matches_list
         })
-    
-    
-#added in the about us webpage request here
+
+
+# added in the about us webpage request here
 @login_required
 def about_us(request):
     return render(request, 'about_us.html')

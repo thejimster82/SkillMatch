@@ -11,6 +11,10 @@
 				<div class="card" style="width: 18rem;">
 					<div class="card-body">
 						<h5 class="card-title">Match with {{ match.user.username }}?</h5>
+						{% if user.profile.profilePicture %}
+						<img src="{{user.profile.profilePicture.url}}" width="100%">
+						{% endif %}
+						<p></p>
 						<h6 class="card-subtitle mb-2 text-muted">Info</h6>
 						<p>Major: {{ match.user.profile.major}}</p>
 						<p>Graduation Year: {{ match.user.profile.grad_year}}</p>
@@ -22,8 +26,10 @@
 							contains the primary_key of the next match to
 							display?
 						-->
-						<a href="#" class="btn btn-success">Match</a>
+						<div style = "text-align: center;">
 						<a href="#" class="btn btn-danger">Nope</a>
+						<a href="#" class="btn btn-success">Match</a>
+						</div>
 					</div>
 				</div>
 			</div>
