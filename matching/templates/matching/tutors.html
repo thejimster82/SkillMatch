@@ -5,7 +5,7 @@
 <ul>
     {% for tutor in tutor_list %}
     <li>
-    <a class="nav-link" href="{% url 'profile' tutor.user.username %}">
+    <a class="nav-link" href="{% url 'profile' tutor.user.username %}" style="color: black">
     {{ tutor.user.first_name }} {{ tutor.user.last_name }}
     {% if tutor.user.profile.profilePicture %}
     <img src="{{tutor.user.profile.profilePicture.url}}" width="90px">
