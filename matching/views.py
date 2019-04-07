@@ -127,6 +127,10 @@ def matches(request):
         'matches_list': matches_list,
     })
 
+@login_required
+def tutors(request):
+    tutor_list = Profile.objects.filter(tutor=True)
+    return render(request, 'tutors.html', {'tutor_list': tutor_list})
 
 def search(request):
     if request.method == 'GET':  # If the form is submitted

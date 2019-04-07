@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Tutor_list{% endblock %}
+
+{% block content %}
+<ul>
+    {% for tutor in tutor_list %}
+    <li>
+    <a class="nav-link" href="{% url 'profile' tutor.user.username %}">
+    {{ tutor.user.first_name }} {{ tutor.user.last_name }}
+    {% if tutor.user.profile.profilePicture %}
+    <img src="{{tutor.user.profile.profilePicture.url}}" width="90px">
+    {% endif %}
+    </a>
+    </li>
+    {% empty %}
+    <li>No tutors yet!</li>
+    {% endfor %}
+</ul>
+{% endblock %}
