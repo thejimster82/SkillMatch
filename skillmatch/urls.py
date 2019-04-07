@@ -25,6 +25,7 @@ from matching import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('about_us/', views.about_us, name='about_us'),
     path('matches/', include('matching.urls')),
     path('auth/', include('social_django.urls',
                           namespace='social')),  # for social auth
