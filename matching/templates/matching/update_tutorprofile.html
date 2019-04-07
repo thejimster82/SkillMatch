@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+{% block title %}Update Tutor Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="justify-content-center">
+		<h1 class="mt-2"> Update Tutor Profile </h1>
+		<form method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			{% bootstrap_form user_form %}
+			{% bootstrap_form tutorprofile_form %}
+			<input class="btn-primary btn btn mt-0 mb-3" type="submit" value="Update" style="float: right;">
+		</form>
+	</div>
+</div>
+
+{% endblock %}

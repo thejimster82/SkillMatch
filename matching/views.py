@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
-from .forms import UserForm, ProfileForm, BecomeTutorForm
+from .forms import UserForm, ProfileForm, TutorProfileForm, BecomeTutorForm
 from .models import Profile
 
 
@@ -28,7 +28,19 @@ def home(request):
 
 
 @login_required
-def update_profile(request):
+def profile(request, username):
+    user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
+    courses = profile.courses.all()
+    return render(request, 'profile.html', {
+        'user': user,
+        'courses': courses,
+    })
+
+
+@login_required
+def update_profile(request, username):
+    user = User.objects.get(username=request.user.username)
     if request.method == 'POST':
         profile_form = ProfileForm(
             request.POST, request.FILES, instance=request.user.profile)
@@ -37,24 +49,39 @@ def update_profile(request):
         if profile_form.is_valid() and user_form.is_valid():
             profile_form.save()
             user_form.save()
-            return redirect(reverse('profile'))
+            return redirect('profile', username=user)
     else:
         profile_form = ProfileForm(instance=request.user.profile)
         user_form = UserForm(instance=request.user)
     return render(request, 'update_profile.html', {
         'user_form': user_form,
         'profile_form': profile_form,
+        'user': user
     })
 
+
 @login_required
-def update_become_tutor(request):
+def tutorprofile(request, username):
+    user = User.objects.get(username=request.user.username)
+    tutor_u = Profile.objects.get(user=user)
+    tutor = tutor_u.tutor
+    return render(request, 'tutorprofile.html', {
+        "user": user,
+        "tutor": tutor,
+    })
+
+
+@login_required
+def update_become_tutor(request, username):
+    user = User.objects.get(username=request.user.username)
     if request.method == 'POST':
-        become_tutor_form = BecomeTutorForm(request.POST, instance=request.user.profile)
+        become_tutor_form = BecomeTutorForm(
+            request.POST, instance=request.user.profile)
         user_form = UserForm(request.POST, instance=request.user)
         if become_tutor_form.is_valid() and user_form.is_valid():
             become_tutor_form.save()
             user_form.save()
-            return redirect(reverse('tutorprofile'))
+            return redirect('tutorprofile', username=user)
     else:
         become_tutor_form = BecomeTutorForm(instance=request.user.profile)
         user_form = UserForm(instance=request.user)
@@ -65,24 +92,25 @@ def update_become_tutor(request):
 
 
 @login_required
-def profile(request):
+def update_tutorprofile(request, username):
     user = User.objects.get(username=request.user.username)
-    profile = Profile.objects.get(user=user)
-    courses = profile.courses.all()
-    return render(request, 'profile.html', {
-        'user': user,
-        'courses': courses,
+    if request.method == 'POST':
+        tutorprofile_form = TutorProfileForm(
+            request.POST, request.FILES, instance=request.user.profile)
+        user_form = UserForm(request.POST, request.FILES,
+                             instance=request.user)
+        if tutorprofile_form.is_valid() and user_form.is_valid():
+            tutorprofile_form.save()
+            user_form.save()
+            return redirect('tutorprofile', username=user)
+    else:
+        tutorprofile_form = TutorProfileForm(instance=request.user.profile)
+        user_form = UserForm(instance=request.user)
+    return render(request, 'update_tutorprofile.html', {
+        'user_form': user_form,
+        'tutorprofile_form': tutorprofile_form,
     })
 
-@login_required
-def tutorprofile(request):
-    user = User.objects.get(username=request.user.username)
-    tutor_u = Profile.objects.get(user=user)
-    tutor = tutor_u.tutor
-    return render(request, 'tutorprofile.html', {
-        "user": user,
-        "tutor": tutor,
-    })
 
 @login_required
 def matches(request):

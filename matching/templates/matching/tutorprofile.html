@@ -28,25 +28,25 @@
 			<dd class="col-sm-9">{{user.profile.major}}</dd>
 
 			<dt class="col-sm-3">Graduate Year</dt>
-            <dd class="col-sm-9">{{user.profile.grad_year}}</dd>
+			<dd class="col-sm-9">{{user.profile.grad_year}}</dd>
 
-            <dt class="col-sm-3">GPA</dt>
-            <dd class="col-sm-9">{{user.profile.tutor_gpa}}</dd>
+			<dt class="col-sm-3">GPA</dt>
+			<dd class="col-sm-9">{{user.profile.tutor_gpa}}</dd>
 
-            <dt class="col-sm-3">Tutor Bio</dt>
-            <dd class="col-sm-9">{{user.profile.tutor_bio}}</dd>
+			<dt class="col-sm-3">Tutor Bio</dt>
+			<dd class="col-sm-9">{{user.profile.tutor_bio}}</dd>
 
 		</dl>
 	</div>
-	<a href="{% url 'update_profile'%}">
-		<button type="button" class='btn btn-primary'>Edit Profile</button>
+	<a href="{% url 'update_tutorprofile' username %}">
+		<button type="button" class='btn btn-primary'>Edit Tutor Profile</button>
     </a>
-    <a href="{% url 'profile'%}">
+    <a href="{% url 'profile' username %}">
 		<button type="button" class='btn btn-primary'>View Student Profile</button>
 	</a>
 </div>
 {% elif tutor is False %}
-    <a href="{% url 'update_become_tutor'%}">
+    <a href="{% url 'update_become_tutor' username %}">
 		<button type="button" class='btn btn-primary'>Become a Tutor</button>
 	</a>
 {% endif %}
