@@ -19,7 +19,7 @@ def home(request):
     if (profile.first_login):
         profile.first_login = False
         profile.save()
-        return redirect('update_profile')
+        return redirect('update_profile', username=user)
     else:
         matches_list = profile.matches.all()
         return render(request, 'home.html', {
@@ -127,7 +127,7 @@ def search(request):
         search_query = request.GET.get('search_box', None)
         print(search_query)
         results_list = Profile.objects.raw(
-            "SELECT * from matching_profile where major LIKE %s", [search_query])
+            "SELECT * from auth_User where username LIKE %s", ['%'+search_query+'%'])
     return render(request, 'search.html', {
         'results_list': results_list,
     })
