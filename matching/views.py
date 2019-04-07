@@ -25,6 +25,12 @@ def home(request):
         return render(request, 'home.html', {
             'matches_list': matches_list
         })
+    
+    
+#added in the about us webpage request here
+@login_required
+def about_us(request):
+    return render(request, 'about_us.html')
 
 
 @login_required
