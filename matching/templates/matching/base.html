@@ -2,7 +2,7 @@
 <html lang="en">
 {% load static %}
 {% load ttag %}
-{% uname request %}
+{% uname request as username %}
 <head>
     <title></title>
     <meta charset="utf-8">
@@ -53,7 +53,7 @@
                         <a class="nav-link" href="/home" style="color: white">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' uname %}" style="color: white">Profile</a>
+                        <a class="nav-link" href="{% url 'profile' username %}" style="color: white">Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/matches" style="color: white">Matches</a>

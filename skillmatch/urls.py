@@ -31,11 +31,13 @@ urlpatterns = [
     path('', auth_views.LoginView.as_view(
         template_name='login.html'), name='login'),
     path('home/', views.home, name='home'),
-    path('profile/edit/', views.update_profile, name='update_profile'),
-    path('profile/', views.profile, name='profile'),
-    path('tutorprofile/', views.tutorprofile, name='tutorprofile'),
-    path('tutorprofile/becometutor', views.update_become_tutor,
+    path('profile/<username>/edit/', views.update_profile, name='update_profile'),
+    path('profile/<username>', views.profile, name='profile'),
+    path('tutorprofile/<username>', views.tutorprofile, name='tutorprofile'),
+    path('tutorprofile/<username>/becometutor', views.update_become_tutor,
          name='update_become_tutor'),
+    path('tutorprofile/<username>/edit/',
+         views.update_tutorprofile, name='update_tutorprofile'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('search/', views.search, name='search'),
 ]

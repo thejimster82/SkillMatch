@@ -13,6 +13,8 @@
 			<dt class="col-sm-3">Profile Picture</dt>
 			{% if user.profile.profilePicture %}
 			<dd class="col-sm-9"><img src="{{user.profile.profilePicture.url}}" width="300px"></dd>
+			{% else %}
+			<dd class="col-sm-9"></dd>
 			{% endif %}
 
 			<dt class="col-sm-3"></dt>
@@ -50,10 +52,10 @@
 		</dl>
 	</div>
 
-	<a href="{% url 'update_profile' uname %}">
+	<a href="{% url 'update_profile' username %}">
 		<button type="button" class='btn btn-primary'>Edit Profile</button>
 	</a>
-	<a href="{% url 'tutorprofile'%}">
+	<a href="{% url 'tutorprofile' username %}">
 		<button type="button" class='btn btn-primary'>View Tutor Profile</button>
 	</a>
 </div>

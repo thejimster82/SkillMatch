@@ -17,6 +17,12 @@ class ProfileForm(forms.ModelForm):
                   'grad_year', 'tutor', 'tutor_gpa', 'tutor_bio')
 
 
+class TutorProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('grad_year', 'tutor_gpa', 'tutor_bio')
+
+
 class BecomeTutorForm(forms.ModelForm):
     class Meta:
         model = Profile
