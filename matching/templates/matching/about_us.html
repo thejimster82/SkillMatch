@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}About Study Buddies{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="justify-content-center">
+			<h1 class="mt-2"> About Us </h1>
+		{% if user.is_authenticated %}
+		<!-- Making sure the user is authenticated so can view the page -->
+
+		<!-- The below paragraph is a brief overview of our inspiration for the project -->
+	  		<p>Study Buddies was made to facilitate finding people to study with. All too often, it is so difficult to find people
+				in your classes who are also looking for someone to study with. This app took some of it's inspirtation from Tinder,
+			and is a great tool for you to make new friends and get those grades up!</p>
+
+			<h2 class="mt-2" align="center"> Meet the Team! </h2>
+
+			<!-- Name for team member -->
+			<h5 class="mt-2"> Caleb </h5>
+			<!-- Picture of team member-->
+			<img src="../static/matching/caleb.jpg" width=250>
+			<!-- Short bio for team member-->
+			<p> Caleb is a third year majoring in the dismal science (econ) and the science
+				that makes you dismal (Computer Science).  His favorite cookie is oatmeal raisin and if you disagree
+				you're "definitely wrong". </p>
+				<!-- Team members special talent-->
+				<p> Special Talent: He's a God of Design </p>
+
+			<!-- Name for team member -->
+			<h5 class="mt-2"> David </h5>
+			<!-- Picture of team member-->
+			<img src="../static/matching/david.jpg" width=250>
+			<!-- Short bio for team member-->
+			<p> David is a third majoring in Computer Science. He enjoys
+			roast beef sandwiches and wants to live in New York City one day.</p>
+			<!-- Team members special talent-->
+			<p> Special Talent: Django Genius </p>
+
+			<!-- Name for team member -->
+			<h5 class="mt-2"> Grady </h5>
+			<!-- Picture of team member-->
+			<img src="../static/matching/grady.jpg" width=250>
+			<!-- Short bio for team member-->
+			<p>Grady is a second year majoring in Computer Science. In his free time he enjoys SIKE he's
+			majoring in engineering he has no free time. One day he hopes to be the President of the United
+		 	States (that's why he flexed on us so hard in that suit pic)</p>
+			<!-- Team members special talent-->
+			<p>Special Talent: Literally everything, the kid has an IQ of 185</p>
+
+			<!-- Name for team member -->
+			<h5 class="mt-2"> Jimmy </h5>
+			<!-- Picture of team member-->
+			<img src="../static/matching/jimHead.jpg" width=250>
+			<!-- Short bio for team member-->
+			<p> Despite his favorite breakfast food being a plain bowl of oatmeal (no kidding), Jimmy
+			is actually a pretty interesting kid. For example, look at his pet below: her name is Lyla.
+		 	Lyla is a blue tounged skink.</p>
+			<p> Special Talent: Always Promoting Good Coding Practices</p>
+			<img src="../static/matching/lyla.png" width=200>
+
+			<!-- Name for team member -->
+			<h5 class="mt-2"> Mark </h5>
+			<!-- Picture of team member-->
+			<img src="https://github.com/2MarkMaguire/pic/blob/master/IMG_3341.PNG?raw=true" width=200>
+			<!-- Short bio for team member-->
+			<p> Mark is a third year majoring in Computer Science and minoring in Business.
+			He hates Django, and is the only member of the team who has ever bailed hay before.
+			In his free time he enjoys watching Tom Brady embarass DBs.</p>
+			<!-- Team members special talent-->
+			<p> Special Talent: None yet seen</p>
+
+			<!-- Name for team member -->
+			<h5 class="mt-2"> Yifan </h5>
+			<!-- Picture of team member-->
+			<img src="../static/matching/yiffan.jpg" width=250>
+			<!-- Short bio for team member-->
+			<p> Yifan loves guo bao rou (legend has it he used to be fat because he ate it so often).
+			He loves playing league of legends and watching Naruto. </p>
+			<!-- Team members special talent-->
+			<p>Special Talent: Making Sure only UVa emails can make StuddyBuddies accounts </p>
+			<!-- -->
+
+
+		{% else %}
+		  	<p>Please login with google</p>
+		  	<a href="{% url 'login' %}">Login with Google</a>
+		{% endif %}
+		</div>
+	</div>
+{% endblock %}
