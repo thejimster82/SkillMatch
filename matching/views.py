@@ -29,6 +29,7 @@ def home(request):
 
 @login_required
 def update_profile(request):
+    user = User.objects.get(username=request.user.username)
     if request.method == 'POST':
         profile_form = ProfileForm(
             request.POST, request.FILES, instance=request.user.profile)
@@ -44,6 +45,7 @@ def update_profile(request):
     return render(request, 'update_profile.html', {
         'user_form': user_form,
         'profile_form': profile_form,
+        'user':user
     })
 
 @login_required
