@@ -6,7 +6,7 @@
 <ul>
     {% for result in results_list %}
     <li>{{ result.user.username }}
-    <a class="nav-link" href="/Profile" style="color: white">Home</a>
+    <a class="nav-link" href="{% url 'profile' result.user.username %}" style="color: white">Home</a>
     </li>
     {% empty %}
     <li>No search results</li>

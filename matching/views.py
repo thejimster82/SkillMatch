@@ -19,7 +19,7 @@ def home(request):
     if (profile.first_login):
         profile.first_login = False
         profile.save()
-        return redirect('update_profile')
+        return redirect('update_profile', username=user)
     else:
         matches_list = profile.matches.all()
         return render(request, 'home.html', {
