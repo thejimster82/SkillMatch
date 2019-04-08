@@ -5,36 +5,41 @@
 <div class="container">
 	<div class="justify-content-center">
 		{% if user.is_authenticated %}
-		{% for match in matches_list %}
+        {% for somematch in match %}
 		<div class="container" style="margin-top: 20px;">
 			<div class="mx-auto" style="width: 20rem">
 				<div class="card" style="width: 18rem;">
 					<div class="card-body">
-						<h5 class="card-title">Match with {{ match.user.username }}?</h5>
+						<h5 class="card-title">Match with {{ somematch.username }}?</h5>
+						{% if somematch.profile.profilePicture %}
+						<img src="{{somematch.profile.profilePicture.url}}" width="100%">
+						{% endif %}
+						<p></p>
 						<h6 class="card-subtitle mb-2 text-muted">Info</h6>
-						<p>Major: {{ match.user.profile.major}}</p>
-						<p>Graduation Year: {{ match.user.profile.grad_year}}</p>
-						<!--
-							Potentially add logic here to display next card and
-							hide the current card (more like Tinder) once one
-							of the buttons has been pressed.
-							Make the buttons forms that send GET request that
-							contains the primary_key of the next match to
-							display?
-						-->
-						<a href="#" class="btn btn-success">Match</a>
-						<a href="#" class="btn btn-danger">Nope</a>
+						<p>Major: {{ somematch.profile.major}}</p>
+						<p>Graduation Year: {{ somematch.profile.grad_year}}</p>
+						<div style = "text-align: center;">
+							<form method="post">
+  								{% csrf_token %}
+  								<input type="hidden" name="r_id" value="{{ somematch.username }}">
+								<input type="submit" value="accept" name="accept"/>
+  								<input type="submit" value="reject" name="reject"/>
+  							</form>
+
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		{% empty %}
-		<p>No current matches.</p>
-		{% endfor %}
+		{% comment %} {% empty %}
+		<p>No current matches.</p> {% endcomment %}
+        {% endfor %}
 		{% else %}
 		<p>Please login with google</p>
 		<a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+
 		{% endif %}
+
 	</div>
 </div>
 {% endblock %}
