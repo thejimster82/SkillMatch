@@ -82,12 +82,14 @@ class MatchesTest(TestCase):
             username="c", email="test2@virginia.edu", first_name="first2", last_name="last2")
         p2 = Profile.objects.get(user=u2)
 
-        p1.matches.add(p2)
+        p1.matches.add(u2)
 
     def test_has_match(self):
         u1 = User.objects.get(username='b')
         p1 = Profile.objects.get(user=u1)
-        self.assertQuerysetEqual(p1.matches.all(), ['<Profile: c>'])
+        u2 = User.objects.get(username="c")
+        p2 = Profile.objects.get(user=u2)
+        self.assertQuerysetEqual(p1.matches.all(), ['<User: c>'])
 
     def test_no_matches(self):
         u2 = User.objects.get(username="c")
