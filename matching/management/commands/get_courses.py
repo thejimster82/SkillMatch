@@ -39,7 +39,8 @@ class Command(BaseCommand):
                     all_courses[i][1] + ': ' + all_courses[i][4]
                 courses.append(Course(course_title=course_title))
 
-        courses = list(set(courses))
-        courses.sort()
+        for course in courses:
+            for course not in unique_courses:
+                unique_courses.append(course)
 
         return unique_courses
