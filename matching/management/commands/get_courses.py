@@ -32,9 +32,15 @@ class Command(BaseCommand):
         all_courses = r.json()['class_schedules']['records']
 
         courses = []
+        unique_courses = []
         for i in range(len(all_courses)):
             if all_courses[i][12] in self.current_terms:
                 course_title = all_courses[i][0] + \
                     all_courses[i][1] + ': ' + all_courses[i][4]
                 courses.append(Course(course_title=course_title))
-        return courses
+
+        for course in courses:
+            for course not in unique_courses:
+                unique_courses.append(course)
+                
+        return unique_courses
