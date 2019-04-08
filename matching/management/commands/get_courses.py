@@ -32,6 +32,7 @@ class Command(BaseCommand):
         all_courses = r.json()['class_schedules']['records']
 
         courses = []
+        titles = []
         unique_courses = []
         for i in range(len(all_courses)):
             if all_courses[i][12] in self.current_terms:
@@ -40,8 +41,12 @@ class Command(BaseCommand):
                 courses.append(Course(course_title=course_title))
 
         for course in courses:
-            for u in unique_courses:
-                if course.course_title != u.course_title:
-                    unique_courses.append(course)
+            titles.append(course.course_title)
 
+        titles = list(set(titles))
+        titles.sort()
+
+        for title in titles:
+            unique_courses.append(Course(course_title=title))
+            
         return unique_courses
