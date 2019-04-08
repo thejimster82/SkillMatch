@@ -40,7 +40,9 @@ class Command(BaseCommand):
                 courses.append(Course(course_title=course_title))
 
         for course in courses:
-            for course not in unique_courses:
+            if course in unique_courses:
+                continue
+            else:
                 unique_courses.append(course)
 
         return unique_courses
