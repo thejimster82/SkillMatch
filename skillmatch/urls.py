@@ -42,5 +42,4 @@ urlpatterns = [
          views.update_tutorprofile, name='update_tutorprofile'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('search/', views.search, name='search'),
-    path('tutors/', views.tutors, name='tutors'),
 ]

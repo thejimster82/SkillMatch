@@ -87,8 +87,6 @@ class MatchesTest(TestCase):
     def test_has_match(self):
         u1 = User.objects.get(username='b')
         p1 = Profile.objects.get(user=u1)
-        u2 = User.objects.get(username="c")
-        p2 = Profile.objects.get(user=u2)
         self.assertQuerysetEqual(p1.matches.all(), ['<User: c>'])
 
     def test_no_matches(self):

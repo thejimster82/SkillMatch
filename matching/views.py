@@ -41,7 +41,7 @@ def home(request):
         #     MatchesTable.rank -= 1
         #     MatchesTable.save()
 
-    if (profile.first_login):
+    if profile.first_login:
         profile.first_login = False
         profile.save()
         return redirect('update_profile', username=user)
