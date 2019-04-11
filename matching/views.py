@@ -6,64 +6,28 @@ from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-from matching.models import MatchesTable
 
 from .forms import UserForm, ProfileForm, TutorProfileForm, BecomeTutorForm
 from .models import Profile
-from django.db.models import Q
-
-# @login_required
-# def update_match(request, value=None):
-#     user = User.objects.get(username=request.user.username)
-#     profile = Profile.objects.get(user=user)
-#     if value == 'False':
-#         MatchesTable.rank -= 1
-#         MatchesTable.save()
-#
-#     else:
-#         MatchesTable.like = True
-#         MatchesTable.save()
-#         MatchesTable.objects.create(User=user, )
-#     return redirect('home')
 
 
 @login_required
 def home(request):
     user = User.objects.get(username=request.user.username)
     profile = Profile.objects.get(user=user)
-    if request.method == 'POST':
-        if "accept" in request.POST:
-            seconduser = User.objects.get(username=request.POST['r_id'])
-            MatchesTable.objects.create(from_user=user, to_user=seconduser, like=True)
-
-        # else:
-        #     MatchesTable.rank -= 1
-        #     MatchesTable.save()
 
     if (profile.first_login):
         profile.first_login = False
         profile.save()
         return redirect('update_profile', username=user)
     else:
-        match = User.objects.filter(~Q(username=request.user.username))
+        matches_list = profile.matches.all()
         return render(request, 'home.html', {
-            'user': user,
-            'match': match
+            'matches_list': matches_list
         })
-
-
-
-@login_required
-def matches(request):
-    user = User.objects.get(username=request.user.username)
-    profile = Profile.objects.get(user=user)
-    matches_list = MatchesTable.objects.filter(from_user=user)
-    # SELECT matches from matching_Profile
-    return render(request, 'matches.html', {
-        'matches_list': matches_list,
-    })
-
-
+    
+    
+#added in the about us webpage request here
 @login_required
 def about_us(request):
     return render(request, 'about_us.html')
@@ -153,6 +117,20 @@ def update_tutorprofile(request, username):
         'tutorprofile_form': tutorprofile_form,
     })
 
+
+@login_required
+def matches(request):
+    user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
+    matches_list = profile.matches.all()
+    return render(request, 'matches.html', {
+        'matches_list': matches_list,
+    })
+
+@login_required
+def tutors(request):
+    tutor_list = Profile.objects.filter(tutor=True)
+    return render(request, 'tutors.html', {'tutor_list': tutor_list})
 
 def search(request):
     if request.method == 'GET':  # If the form is submitted

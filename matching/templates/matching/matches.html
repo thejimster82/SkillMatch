@@ -6,8 +6,9 @@
 {% block content %}
 <ul>
     {% for match in matches_list %}
-    <li>{{ match.to_user.username }}</li>
-    <li>{{ match.to_user.email }}</li>
+    <li>{{ match.user.username }}</li>
+    {% empty %}
+    <li>No matches yet!</li>
     {% endfor %}
 </ul>
 {% endblock %}
