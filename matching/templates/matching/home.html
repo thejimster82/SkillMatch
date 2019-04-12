@@ -5,7 +5,7 @@
 <div class="container">
 	<div class="justify-content-center">
 		{% if user.is_authenticated %}
-		{% for somematch in match %}
+		{% for somematch in matches %}
 		<div class="container" style="margin-top: 20px;">
 			<div class="mx-auto" style="width: 20rem">
 				<div class="card" style="width: 18rem;">
@@ -32,8 +32,6 @@
 				</div>
 			</div>
 		</div>
-		{% comment %} {% empty %}
-		<p>No current matches.</p> {% endcomment %}
 		{% endfor %}
 		{% else %}
 		<p>Please login with google</p>

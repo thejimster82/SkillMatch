@@ -1,3 +1,5 @@
+import operator
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
@@ -6,25 +8,10 @@ from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-from matching.models import MatchesTable
-
-from .forms import UserForm, ProfileForm, TutorProfileForm, BecomeTutorForm
-from .models import Profile
 from django.db.models import Q
 
-# @login_required
-# def update_match(request, value=None):
-#     user = User.objects.get(username=request.user.username)
-#     profile = Profile.objects.get(user=user)
-#     if value == 'False':
-#         MatchesTable.rank -= 1
-#         MatchesTable.save()
-#
-#     else:
-#         MatchesTable.like = True
-#         MatchesTable.save()
-#         MatchesTable.objects.create(User=user, )
-#     return redirect('home')
+from .forms import UserForm, ProfileForm, TutorProfileForm, BecomeTutorForm
+from .models import Profile, MatchesTable, Course
 
 
 @login_required
@@ -34,23 +21,22 @@ def home(request):
     if request.method == 'POST':
         if "accept" in request.POST:
             seconduser = User.objects.get(username=request.POST['r_id'])
-            MatchesTable.objects.create(from_user=user, to_user=seconduser, like=True)
-
-        # else:
-        #     MatchesTable.rank -= 1
-        #     MatchesTable.save()
+            MatchesTable.objects.create(
+                from_user=user, to_user=seconduser, like=True)
 
     if (profile.first_login):
         profile.first_login = False
         profile.save()
         return redirect('update_profile', username=user)
     else:
-        match = User.objects.filter(~Q(username=request.user.username))
+        filters = Q(profile__courses__in=profile.courses.all())\
+            & ~Q(username=request.user.username)
+
+        matches = User.objects.filter(filters).distinct()
         return render(request, 'home.html', {
             'user': user,
-            'match': match
+            'matches': matches
         })
-
 
 
 @login_required

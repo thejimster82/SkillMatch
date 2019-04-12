@@ -10,7 +10,7 @@
 {% block content %}
 <div class="container">
     {% for match in matches_list %}
-    <div class="card" style="margin-top: 1em">
+    <div class="card h-100" style="margin-top: 1em">
         <a style="text-decoration: none; color:inherit;" href="{% url 'profile' match.to_user.username %}">
             <div class="row no-gutters">
                 <div class="col-auto">
@@ -19,11 +19,17 @@
                 </div>
                 <div class="col">
                     <div class="card-block px-2">
-                        <h4 class="card-title">{{ match.to_user.profile.first_name }}
-                            {{ match.to_user.profile.last_name }}
-                        </h4>
-                        <p class="card-text" style="text-overflow: clip">{{ match.to_user.email }}</p>
-                        <p class="card-text" style="text-overflow: clip">{{ match.to_user.profile.bio }}</p>
+                        <div style="height: 200px; text-overflow: clip; overflow: hidden;">
+                            <h4 class="card-title">{{ match.to_user.profile.first_name }}
+                                {{ match.to_user.profile.last_name }}
+                            </h4>
+                            <p class="card-text">
+                                {{ match.to_user.email }}
+                            </p>
+                            <p class="card-text">
+                                {{ match.to_user.profile.bio }}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
