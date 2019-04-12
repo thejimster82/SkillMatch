@@ -11,23 +11,26 @@
 <div class="container">
     {% for match in matches_list %}
     <div class="card" style="margin-top: 1em">
-        <div class="row no-gutters">
-            <div class="col-auto">
-                <img src="{{result.user.profile.profilePicture.url}}" class="img-fluid"
-                    style="object-fit: cover; height: 200px; width:200px;" alt="">
-            </div>
-            <div class="col">
-                <div class="card-block px-2">
-                    <h4 class="card-title">{{ match.to_user.profile.first_name }} {{ match.to_user.profile.last_name }}
-                    </h4>
-                    <p class="card-text" style="text-overflow: clip">{{ match.to_user.email }}</p>
-                    <p class="card-text" style="text-overflow: clip">{{ match.to_user.profile.bio }}</p>
+        <a style="text-decoration: none; color:inherit;" href="{% url 'profile' match.to_user.username %}">
+            <div class="row no-gutters">
+                <div class="col-auto">
+                    <img src="{{result.user.profile.profilePicture.url}}" class="img-fluid"
+                        style="object-fit: cover; height: 200px; width:200px;" alt="">
+                </div>
+                <div class="col">
+                    <div class="card-block px-2">
+                        <h4 class="card-title">{{ match.to_user.profile.first_name }}
+                            {{ match.to_user.profile.last_name }}
+                        </h4>
+                        <p class="card-text" style="text-overflow: clip">{{ match.to_user.email }}</p>
+                        <p class="card-text" style="text-overflow: clip">{{ match.to_user.profile.bio }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card-footer w-100 text-muted" style="text-overflow: clip;">
-            Matching classes: {{ match|join:", " }}
-        </div>
+            <div class="card-footer w-100 text-muted" style="text-overflow: clip; font-size: smaller">
+                {{ match|join:", " }}
+            </div>
+        </a>
     </div>
     {% endfor %}
 </div>
