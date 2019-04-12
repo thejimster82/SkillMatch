@@ -22,9 +22,12 @@ class MatchesTable(models.Model):
     rank = models.IntegerField(default=100)
 
     def __str__(self):
-        from_classes = self.from_user.profile.courses.all()
-        to_classes = self.to_user.profile.courses.all()
-        return str(from_classes.intersection(to_classes))
+        from_courses = self.from_user.profile.get_courses()
+        to_courses = self.to_user.profile.get_courses()
+        common_courses = from_courses.intersection(to_courses)
+
+        return ', '.join(str(c) for c in common_courses)
+
 
 # class Relationship(models.Model):
 #     from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendship_requests_sent')
@@ -50,6 +53,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def get_courses(self):
+        return self.courses.all()
 
     def save(self, *args, **kwargs):
         # delete old file when replacing by updating the file
