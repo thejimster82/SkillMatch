@@ -14,14 +14,22 @@ class Course(models.Model):
 
 
 class MatchesTable(models.Model):
-    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='matching_sent')
-    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='matching_received')
+    from_user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='matching_sent')
+    to_user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='matching_received')
     like = models.BooleanField(default=False)
     rank = models.IntegerField(default=100)
+
+    def __str__(self):
+        from_classes = self.from_user.profile.courses.all()
+        to_classes = self.to_user.profile.courses.all()
+        return str(from_classes.intersection(to_classes))
 
 # class Relationship(models.Model):
 #     from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendship_requests_sent')
 #     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendship_requests_received')
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
