@@ -4,25 +4,25 @@
 
 
 <!--
-    The code for the row cards is from
+    The code for the row cards is adapted from
     https://www.codeply.com/go/l1KAQtjjbA
 -->
 
 {% block content %}
-<div class="container">
-    {% for match in matches_list %}
+{% for match in matches_list %}
+<div class="container" style="height: 200px">
     <div class="card h-100" style="margin-top: 1em">
         <a style="text-decoration: none; color:inherit;" href="{% url 'profile' match.to_user.username %}">
             <div class="row no-gutters">
                 <div class="col-auto">
-                    <img src="{{result.user.profile.profilePicture.url}}" class="img-fluid"
+                    <img src="{{match.to_user.profile.profilePicture.url}}" class="img-fluid"
                         style="object-fit: cover; height: 200px; width:200px;" alt="">
                 </div>
                 <div class="col">
                     <div class="card-block px-2">
                         <div style="height: 200px; text-overflow: clip; overflow: hidden;">
-                            <h4 class="card-title">{{ match.to_user.profile.first_name }}
-                                {{ match.to_user.profile.last_name }}
+                            <h4 class="card-title">{{ match.to_user.first_name }}
+                                {{ match.to_user.last_name }}
                             </h4>
                             <p class="card-text">
                                 {{ match.to_user.email }}
@@ -30,6 +30,14 @@
                             <p class="card-text">
                                 {{ match.to_user.profile.bio }}
                             </p>
+                            <div style="text-align: center;">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{ match.to_user.username }}" name="r_id">
+                                    <input class="btn-danger btn mt-0 mb-3" type="submit" value="Delete Match"
+                                        name="delete">
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -39,8 +47,11 @@
             </div>
         </a>
     </div>
-    {% endfor %}
 </div>
+{% empty %}
+<h5 style="text-align: center; margin-top: 4rem">No matches yet! Study buddies will appear here when a mutual match
+    is created!</h5>
+{% endfor %}
 {% endblock %}
 
 <!--

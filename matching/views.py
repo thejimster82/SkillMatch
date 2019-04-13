@@ -41,35 +41,41 @@ def home(request):
         if 'accept' in request.POST:
             MatchesTable.objects.create(
                 from_user=user, to_user=seconduser, like=True)
-
         if 'reject' in request.POST:
             MatchesTable.objects.create(
                 from_user=user, to_user=seconduser, like=False)
 
-    else:
-        course_filter = Q(profile__courses__in=profile.courses.all())\
-            & ~Q(username=request.user.username)
-        all_matches = User.objects.filter(course_filter).distinct()
+    course_filter = Q(profile__courses__in=profile.courses.all())
+    all_matches = User.objects.filter(course_filter).distinct()
 
-        match_filter = []
-        for match in all_matches:
-            if card_processed(user, match):
-                match_filter.append(~Q(username=match))
-        new_matches = all_matches.exclude(reduce(operator.iand, match_filter))
-        return render(request, 'home.html', {
-            'user': user,
-            'matches': new_matches
-        })
+    match_filter = [~Q(username=request.user.username)]
+    for match in all_matches:
+        if card_processed(user, match):
+            match_filter.append(~Q(username=match.username))
+    new_match = all_matches.filter(reduce(operator.iand, match_filter))[0:1]
+    finished = not new_match.exists()
+
+    return render(request, 'home.html', {
+        'user': user,
+        'match': new_match,
+        'finished': finished
+    })
 
 
 @login_required
 def matches(request):
     user = User.objects.get(username=request.user.username)
     profile = Profile.objects.get(user=user)
-    matches_list = MatchesTable.objects.filter(from_user=user)
-    # SELECT matches from matching_Profile
+    all_matches = MatchesTable.objects.filter(from_user=user)
+
+    match_filter = [~Q(username=request.user.username)]
+    for match in all_matches:
+        if match_exists(user, match):
+            match_filter.append(Q(username=match.username))
+    valid_matches = all_matches.filter(reduce(operator.iand, match_filter))
+
     return render(request, 'matches.html', {
-        'matches_list': matches_list,
+        'matches_list': valid_matches,
     })
 
 
