@@ -68,10 +68,10 @@ def matches(request):
     profile = Profile.objects.get(user=user)
     all_matches = MatchesTable.objects.filter(from_user=user)
 
-    match_filter = [~Q(username=request.user.username)]
+    match_filter = [Q()]
     for match in all_matches:
         if match_exists(user, match.to_user):
-            match_filter.append(Q(username=match.to_user.username))
+            match_filter.append(Q(to_user=match.to_user))
     valid_matches = all_matches.filter(reduce(operator.iand, match_filter))
 
     return render(request, 'matches.html', {
