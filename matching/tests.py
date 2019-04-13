@@ -7,10 +7,8 @@ from .views import update_profile, profile
 
 # Create your tests here.
 
-# creating user test, check the information stored in User is correct or not
 
-
-class CreateUser(TestCase):
+class CreateUserTest(TestCase):
 
     def setUp(self):
         User.objects.create(username="a", email="hehe@virginia.edu",
@@ -36,9 +34,8 @@ class CreateUser(TestCase):
 class LoginTest(TestCase):
 
     def setUp(self):
-        self.userProfile = User
         self.requestTest = RequestFactory()
-        self.user1 = self.userProfile.objects.create_user(
+        self.user1 = User.objects.create(
             username="user1", email="user1@virginia.edu")
         self.profile = Profile.objects.get(user=self.user1)
         self.server = UserSocialAuth.objects.create(
@@ -82,12 +79,12 @@ class MatchesTest(TestCase):
             username="c", email="test2@virginia.edu", first_name="first2", last_name="last2")
         p2 = Profile.objects.get(user=u2)
 
-        p1.matches.add(p2)
+        p1.matches.add(u2)
 
     def test_has_match(self):
         u1 = User.objects.get(username='b')
         p1 = Profile.objects.get(user=u1)
-        self.assertQuerysetEqual(p1.matches.all(), ['<Profile: c>'])
+        self.assertQuerysetEqual(p1.matches.all(), ['<User: c>'])
 
     def test_no_matches(self):
         u2 = User.objects.get(username="c")

@@ -1,3 +1,5 @@
+import operator
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
@@ -6,64 +8,76 @@ from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-from matching.models import MatchesTable
+from django.db.models import Q
+from django.utils.six.moves import reduce
 
 from .forms import UserForm, ProfileForm, TutorProfileForm, BecomeTutorForm
-from .models import Profile
-from django.db.models import Q
+from .models import Profile, MatchesTable, Course
 
-# @login_required
-# def update_match(request, value=None):
-#     user = User.objects.get(username=request.user.username)
-#     profile = Profile.objects.get(user=user)
-#     if value == 'False':
-#         MatchesTable.rank -= 1
-#         MatchesTable.save()
-#
-#     else:
-#         MatchesTable.like = True
-#         MatchesTable.save()
-#         MatchesTable.objects.create(User=user, )
-#     return redirect('home')
+
+def card_processed(user_a, user_b):
+    return MatchesTable.objects.filter(from_user=user_a, to_user=user_b).exists()
+
+
+def match_exists(user_a, user_b):
+    mutual = MatchesTable.objects.filter(
+        from_user=user_a, to_user=user_b, like=True).exists() and MatchesTable.objects.filter(
+            from_user=user_b, to_user=user_a, like=True).exists()
+    return mutual
 
 
 @login_required
 def home(request):
     user = User.objects.get(username=request.user.username)
     profile = Profile.objects.get(user=user)
-    if request.method == 'POST':
-        if "accept" in request.POST:
-            seconduser = User.objects.get(username=request.POST['r_id'])
-            MatchesTable.objects.create(from_user=user, to_user=seconduser, like=True)
-            seconduserprofile = Profile.objects.get(user=seconduser)
-            seconduserprofile.rank += 1
-            seconduserprofile.save()
-
-        # else:
-        #     MatchesTable.rank -= 1
-        #     MatchesTable.save()
 
     if (profile.first_login):
         profile.first_login = False
         profile.save()
         return redirect('update_profile', username=user)
-    else:
-        match = User.objects.filter(~Q(username=request.user.username))
-        return render(request, 'home.html', {
-            'user': user,
-            'match': match
-        })
 
+    if request.method == 'POST':
+        seconduser = User.objects.get(username=request.POST['r_id'])
+        if 'accept' in request.POST:
+            MatchesTable.objects.create(
+                from_user=user, to_user=seconduser, like=True)
+                seconduser.profile.rank += 1
+                seconduser.profile.save()
+        if 'reject' in request.POST:
+            MatchesTable.objects.create(
+                from_user=user, to_user=seconduser, like=False)
+
+    course_filter = Q(profile__courses__in=profile.courses.all())
+    all_matches = User.objects.filter(course_filter).distinct()
+
+    match_filter = [~Q(username=request.user.username)]
+    for match in all_matches:
+        if card_processed(user, match):
+            match_filter.append(~Q(username=match.username))
+    new_match = all_matches.filter(reduce(operator.iand, match_filter))[0:1]
+    finished = not new_match.exists()
+
+    return render(request, 'home.html', {
+        'user': user,
+        'match': new_match,
+        'finished': finished
+    })
 
 
 @login_required
 def matches(request):
     user = User.objects.get(username=request.user.username)
     profile = Profile.objects.get(user=user)
-    matches_list = MatchesTable.objects.filter(from_user=user)
-    # SELECT matches from matching_Profile
+    all_matches = MatchesTable.objects.filter(from_user=user)
+
+    match_filter = [Q()]
+    for match in all_matches:
+        if match_exists(user, match.to_user):
+            match_filter.append(Q(to_user=match.to_user))
+    valid_matches = all_matches.filter(reduce(operator.iand, match_filter))
+
     return render(request, 'matches.html', {
-        'matches_list': matches_list,
+        'matches_list': valid_matches,
     })
 
 
@@ -158,6 +172,12 @@ def update_tutorprofile(request, username):
         'user_form': user_form,
         'tutorprofile_form': tutorprofile_form,
     })
+
+
+@login_required
+def tutors(request):
+    tutor_list = Profile.objects.filter(tutor=True)
+    return render(request, 'tutors.html', {'tutor_list': tutor_list})
 
 
 def search(request):

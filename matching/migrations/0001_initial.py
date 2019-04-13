@@ -17,36 +17,46 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Course',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('course_title', models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
             name='MatchesTable',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('like', models.BooleanField(default=False)),
-                ('from_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='matching_sent', to=settings.AUTH_USER_MODEL)),
-                ('to_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='matching_received', to=settings.AUTH_USER_MODEL)),
+                ('from_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                                related_name='matching_sent', to=settings.AUTH_USER_MODEL)),
+                ('to_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                              related_name='matching_received', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='Profile',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('major', models.CharField(blank=True, max_length=100)),
                 ('grad_year', models.CharField(max_length=4)),
                 ('bio', models.TextField()),
-                ('gender', models.CharField(choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], max_length=1)),
+                ('gender', models.CharField(choices=[
+                 ('M', 'Male'), ('F', 'Female'), ('O', 'Other')], max_length=1)),
                 ('first_login', models.BooleanField(default=True)),
-                ('profilePicture', models.ImageField(blank=True, upload_to='images')),
+                ('profilePicture', models.ImageField(
+                    blank=True, upload_to='images')),
                 ('rank', models.IntegerField(default=0)),
                 ('tutor', models.BooleanField(default=False)),
                 ('tutor_bio', models.TextField(blank=True)),
                 ('tutor_gpa', models.CharField(blank=True, max_length=4)),
-                ('courses', models.ManyToManyField(blank=True, to='matching.Course')),
-                ('matches', models.ManyToManyField(blank=True, related_name='matching', to=settings.AUTH_USER_MODEL)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('courses', models.ManyToManyField(
+                    blank=True, to='matching.Course')),
+                ('matches', models.ManyToManyField(blank=True,
+                                                   related_name='matching', to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

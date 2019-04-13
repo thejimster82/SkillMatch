@@ -3,6 +3,7 @@
 {% load static %}
 {% load ttag %}
 {% uname request as username %}
+
 <head>
     <title></title>
     <meta charset="utf-8">
@@ -31,17 +32,20 @@
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
     <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg" style="background-color: #d78d00;">
         <div class="container-fluid">
-            <a class="navbar-brand" style="font-family:Roboto Condensed; font-size:35px">
-            <img src="{% static 'logo.png' %}" class="mx-auto" width="50" height="50">
-            Study Buddies</a>
+            <a href="/home" class="navbar-brand"
+                style="text-decoration:none; color:inherit; font-family:Roboto Condensed; font-size:35px">
+                <img src="{% static 'logo.png' %}" class="mx-auto" width="50" height="50">
+                Study Buddies
+            </a>
             <div class="navbar-header">
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navBar">
                     <span class="dark-blue-text"><i class="fas fa-bars fa-1x"></i></span>
@@ -53,33 +57,43 @@
                         <a class="nav-link" href="/home" style="color: white; font-family:Roboto Condensed;">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' username %}" style="color: white; font-family:Roboto Condensed;">Profile</a>
+                        <a class="nav-link" href="{% url 'profile' username %}"
+                            style="color: white; font-family:Roboto Condensed;">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/matches" style="color: white; font-family:Roboto Condensed;">Matches</a>
+                        <a class="nav-link" href="/matches"
+                            style="color: white; font-family:Roboto Condensed;">Matches</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about_us" style="color: white; font-family:Roboto Condensed;">About Us</a>
+                        <a class="nav-link" href="/tutors"
+                            style="color: white; font-family:Roboto Condensed;">Tutors</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about_us" style="color: white; font-family:Roboto Condensed;">About
+                            Us</a>
                     </li>
                 </ul>
                 <form class="navbar-form navbar-left" action="/search" method="GET">
                     <div class="input-group">
-                      <div class="md-form mt-0">
-                        <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="search_box" style="font-family:Roboto Condensed;">
+                        <div class="md-form mt-0">
+                            <input class="form-control" type="text" placeholder="Search" aria-label="Search"
+                                name="search_box" style="font-family:Roboto Condensed;">
                         </div>
                     </div>
-                  </form>
+                </form>
                 <span>
                     {% if user.is_authenticated %}
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout'%}" style="color: white;font-family:Roboto Condensed;">Logout</a>
+                            <a class="nav-link" href="{% url 'logout'%}"
+                                style="color: white;font-family:Roboto Condensed;">Logout</a>
                         </li>
                     </ul>
                     {% else %}
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}" style="font-family:Roboto Condensed;">Login</a>
+                            <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}"
+                                style="font-family:Roboto Condensed;">Login</a>
                         </li>
                     </ul>
                     {% endif %}
@@ -91,7 +105,7 @@
 
     <!--************************* UNIQUE PAGE CODE *************************-->
     {% block content %}
-    <!-- default content text (typically empty) --> {% endblock %}
+    {% endblock %}
 
     <div class="footer-bar text-center">
         Django Unchained 2019 | Lab Section 101
