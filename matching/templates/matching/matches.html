@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load ttag %}
 {% block title %}Matches{% endblock %}
 
 
@@ -34,7 +35,7 @@
                 </div>
             </div>
             <div class="card-footer w-100 text-muted" style="text-overflow: clip; font-size: smaller">
-                {{ match }}
+                {{ match|common_courses }}
             </div>
         </a>
     </div>
