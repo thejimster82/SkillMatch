@@ -2,64 +2,214 @@
 {% block title %}About Study Buddies{% endblock %}
 
 {% block content %}
+
 <div class="container">
-	<div class="justify-content-center">
-		<h1 class="mt-2"> About Us </h1>
-		{% if user.is_authenticated %}
-		<p>Study Buddies was made to facilitate finding people to study with. All too often, it is so difficult to find
-			people
-			in your classes who are also looking for someone to study with. This app took some of it's inspiration from
-			Tinder,
-			and is a great tool for you to make new friends and get those grades up!</p>
-		<h2 class="mt-2" style="text-align: center"> Meet the Team! </h2>
+	<style type="text/css">
+		body {
+			font-family: "Open Sans", sans-serif;
+		}
 
-		<h5 class="mt-2"> Caleb </h5>
-		<img src="../static/matching/caleb.jpg" height=250 width=250 style="object-fit: cover">
-		<p> Caleb is a third year majoring in the dismal science (econ) and the science
-			that makes you dismal (Computer Science). His favorite cookie is oatmeal raisin and if you disagree
-			you're "definitely wrong". </p>
-		<p> Special Talent: He's a God of Design </p>
+		h2 {
+			color: #333;
+			text-align: center;
+			text-transform: uppercase;
+			font-family: "Roboto", sans-serif;
+			font-weight: bold;
+			position: relative;
+			margin: 30px 0 60px;
+		}
 
-		<h5 class="mt-2"> David </h5>
-		<img src="../static/matching/david.jpg" height=250 width=250 style="object-fit: cover">
-		<p> David is a third year majoring in Computer Science. He enjoys
-			roast beef sandwiches and wants to live in New York City one day.</p>
-		<p> Special Talent: Django Genius </p>
+		h2::after {
+			content: "";
+			width: 100px;
+			position: absolute;
+			margin: 0 auto;
+			height: 3px;
+			background: #8fbc54;
+			left: 0;
+			right: 0;
+			bottom: -10px;
+		}
 
-		<h5 class="mt-2"> Grady </h5>
-		<img src="../static/matching/grady.jpg" height=250 width=250 style="object-fit: cover">
-		<p>Grady is a second year majoring in Computer Science. In his free time he enjoys SIKE he's
-			majoring in engineering he has no free time. One day he hopes to be the President of the United
-			States (that's why he flexed on us so hard in that suit pic)</p>
-		<p>Special Talent: Literally everything, the kid has an IQ of 250</p>
+		.col-center {
+			margin: 0 auto;
+			float: none !important;
+		}
 
+		.carousel {
+			margin: 50px auto;
+			padding: 0 70px;
+		}
 
-		<h5 class="mt-2"> Jimmy </h5>
-		<img src="../static/matching/jimHead.jpg" height=250 width=250 style="object-fit: cover">
-		<p> Despite his favorite breakfast food being a plain bowl of oatmeal (no kidding), Jimmy
-			is actually a pretty interesting kid. For example, look at his pet below: her name is Lyla.
-			Lyla is a blue tounged skink.</p>
-		<img src="../static/matching/lyla.png" height=250 width=250 style="object-fit: cover">
-		<p> Special Talent: Always Promoting Good Coding Practices</p>
+		.carousel .item {
+			color: #999;
+			font-size: 14px;
+			text-align: center;
+			overflow: hidden;
+			min-height: 550px;
+		}
 
-		<h5 class="mt-2"> Mark </h5>
-		<img src="https://github.com/2MarkMaguire/pic/blob/master/IMG_3341.PNG?raw=true" width=200>
-		<p> Mark is a third year majoring in Computer Science and minoring in Business.
-			He hates Django, and is the only member of the team who has ever bailed hay before.
-			In his free time he enjoys watching Tom Brady embarass DBs.</p>
-		<p> Special Talent: Making "About Us" pages</p>
+		.carousel .item .img-box {
+			width: 40%;
+			margin: 0 auto;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 0%;
+		}
 
-		<h5 class="mt-2"> Yifan </h5>
-		<img src="../static/matching/yiffan.jpg" height=250 width=250 style="object-fit: cover">
-		<p> Yifan loves guo bao rou (legend has it he used to be fat because he ate it so often).
-			He loves playing league of legends and watching Naruto. </p>
-		<p>Special Talent: Making Sure only UVa emails can make StudyBuddies accounts </p>
+		#yifanpic {
+			width: 50%
+		}
 
+		#gradypic {
+			width: 80%
+		}
 
-		{% else %}
-		<p>Please login with google</p>
-		<a href="{% url 'login' %}">Login with Google</a>
-		{% endif %}
+		.carousel .img-box img {
+			width: 100%;
+			height: 100%;
+			display: block;
+			border-radius: 0%;
+		}
+
+		.carousel .testimonial {
+			padding: 30px 0 10px;
+		}
+
+		.carousel .overview {
+			font-style: italic;
+		}
+
+		.carousel .overview b {
+			text-transform: uppercase;
+			color: #7AA641;
+		}
+
+		.carousel .carousel-control {
+			width: 40px;
+			height: 40px;
+			margin-top: -20px;
+			top: 50%;
+			background: none;
+		}
+
+		.carousel-control i {
+			font-size: 68px;
+			line-height: 42px;
+			position: absolute;
+			display: inline-block;
+			color: rgba(0, 0, 0, 0.8);
+			text-shadow: 0 3px 3px #e6e6e6, 0 0 0 #000;
+		}
+
+		.carousel .carousel-indicators {
+			bottom: -50px;
+		}
+
+		.carousel-indicators li,
+		.carousel-indicators li.active {
+			width: 20px;
+			height: 0.1px;
+			margin: 1px 10px;
+			border-radius: 100%;
+		}
+
+		.carousel-indicators li {
+			background: #999;
+			border-color: transparent;
+			box-shadow: inset 0 2px 1px rgba(0, 0, 0, 0.2);
+		}
+
+		.carousel-indicators li.active {
+			background: #555;
+			box-shadow: inset 0 2px 1px rgba(0, 0, 0, 0.2);
+		}
+	</style>
+
+	<div class="row">
+		<div class="col-md-8 col-center m-auto">
+			<h2>About Us</h2>
+			<div id="myCarousel" class="carousel slide" data-ride="carousel">
+				<!-- Carousel indicators -->
+				<ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+					<li data-target="#myCarousel" data-slide-to="2"></li>
+					<li data-target="#myCarousel" data-slide-to="3"></li>
+					<li data-target="#myCarousel" data-slide-to="4"></li>
+					<li data-target="#myCarousel" data-slide-to="5"></li>
+				</ol>
+				<!-- Wrapper for carousel items -->
+				<div class="carousel-inner">
+					<div class="item carousel-item active">
+						<div class="img-box"><img src="../static/matching/caleb.jpg"></div>
+						<p class="overview"><b>Caleb</b></p>
+						<p class="testimonial">Caleb is a third year majoring in the dismal science (econ) and the
+							science
+							that makes you dismal (Computer Science). His favorite cookie is oatmeal raisin and if you
+							disagree
+							you're "definitely wrong".</p>
+						<p class="overview">Special Talent: He's a God of Design</p>
+					</div>
+					<div class="item carousel-item">
+						<div class="img-box"><img src="../static/matching/david.jpg" alt=""></div>
+						<p class="overview"><b>David</b></p>
+						<p class="testimonial">David is a third year majoring in Computer Science. He enjoys
+							roast beef sandwiches and wants to live in New York City one day.</p>
+						<p class="overview">Special Talent: Django Genius</p>
+					</div>
+					<div class="item carousel-item">
+						<div class="img-box" id="gradypic"><img src="../static/matching/grady.jpg" alt=""></div>
+						<p class="overview"><b>Grady</b></p>
+						<p class="testimonial">Grady is a second year majoring in Computer Science. In his free time he
+							enjoys SIKE he's
+							majoring in engineering he has no free time. One day he hopes to be the President of the
+							United
+							States (that's why he flexed on us so hard in that suit pic)</p>
+						<p class="overview">Special Talent: Literally everything, the kid has an IQ of 250
+						</p>
+					</div>
+					<div class="item carousel-item">
+						<div class="img-box"><img src="../static/matching/jimHead.jpg" alt=""></div>
+						<div class="img-box"><img src="../static/matching/lyla.png" alt=""></div>
+						<p class="overview"><b>Jimmy & Lyla</b></p>
+						<p class="testimonial">Despite his favorite breakfast food being a plain bowl of oatmeal (no
+							kidding), Jimmy
+							is actually a pretty interesting kid. For example, look at his pet: her name is Lyla.
+							Lyla is a blue tongued skink.</p>
+						<p class="overview">Special Talent: Promoting Good Coding Practices
+						</p>
+					</div>
+					<div class="item carousel-item">
+						<div class="img-box"><img
+								src="https://github.com/2MarkMaguire/pic/blob/master/IMG_3341.PNG?raw=true" alt="">
+						</div>
+						<p class="overview"><b>Mark</b></p>
+						<p class="testimonial">Mark is a third year majoring in Computer Science and minoring in
+							Business.
+							He hates Django, and is the only member of the team who has ever bailed hay.
+							In his free time he enjoys watching Tom Brady embarass DBs.</p>
+						<p class="overview">Special Talent: None yet seen</p>
+					</div>
+					<div class="item carousel-item">
+						<div class="img-box" id="yifanpic"><img src="../static/matching/yiffan.jpg"></div>
+						<p class="overview"><b>Yifan</b></p>
+						<p class="testimonial">Yifan loves guo bao rou (legend has it he used to be fat because he ate
+							it so often).
+							He loves playing league of legends and watching Naruto.</p>
+						<br class="overview">Special Talent: Making Sure only UVa emails can make
+						StudyBuddies accounts</p>
+					</div>
+				</div>
+				<!-- Carousel controls -->
+				<a class="carousel-control left carousel-control-prev" href="#myCarousel" data-slide="prev">
+					<i class="fa fa-angle-left"></i>
+				</a>
+				<a class="carousel-control right carousel-control-next" href="#myCarousel" data-slide="next">
+					<i class="fa fa-angle-right"></i>
+				</a>
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}
