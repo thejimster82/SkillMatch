@@ -12,7 +12,7 @@ def uname(request):
     return User.objects.get(username=request.user.username)
 
 
-@register.simple_tag
+@register.filter(name='common_courses')
 def common_courses(match):
     if isinstance(match, MatchesTable):
         from_courses = match.from_user.profile.get_courses()
