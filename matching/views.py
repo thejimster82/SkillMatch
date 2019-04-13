@@ -50,8 +50,8 @@ def home(request):
 
     match_filter = [~Q(username=request.user.username)]
     for match in all_matches:
-        if card_processed(user, match.to_user):
-            match_filter.append(~Q(username=match.to_user.username))
+        if card_processed(user, match):
+            match_filter.append(~Q(username=match.username))
     new_match = all_matches.filter(reduce(operator.iand, match_filter))[0:1]
     finished = not new_match.exists()
 
