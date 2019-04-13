@@ -17,7 +17,6 @@ class MatchesTable(models.Model):
     from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='matching_sent')
     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='matching_received')
     like = models.BooleanField(default=False)
-    rank = models.IntegerField(default=100)
 
 # class Relationship(models.Model):
 #     from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendship_requests_sent')
@@ -34,6 +33,7 @@ class Profile(models.Model):
     first_login = models.BooleanField(default=True)
     profilePicture = models.ImageField(upload_to='images', blank=True)
     courses = models.ManyToManyField('Course', blank=True)
+    rank = models.IntegerField(default=0)
 
     #   TUTOR FIELDS
     tutor = models.BooleanField(default=False)
