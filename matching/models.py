@@ -22,7 +22,7 @@ class MatchesTable(models.Model):
     rank = models.IntegerField(default=100)
 
     def __str__(self):
-        return str(self.from_user) + ' --> ' + str(self.to_user)
+        return str(self.from_user) + ' --> ' + str(self.to_user) + ' (' + str(self.like) + ')'
 
 
 class Profile(models.Model):
