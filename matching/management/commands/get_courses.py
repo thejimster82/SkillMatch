@@ -48,6 +48,4 @@ class Command(BaseCommand):
 
         for title in titles:
             unique_courses.append(Course(course_title=title))
-
-
-return unique_courses
+        return unique_courses
