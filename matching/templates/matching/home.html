@@ -2,43 +2,37 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div class="container">
-	<div class="justify-content-center">
-		{% if user.is_authenticated %}
-		{% for somematch in matches %}
-		<div class="container" style="margin-top: 20px;">
-			<div class="mx-auto" style="width: 20rem">
-				<div class="card" style="width: 18rem;">
-					<div class="card-body">
-						<h5 class="card-title">Match with {{ somematch.profile.first_name }}
-							{{ somematch.profile.last_name }}?</h5>
-						{% if somematch.profile.profilePicture %}
-						<img src="{{somematch.profile.profilePicture.url}}" width="100%">
-						{% endif %}
-						<p></p>
-						<h6 class="card-subtitle mb-2 text-muted">Info</h6>
-						<p>Major: {{ somematch.profile.major}}</p>
-						<p>Graduation Year: {{ somematch.profile.grad_year}}</p>
-						<div style="text-align: center;">
-							<form method="post">
-								{% csrf_token %}
-								<input type="hidden" name="r_id" value="{{ somematch.username }}">
-								<input type="submit" value="accept" name="accept" />
-								<input type="submit" value="reject" name="reject" />
-							</form>
-
-						</div>
-					</div>
-				</div>
+<div class="justify-content-center">
+	{% if user.is_authenticated %}
+	{% if finished is True %}
+	<h5 style="text-align: center; margin-top: 4rem">No more available matches.</h5>
+	{% else %}
+	<div class="mx-auto" style="height: 580px; width: 24rem; margin-top: 20px;">
+		<div class="card h-100" style="width: 22rem;">
+			<div class="card-body" style="text-overflow: clip; overflow: hidden;">
+				<h5 class="card-title">Match with {{ match.0.first_name }}
+					{{ match.0.last_name }}?</h5>
+				{% if match.0.profile.profilePicture %}
+				<img src="{{match.0.profile.profilePicture.url}}" width="100%">
+				{% endif %}
+				<p>Major: {{ match.0.profile.major}} <br />
+					Graduation Year: {{ match.0.profile.grad_year}}</p>
+				<p class="card-subtitle mb-2 text-muted">{{ match.0.profile.bio }}</p>
+			</div>
+			<div style="margin-top: 1em; text-align: center;">
+				<form method="post">
+					{% csrf_token %}
+					<input type="hidden" name="r_id" value="{{ match.0.username }}">
+					<input class="btn-success btn mt-0 mb-3" type="submit" value="accept" name="accept" />
+					<input class="btn-danger btn mt-0 mb-3" type="submit" value="reject" name="reject" />
+				</form>
 			</div>
 		</div>
-		{% endfor %}
-		{% else %}
-		<p>Please login with google</p>
-		<a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
-
-		{% endif %}
-
 	</div>
+	{% endif %}
+	{% else %}
+	<p>Please login with google</p>
+	<a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+	{% endif %}
 </div>
 {% endblock %}
