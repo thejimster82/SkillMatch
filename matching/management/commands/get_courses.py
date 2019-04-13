@@ -24,7 +24,7 @@ class Command(BaseCommand):
     def delete_old_courses(self):
         old_courses = Course.objects.all()
         if old_courses.exists():
-            old_courses._raw_delete(old_courses.db)
+            old_courses.delete()
 
     def get_courses(self):
         url = 'https://api.devhub.virginia.edu/v1/courses'

@@ -14,14 +14,16 @@ class Course(models.Model):
 
 
 class MatchesTable(models.Model):
-    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='matching_sent')
-    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='matching_received')
+    from_user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='matching_sent')
+    to_user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='matching_received')
     like = models.BooleanField(default=False)
     rank = models.IntegerField(default=100)
 
-# class Relationship(models.Model):
-#     from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendship_requests_sent')
-#     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendship_requests_received')
+    def __str__(self):
+        return str(self.from_user) + ' --> ' + str(self.to_user) + ' (' + str(self.like) + ')'
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -42,6 +44,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def get_courses(self):
+        return self.courses.all()
 
     def save(self, *args, **kwargs):
         # delete old file when replacing by updating the file
