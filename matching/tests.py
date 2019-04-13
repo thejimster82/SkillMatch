@@ -7,10 +7,8 @@ from .views import update_profile, profile
 
 # Create your tests here.
 
-# creating user test, check the information stored in User is correct or not
 
-
-class CreateUser(TestCase):
+class CreateUserTest(TestCase):
 
     def setUp(self):
         User.objects.create(username="a", email="hehe@virginia.edu",
@@ -36,9 +34,8 @@ class CreateUser(TestCase):
 class LoginTest(TestCase):
 
     def setUp(self):
-        self.userProfile = User
         self.requestTest = RequestFactory()
-        self.user1 = self.userProfile.objects.create_user(
+        self.user1 = User.objects.create(
             username="user1", email="user1@virginia.edu")
         self.profile = Profile.objects.get(user=self.user1)
         self.server = UserSocialAuth.objects.create(
