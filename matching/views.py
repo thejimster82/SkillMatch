@@ -70,7 +70,7 @@ def matches(request):
 
     match_filter = [~Q(username=request.user.username)]
     for match in all_matches:
-        if match_exists(user, match):
+        if match_exists(user, match.to_user):
             match_filter.append(Q(username=match.username))
     valid_matches = all_matches.filter(reduce(operator.iand, match_filter))
 
