@@ -39,6 +39,14 @@ def home(request):
         })
 
 
+def match_exists(user_a, user_b):
+    # A match exists iff User A accepts User B AND User B accepts User A
+    mutual = MatchesTable.objects.filter(
+        from_user=user_a, to_user=user_b).exists() and MatchesTable.objects.filter(
+            from_user=user_b, to_user=user_a).exists()
+    return mutual
+
+
 @login_required
 def matches(request):
     user = User.objects.get(username=request.user.username)

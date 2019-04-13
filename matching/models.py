@@ -22,16 +22,7 @@ class MatchesTable(models.Model):
     rank = models.IntegerField(default=100)
 
     def __str__(self):
-        from_courses = self.from_user.profile.get_courses()
-        to_courses = self.to_user.profile.get_courses()
-        common_courses = from_courses.intersection(to_courses)
-
-        return ', '.join(str(c) for c in common_courses)
-
-
-# class Relationship(models.Model):
-#     from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendship_requests_sent')
-#     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendship_requests_received')
+        return str(self.from_user) + ' --> ' + str(self.to_user)
 
 
 class Profile(models.Model):
