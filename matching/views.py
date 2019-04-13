@@ -12,20 +12,6 @@ from .forms import UserForm, ProfileForm, TutorProfileForm, BecomeTutorForm
 from .models import Profile
 from django.db.models import Q
 
-# @login_required
-# def update_match(request, value=None):
-#     user = User.objects.get(username=request.user.username)
-#     profile = Profile.objects.get(user=user)
-#     if value == 'False':
-#         MatchesTable.rank -= 1
-#         MatchesTable.save()
-#
-#     else:
-#         MatchesTable.like = True
-#         MatchesTable.save()
-#         MatchesTable.objects.create(User=user, )
-#     return redirect('home')
-
 
 @login_required
 def home(request):
@@ -34,11 +20,8 @@ def home(request):
     if request.method == 'POST':
         if "accept" in request.POST:
             seconduser = User.objects.get(username=request.POST['r_id'])
-            MatchesTable.objects.create(from_user=user, to_user=seconduser, like=True)
-
-        # else:
-        #     MatchesTable.rank -= 1
-        #     MatchesTable.save()
+            MatchesTable.objects.create(
+                from_user=user, to_user=seconduser, like=True)
 
     if (profile.first_login):
         profile.first_login = False
@@ -50,7 +33,6 @@ def home(request):
             'user': user,
             'match': match
         })
-
 
 
 @login_required
@@ -152,6 +134,12 @@ def update_tutorprofile(request, username):
         'user_form': user_form,
         'tutorprofile_form': tutorprofile_form,
     })
+
+
+@login_required
+def tutors(request):
+    tutor_list = Profile.objects.filter(tutor=True)
+    return render(request, 'tutors.html', {'tutor_list': tutor_list})
 
 
 def search(request):
