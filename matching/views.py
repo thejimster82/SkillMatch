@@ -88,7 +88,7 @@ def about_us(request):
 
 @login_required
 def profile(request, username):
-    user = User.objects.get(username=request.user.username)
+    user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
     courses = profile.courses.all()
     tutor_u = Profile.objects.get(user=user)
