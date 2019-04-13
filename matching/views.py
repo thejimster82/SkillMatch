@@ -9,42 +9,57 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.db.models import Q
+from django.utils.six.moves import reduce
 
 from .forms import UserForm, ProfileForm, TutorProfileForm, BecomeTutorForm
 from .models import Profile, MatchesTable, Course
+
+
+def card_processed(user_a, user_b):
+    return MatchesTable.objects.filter(from_user=user_a, to_user=user_b).exists()
+
+
+def match_exists(user_a, user_b):
+    mutual = MatchesTable.objects.filter(
+        from_user=user_a, to_user=user_b, like=True).exists() and MatchesTable.objects.filter(
+            from_user=user_b, to_user=user_a, like=True).exists()
+    return mutual
 
 
 @login_required
 def home(request):
     user = User.objects.get(username=request.user.username)
     profile = Profile.objects.get(user=user)
-    if request.method == 'POST':
-        if "accept" in request.POST:
-            seconduser = User.objects.get(username=request.POST['r_id'])
-            MatchesTable.objects.create(
-                from_user=user, to_user=seconduser, like=True)
 
     if (profile.first_login):
         profile.first_login = False
         profile.save()
         return redirect('update_profile', username=user)
-    else:
-        filters = Q(profile__courses__in=profile.courses.all())\
-            & ~Q(username=request.user.username)
 
-        matches = User.objects.filter(filters).distinct()
+    if request.method == 'POST':
+        seconduser = User.objects.get(username=request.POST['r_id'])
+        if 'accept' in request.POST:
+            MatchesTable.objects.create(
+                from_user=user, to_user=seconduser, like=True)
+
+        if 'reject' in request.POST:
+            MatchesTable.objects.create(
+                from_user=user, to_user=seconduser, like=False)
+
+    else:
+        course_filter = Q(profile__courses__in=profile.courses.all())\
+            & ~Q(username=request.user.username)
+        all_matches = User.objects.filter(course_filter).distinct()
+
+        match_filter = []
+        for match in all_matches:
+            if card_processed(user, match):
+                match_filter.append(~Q(username=match))
+        new_matches = all_matches.exclude(reduce(operator.iand, match_filter))
         return render(request, 'home.html', {
             'user': user,
-            'matches': matches
+            'matches': new_matches
         })
-
-
-def match_exists(user_a, user_b):
-    # A match exists iff User A accepts User B AND User B accepts User A
-    mutual = MatchesTable.objects.filter(
-        from_user=user_a, to_user=user_b).exists() and MatchesTable.objects.filter(
-            from_user=user_b, to_user=user_a).exists()
-    return mutual
 
 
 @login_required
