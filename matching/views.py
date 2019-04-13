@@ -41,6 +41,8 @@ def home(request):
         if 'accept' in request.POST:
             MatchesTable.objects.create(
                 from_user=user, to_user=seconduser, like=True)
+            seconduser.profile.rank += 1
+            seconduser.profile.save()
         if 'reject' in request.POST:
             MatchesTable.objects.create(
                 from_user=user, to_user=seconduser, like=False)
@@ -89,9 +91,12 @@ def profile(request, username):
     user = User.objects.get(username=request.user.username)
     profile = Profile.objects.get(user=user)
     courses = profile.courses.all()
+    tutor_u = Profile.objects.get(user=user)
+    tutor = tutor_u.tutor
     return render(request, 'profile.html', {
         'user': user,
         'courses': courses,
+        "tutor": tutor,
     })
 
 
@@ -122,7 +127,7 @@ def tutorprofile(request, username):
     user = User.objects.get(username=request.user.username)
     tutor_u = Profile.objects.get(user=user)
     tutor = tutor_u.tutor
-    return render(request, 'tutorprofile.html', {
+    return render(request, 'profile.html', {
         "user": user,
         "tutor": tutor,
     })
