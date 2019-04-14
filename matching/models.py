@@ -19,7 +19,6 @@ class MatchesTable(models.Model):
     to_user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='matching_received')
     like = models.BooleanField(default=False)
-    rank = models.IntegerField(default=100)
 
     def __str__(self):
         return str(self.from_user) + ' --> ' + str(self.to_user) + ' (' + str(self.like) + ')'
@@ -36,6 +35,7 @@ class Profile(models.Model):
     first_login = models.BooleanField(default=True)
     profilePicture = models.ImageField(upload_to='images', blank=True)
     courses = models.ManyToManyField('Course', blank=True)
+    rank = models.IntegerField(default=0)
 
     #   TUTOR FIELDS
     tutor = models.BooleanField(default=False)
