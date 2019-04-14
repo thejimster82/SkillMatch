@@ -11,6 +11,9 @@
 		<form method="post" enctype="multipart/form-data">
 			{% csrf_token %}
 			{% bootstrap_form user_form %}
+			<div style="height: 150px; overflow: auto; margin-top: 1em; margin-bottom: 1em;">
+				{% bootstrap_form course_form %}
+			</div>
 			{% bootstrap_form profile_form %}
 			<input class="btn-primary btn btn mt-0 mb-3" type="submit" value="Update" style="float: right;">
 		</form>
