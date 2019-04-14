@@ -190,7 +190,22 @@ def search(request):
         search_query = request.GET.get('search_box', None)
         print(search_query)
         results_list = Profile.objects.raw(
-            "SELECT * from auth_User where username LIKE %s", ['%'+search_query+'%'])
+            "SELECT * from auth_User where username LIKE %s", ['%' + search_query + '%'])
+        results_list_name = Profile.objects.raw(
+            "SELECT * from auth_User where first_name LIKE %s", ['%' + search_query + '%'])
+        results_list_major = Profile.objects.raw(
+            "SELECT * from matching_profile where major LIKE %s", ['%' + search_query + '%'])
+        searched_course = Course.objects.raw(
+            "SELECT * from matching_course where course_title LIKE %s", ['%' + search_query + '%'])
+        searched_course_profile_list=[]
+        for tmp_cs in searched_course:
+            for tmp_user in tmp_cs.profile_set.all():
+                if  tmp_user not in searched_course_profile_list:
+                    searched_course_profile_list.append(tmp_user)
+        print(searched_course_profile_list)
     return render(request, 'search.html', {
         'results_list': results_list,
+        'results_list_major': results_list_major,
+        'results_list_name': results_list_name,
+        'results_list_courses': searched_course_profile_list,
     })

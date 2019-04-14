@@ -4,14 +4,36 @@
 {% block content %}
 <ul>
     {% for tutor in tutor_list %}
-    <li>
-    <a class="nav-link" href="{% url 'profile' tutor.user.username %}" style="color: black">
-    {{ tutor.user.first_name }} {{ tutor.user.last_name }}
-    {% if tutor.user.profile.profilePicture %}
-    <img src="{{tutor.user.profile.profilePicture.url}}" width="90px">
-    {% endif %}
-    </a>
-    </li>
+    <div class="container" style="height: 200px">
+        <div class="card h-100" style="margin-top: 1em">
+            <a style="text-decoration: none; color:inherit;" href="{% url 'profile' tutor.user.username %}">
+                <div class="row no-gutters">
+                    <div class="col-auto">
+                        <img src="{{tutor.user.profile.profilePicture.url}}" class="img-fluid"
+                            style="object-fit: cover; height: 200px; width:200px;" alt="">
+                    </div>
+                    <div class="col">
+                        <div class="card-block px-2">
+                            <div style="height: 200px; text-overflow: clip; overflow: hidden;">
+                                <h4 class="card-title">{{ tutor.user.first_name }}
+                                    {{ tutor.user.last_name }}
+                                </h4>
+                                <p class="card-text">
+                                    {{ tutor.user.email }}
+                                </p>
+                                <p class="card-text">
+                                    {{ tutor.user.profile.tutor_gpa }}
+                                </p>
+                                <p class="card-text">
+                                    {{ tutor.user.profile.tutor_bio }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
     {% empty %}
     <li>No tutors yet!</li>
     {% endfor %}

@@ -1,5 +1,5 @@
 from django.test import TestCase, RequestFactory, Client
-from .models import Profile
+from .models import Profile, Course
 from django.contrib.auth.models import User
 from social_django.models import UserSocialAuth
 from .forms import UserForm, ProfileForm
@@ -7,7 +7,7 @@ from .views import update_profile, profile
 
 # Create your tests here.
 
-
+# PROFILE TESTS
 class CreateUserTest(TestCase):
 
     def setUp(self):
@@ -30,7 +30,7 @@ class CreateUserTest(TestCase):
         em = User.objects.get(username="a")
         self.assertEqual(em.last_name, "last")
 
-
+# LOGIN TESTS
 class LoginTest(TestCase):
 
     def setUp(self):
@@ -67,7 +67,7 @@ class LoginTest(TestCase):
         response = self.client.get('/home/')
         self.assertTemplateUsed('home.html')
 
-
+#MATCHING TESTS
 class MatchesTest(TestCase):
 
     def setUp(self):
@@ -90,3 +90,49 @@ class MatchesTest(TestCase):
         u2 = User.objects.get(username="c")
         p2 = Profile.objects.get(user=u2)
         self.assertFalse(p2.matches.all().exists())
+
+# SEARCHING TESTS
+class SearchTest(TestCase):
+
+    def setUp(self):
+        u1 = User.objects.create(username="b", first_name="first1")
+        p1 = Profile.objects.get(user=u1)
+        p1.major = "major1"
+        p1.save()
+
+        # u2 = User.objects.create(username="c", first_name="first2")
+        # p2 = Profile.objects.get(user=u2)
+        # p2.major = "major2"
+
+        course1 = Course.objects.create(course_title="course1")
+        # course2 = Course.objects.create(course_title="course2")
+
+        p1.courses.add(course1)
+        # p2.courses.add(course1)
+        # p2.courses.add(course2)
+
+    def test_search_by_username(self):
+        search_query = 'b'
+        results_list = Profile.objects.raw("SELECT * from auth_User where username LIKE %s", ['%' + search_query + '%'])
+        self.assertEquals(results_list[0].username, 'b')
+
+    def test_search_by_first_name(self):
+        search_query = "first1"
+        results_list_name = Profile.objects.raw("SELECT * from auth_User where first_name LIKE %s", ['%' + search_query + '%'])
+        self.assertEquals(results_list_name[0].first_name, 'first1')
+
+    def tests_search_by_major(self):
+        search_query = "major1"
+        results_list_major = Profile.objects.raw("SELECT * from matching_profile where major LIKE %s", ['%' + search_query + '%'])
+        self.assertEquals(results_list_major[0].major, 'major1')
+
+    def tests_search_by_courses(self):
+        search_query = "course1"
+        searched_course = Course.objects.raw(
+            "SELECT * from matching_course where course_title LIKE %s", ['%' + search_query + '%'])
+        searched_course_profile_list = []
+        for tmp_cs in searched_course:
+            for tmp_user in tmp_cs.profile_set.all():
+                if tmp_user not in searched_course_profile_list:
+                    searched_course_profile_list.append(tmp_user)
+        self.assertQuerysetEqual(searched_course_profile_list[0].courses.all(), ['<Course: course1>'])
