@@ -5,6 +5,7 @@
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
+
 <div class="container emp-profile">
     <style type="text/css">
         body{
@@ -181,11 +182,14 @@
                                         <p>{{user.profile.bio}}</p>
                                     </div>
                                 </div>
+                                {% if request.user.first_name == user.first_name and request.user.last_name == user.last_name %}
                                 <a href="{% url 'update_profile' username %}">
                                     <button type="button" class='btn btn-primary'>Edit Profile</button>
                                 </a>
+                                {% endif %}
                             </div>
                             <div class="tab-pane fade" id="tutor" role="tabpanel" aria-labelledby="tutor-tab">
+                                {% if request.user.first_name == user.first_name and request.user.last_name == user.last_name %}
                                 {% if tutor is True %}
                                         <div class="row">
                                             <div class="col-md-6">
@@ -208,6 +212,26 @@
                                 <a href="{% url 'update_become_tutor' username %}">
                                     <button type="button" class='btn btn-primary'>Become a Tutor</button>
                                 </a>
+                                {% endif %}
+                                {% elif request.user.first_name != user.first_name and request.user.last_name != user.last_name %}
+                                {% if tutor is True %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>GPA : </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.profile.tutor_gpa}}</p>
+                                            </div>
+                                        </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Tutor Bio :</label><br/>
+                                        <p>{{user.profile.tutor_bio}}</p>
+                                    </div>
+                                </div>
+                                {% elif tutor is False %}
+                                <a>They are not a tutor!</a>
+                                {% endif %}
                                 {% endif %}
                             </div>
                         </div>
