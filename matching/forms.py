@@ -13,8 +13,17 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('profilePicture', 'gender', 'major', 'courses', 'bio',
+        fields = ('profilePicture', 'gender', 'major', 'bio',
                   'grad_year', 'tutor', 'tutor_gpa', 'tutor_bio')
+
+
+class ProfileCoursesForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('courses',)
+        widgets = {
+            'courses': forms.CheckboxSelectMultiple,
+        }
 
 
 class TutorProfileForm(forms.ModelForm):

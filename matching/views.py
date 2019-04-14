@@ -11,7 +11,7 @@ from django.views import generic
 from django.db.models import Q
 from django.utils.six.moves import reduce
 
-from .forms import UserForm, ProfileForm, TutorProfileForm, BecomeTutorForm
+from .forms import UserForm, ProfileForm, ProfileCoursesForm, TutorProfileForm, BecomeTutorForm
 from .models import Profile, MatchesTable, Course
 
 
@@ -108,16 +108,21 @@ def update_profile(request, username):
             request.POST, request.FILES, instance=request.user.profile)
         user_form = UserForm(request.POST, request.FILES,
                              instance=request.user)
-        if profile_form.is_valid() and user_form.is_valid():
+        course_form = ProfileCoursesForm(
+            request.POST, request.FILES, instance=request.user.profile)
+        if profile_form.is_valid() and user_form.is_valid() and course_form.is_valid():
             profile_form.save()
             user_form.save()
-            return redirect('profile', username=user)
+            course_form.save()
+            return redirect('profile', username=user.username)
     else:
-        profile_form = ProfileForm(instance=request.user.profile)
-        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=user.profile)
+        user_form = UserForm(instance=user)
+        course_form = ProfileCoursesForm(instance=user.profile)
     return render(request, 'update_profile.html', {
         'user_form': user_form,
         'profile_form': profile_form,
+        'course_form': course_form,
         'user': user
     })
 
