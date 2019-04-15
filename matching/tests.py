@@ -24,7 +24,8 @@ class EditProfileTest(TestCase):
     def test_editBtn(self):
         response = self.client.get('/profile/2')
         buttonString = "Edit Profile</button>"
-        self.assertTrue(buttonString not in response.content)
+        buttonBytes = bytearray(buttonString, 'utf-8')
+        self.assertTrue(buttonBytes not in response.content)
 
 # PROFILE TESTS
 
