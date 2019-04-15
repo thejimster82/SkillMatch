@@ -10,13 +10,13 @@
             <a style="text-decoration: none; color:inherit;" href="{% url 'profile' tutor.user.username %}">
                 <div class="row no-gutters">
                     <div class="col-auto">
-                    {% if tutor.user.profile.profilePicture %}
+                        {% if tutor.user.profile.profilePicture %}
                         <img src="{{tutor.user.profile.profilePicture.url}}" class="img-fluid"
                             style="object-fit: cover; height: 200px; width:200px;" alt="">
-                            {% else %}
-                            <img src="{% static 'matching/usrimg.jpg' %}" class="img-fluid"
+                        {% else %}
+                        <img src="{% static 'matching/usrimg.jpg' %}" class="img-fluid"
                             style="object-fit: cover; height: 200px; width:200px;" alt="">
-                            {% endif %}
+                        {% endif %}
                     </div>
                     <div class="col">
                         <div class="card-block px-2">

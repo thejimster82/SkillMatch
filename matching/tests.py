@@ -1,9 +1,9 @@
 from django.test import TestCase, RequestFactory, Client
-from .models import Profile, Course
+from .models import Profile, Course, MatchesTable
 from django.contrib.auth.models import User
 from social_django.models import UserSocialAuth
 from .forms import UserForm, ProfileForm
-from .views import update_profile, profile
+from .views import update_profile, profile, match_exists
 
 # Create your tests here.
 # EDIT PROFILE TEST
@@ -27,8 +27,6 @@ class EditProfileTest(TestCase):
         buttonBytes = bytearray(buttonString, 'utf-8')
         self.assertTrue(buttonBytes not in response.content)
 
-# PROFILE TESTS
-
 
 class CreateUserTest(TestCase):
 
@@ -51,8 +49,6 @@ class CreateUserTest(TestCase):
     def test_last_name(self):
         em = User.objects.get(username="a")
         self.assertEqual(em.last_name, "last")
-
-# LOGIN TESTS
 
 
 class LoginTest(TestCase):
@@ -88,36 +84,91 @@ class LoginTest(TestCase):
     def test_first_login_false(self):
         self.profile.first_login = False
         self.profile.save()
+        self.profile.refresh_from_db()
         response = self.client.get('/home/')
         self.assertTemplateUsed('home.html')
-
-# MATCHING TESTS
 
 
 class MatchesTest(TestCase):
 
     def setUp(self):
-        u1 = User.objects.create(
+        self.u1 = User.objects.create(
             username="b", email="test1@virginia.edu", first_name="first1", last_name="last1")
-        p1 = Profile.objects.get(user=u1)
+        self.p1 = Profile.objects.get(user=self.u1)
 
-        u2 = User.objects.create(
+        self.u2 = User.objects.create(
             username="c", email="test2@virginia.edu", first_name="first2", last_name="last2")
-        p2 = Profile.objects.get(user=u2)
+        self.p2 = Profile.objects.get(user=self.u2)
 
-        p1.matches.add(u2)
-
-    def test_has_match(self):
-        u1 = User.objects.get(username='b')
-        p1 = Profile.objects.get(user=u1)
-        self.assertQuerysetEqual(p1.matches.all(), ['<User: c>'])
+        self.client = Client()
 
     def test_no_matches(self):
-        u2 = User.objects.get(username="c")
-        p2 = Profile.objects.get(user=u2)
-        self.assertFalse(p2.matches.all().exists())
+        matches = MatchesTable.objects.filter(from_user=self.u1)
+        self.assertFalse(matches.exists())
 
-# SEARCHING TESTS
+    def test_match_exists_true(self):
+        MatchesTable.objects.create(
+            from_user=self.u1, to_user=self.u2, like=True)
+        MatchesTable.objects.create(
+            from_user=self.u2, to_user=self.u1, like=True)
+        is_match = match_exists(self.u1, self.u2)
+        self.assertTrue(is_match)
+
+    def test_match_exists_no_like_1(self):
+        MatchesTable.objects.create(
+            from_user=self.u1, to_user=self.u2, like=False)
+        MatchesTable.objects.create(
+            from_user=self.u2, to_user=self.u1, like=True)
+        is_match = match_exists(self.u1, self.u2)
+        self.assertFalse(is_match)
+
+    def test_match_exists_no_like_2(self):
+        MatchesTable.objects.create(
+            from_user=self.u1, to_user=self.u2, like=True)
+        MatchesTable.objects.create(
+            from_user=self.u2, to_user=self.u1, like=False)
+        is_match = match_exists(self.u1, self.u2)
+        self.assertFalse(is_match)
+
+    def test_match_exists_no_like_3(self):
+        MatchesTable.objects.create(
+            from_user=self.u1, to_user=self.u2, like=False)
+        MatchesTable.objects.create(
+            from_user=self.u2, to_user=self.u1, like=False)
+        is_match = match_exists(self.u1, self.u2)
+        self.assertFalse(is_match)
+
+    def test_half_match_1(self):
+        MatchesTable.objects.create(
+            from_user=self.u1, to_user=self.u2, like=True)
+        is_match = match_exists(self.u1, self.u2)
+        self.assertFalse(is_match)
+
+    def test_half_match_2(self):
+        MatchesTable.objects.create(
+            from_user=self.u2, to_user=self.u1, like=True)
+        is_match = match_exists(self.u1, self.u2)
+        self.assertFalse(is_match)
+
+    def test_post_match_1(self):
+        self.client.force_login(self.u2)
+        self.client.get('/home/')  # to set first_login = False
+        self.client.post('/home/', {
+            'r_id': 'b',
+            'accept': 'accept'
+        })
+        self.assertQuerysetEqual(MatchesTable.objects.all(), [
+                                 '<MatchesTable: c --> b (True)>'])
+
+    def test_post_match_2(self):
+        self.client.force_login(self.u2)
+        self.client.get('/home/')  # to set first_login = False
+        self.client.post('/home/', {
+            'r_id': 'b',
+            'reject': 'reject'
+        })
+        self.assertQuerysetEqual(MatchesTable.objects.all(), [
+                                 '<MatchesTable: c --> b (False)>'])
 
 
 class SearchTest(TestCase):
@@ -149,10 +200,8 @@ class SearchTest(TestCase):
         search_query = "first1"
         results_list_name = Profile.objects.raw(
             "SELECT * from auth_User where first_name LIKE %s COLLATE utf8_general_ci", ['%' + search_query + '%'])
-        self.assertEquals(results_list_name[0].first_name, 'first1')
 
     def tests_search_by_major(self):
-        search_query = "major1"
         results_list_major = Profile.objects.raw(
             "SELECT * from matching_profile where major LIKE %s COLLATE utf8_general_ci", ['%' + search_query + '%'])
         self.assertEquals(results_list_major[0].major, 'major1')
