@@ -74,10 +74,10 @@ def matches(request):
     for match in all_matches:
         if match_exists(user, match.to_user):
             match_filter.append(Q(to_user=match.to_user))
-    valid_matches = all_matches.filter(reduce(operator.iand, match_filter))
+    valid_matches = all_matches.filter(reduce(operator.ior, match_filter))
 
     return render(request, 'matches.html', {
-        'matches_list': all_matches,
+        'matches_list': valid_matches,
     })
 
 
