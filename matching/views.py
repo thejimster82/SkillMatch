@@ -77,7 +77,7 @@ def matches(request):
     valid_matches = all_matches.filter(reduce(operator.iand, match_filter))
 
     return render(request, 'matches.html', {
-        'matches_list': valid_matches,
+        'matches_list': all_matches,
     })
 
 
