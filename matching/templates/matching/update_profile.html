@@ -1,21 +1,78 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load crispy_forms_tags %}
 {% bootstrap_css %}
 
 {% block title %}Update Profile{% endblock %}
 
 {% block content %}
-<div class="container">
+<style type="text/css">
+        body{
+            background: -webkit-linear-gradient(left, #0099cc, #b3ecff);
+        }
+        .emp-profile{
+            padding: 3%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+            border-radius: 0.5rem;
+            background: #eee;
+        }
+    </style>
+<div class="container emp-profile">
 	<div class="justify-content-center">
 		<h1 class="mt-2"> Update Profile </h1>
 		<form method="post" enctype="multipart/form-data">
 			{% csrf_token %}
-			{% bootstrap_form user_form %}
-			<div style="height: 150px; overflow: auto; margin-top: 1em; margin-bottom: 1em;">
-				{% bootstrap_form course_form %}
-			</div>
-			{% bootstrap_form profile_form %}
-			<input class="btn-primary btn btn mt-0 mb-3" type="submit" value="Update" style="float: right;">
+            <div class="row">
+
+              <div class="col-6">
+                {{ user_form.first_name|as_crispy_field }}
+              </div>
+              <div class="col-6">
+                {{ user_form.last_name|as_crispy_field }}
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    {{ profile_form.gender|as_crispy_field }}
+                </div>
+                <div class="col-4">
+                    {{ profile_form.major|as_crispy_field }}
+                </div>
+                <div class="col-4">
+                    {{ profile_form.grad_year|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6" style="height: 260px; overflow: auto; margin-top: 1em; margin-bottom: 1em;">
+                    {% bootstrap_form course_form %}
+                </div>
+                <div class="col-6">
+                    {{ profile_form.bio|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">{{ profile_form.profilePicture|as_crispy_field }}</div>
+            <h1 class="mt-2"> Tutor Profile </h1>
+            <div class="row">
+                <div class="col-3" style="text-align: center;">
+                    {{profile_form.tutor|as_crispy_field}}
+                </div>
+                <div class="col-9">
+                    <a>By filling in the square on the left, you agree that your profile will be visible in tutor tab of study buddies</a>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                {{ profile_form.tutor_gpa|as_crispy_field }}
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                {{ profile_form.tutor_bio|as_crispy_field }}
+              </div>
+            </div>
+            <input class="btn-primary btn btn mt-0 mb-0" type="submit" value="Update" style="float: right;">
 		</form>
 	</div>
 </div>
