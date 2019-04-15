@@ -4,78 +4,30 @@
 <!-- This page should be a list the search results of a query -->
 {% block content %}
 <div class="mx-auto" style="width: 100%; text-align: center;">
-    <p style="margin-top: 3rem">Searching Username...</p>
+    <p style="margin-top: 3rem; font-weight: bold;">Searching Username...</p>
     {% for result in results_list %}
-    <div style="width: 20rem; display:inline-block; margin-right: 1rem; margin-top: 3rem;">
-        <a style="text-decoration: none; color:inherit;" href="{% url 'profile' result.user.username %}">
-            <div class="card" style="width: 100%; padding-bottom: 1rem;">
-                <img src="{{result.user.profile.profilePicture.url}}" class="card-img-top" alt="...">
-                <div class="card-body" style="overflow: hidden; white-space: normal; height: 15vh;">
-                    <h5 class="card-title" style="text-overflow: clip">{{ result.user.first_name }}
-                        {{ result.user.last_name }}</h5>
-                    <p class="card-text text-muted" style="font-size: 10pt; text-overflow: clip">
-                        {{ result.user.profile.courses.all|join:", " }}</p>
-                </div>
-            </div>
-        </a>
-    </div>
+    {% include 'snippets/profile_view.html' with result=result %}
     {% empty %}
     <p style="margin-top: 3rem">No results!</p>
     {% endfor %}
 
-    <p style="margin-top: 3rem">Searching First Name...</p>
+    <p style="margin-top: 3rem; font-weight: bold;">Searching First Name...</p>
     {% for result in results_list_name %}
-    <div style="width: 20rem; display:inline-block; margin-right: 1rem; margin-top: 3rem;">
-        <a style="text-decoration: none; color:inherit;" href="{% url 'profile' result.user.username %}">
-            <div class="card" style="width: 100%; padding-bottom: 1rem;">
-                <img src="{{result.user.profile.profilePicture.url}}" class="card-img-top" alt="...">
-                <div class="card-body" style="overflow: hidden; white-space: normal; height: 15vh;">
-                    <h5 class="card-title" style="text-overflow: clip">{{ result.user.first_name }}
-                        {{ result.user.last_name }}</h5>
-                    <p class="card-text text-muted" style="font-size: 10pt; text-overflow: clip">
-                        {{ result.user.profile.courses.all|join:", " }}</p>
-                </div>
-            </div>
-        </a>
-    </div>
+    {% include 'snippets/profile_view.html' with result=result %}
     {% empty %}
     <p style="margin-top: 3rem">No results!</p>
     {% endfor %}
 
-    <p style="margin-top: 3rem">Searching Major...</p>
+    <p style="margin-top: 3rem; font-weight: bold;">Searching Major...</p>
     {% for result in results_list_major %}
-    <div style="width: 20rem; display:inline-block; margin-right: 1rem; margin-top: 3rem;">
-        <a style="text-decoration: none; color:inherit;" href="{% url 'profile' result.user.username %}">
-            <div class="card" style="width: 100%; padding-bottom: 1rem;">
-                <img src="{{result.user.profile.profilePicture.url}}" class="card-img-top" alt="...">
-                <div class="card-body" style="overflow: hidden; white-space: normal; height: 15vh;">
-                    <h5 class="card-title" style="text-overflow: clip">{{ result.user.first_name }}
-                        {{ result.user.last_name }}</h5>
-                    <p class="card-text text-muted" style="font-size: 10pt; text-overflow: clip">
-                        {{ result.user.profile.courses.all|join:", " }}</p>
-                </div>
-            </div>
-        </a>
-    </div>
+    {% include 'snippets/profile_view.html' with result=result %}
     {% empty %}
     <p style="margin-top: 3rem">No results!</p>
     {% endfor %}
 
-    <p style="margin-top: 3rem">Searching Courses...</p>
-    {% for tmp_user in results_list_courses %}
-    <div style="width: 20rem; display:inline-block; margin-right: 1rem; margin-top: 3rem;">
-        <a style="text-decoration: none; color:inherit;" href="{% url 'profile' tmp_user.user.username %}">
-            <div class="card" style="width: 100%; padding-bottom: 1rem;">
-                <img src="{{tmp_user.profilePicture.url}}" class="card-img-top" alt="...">
-                <div class="card-body" style="overflow: hidden; white-space: normal; height: 15vh;">
-                    <h5 class="card-title" style="text-overflow: clip">{{ tmp_user.user.first_name }}
-                        {{ tmp_user.user.last_name }}</h5>
-                    <p class="card-text text-muted" style="font-size: 10pt; text-overflow: clip">
-                        {{ tmp_user.user.profile.courses.all|join:", " }}</p>
-                </div>
-            </div>
-        </a>
-    </div>
+    <p style="margin-top: 3rem; font-weight: bold;">Searching Courses...</p>
+    {% for result in results_list_courses %}
+    {% include 'snippets/profile_view.html' with result=result %}
     {% empty %}
     <p style="margin-top: 3rem">No results!</p>
     {% endfor %}
