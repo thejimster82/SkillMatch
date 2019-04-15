@@ -10,7 +10,7 @@
             <a style="text-decoration: none; color:inherit;" href="{% url 'profile' tutor.user.username %}">
                 <div class="row no-gutters">
                     <div class="col-auto">
-                    {% if profilePicture %}
+                    {% if tutor.user.profile.profilePicture %}
                         <img src="{{tutor.user.profile.profilePicture.url}}" class="img-fluid"
                             style="object-fit: cover; height: 200px; width:200px;" alt="">
                             {% else %}
