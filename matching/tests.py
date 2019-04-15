@@ -46,10 +46,10 @@ class LoginTest(TestCase):
         path = UserSocialAuth.objects.get_social_auth('google-oauth2', '1234')
         self.assertEqual(path, self.server)
 
-    # def test_authorized_user(self):
-    #    self.client.force_login(self.user1)
-    #    response = self.client.get('/matches/')
-    #    self.assertEqual(response.status_code, 200)
+    def test_authorized_user(self):
+        self.client.force_login(self.user1)
+        response = self.client.get('/matches/')
+        self.assertEqual(response.status_code, 200)
 
     def test_unauthorized_user(self):
         response = self.client.get('/matches/')
@@ -64,6 +64,7 @@ class LoginTest(TestCase):
     def test_first_login_false(self):
         self.profile.first_login = False
         self.profile.save()
+        self.profile.refresh_from_db()
         response = self.client.get('/home/')
         self.assertTemplateUsed('home.html')
 
@@ -78,8 +79,8 @@ class MatchesTest(TestCase):
         self.u2 = User.objects.create(
             username="c", email="test2@virginia.edu", first_name="first2", last_name="last2")
         self.p2 = Profile.objects.get(user=self.u2)
-        self.p2.first_login = False
-        self.p2.save()
+
+        self.client = Client()
 
     def test_no_matches(self):
         matches = MatchesTable.objects.filter(from_user=self.u1)
@@ -130,37 +131,22 @@ class MatchesTest(TestCase):
         self.assertFalse(is_match)
 
     def test_post_match_1(self):
-        self.p1.first_login = False
-        self.p1.save()
-        self.p2.first_login = False
-        self.p2.save()
-
-        p1_old_rank = self.p1.rank
-        p2_old_rank = self.p2.rank
         self.client.force_login(self.u2)
+        self.client.get('/home/')  # to set first_login = False
         self.client.post('/home/', {
             'r_id': 'b',
             'accept': 'accept'
         })
-        p1_new_rank = self.p1.rank
-        p2_new_rank = self.p2.rank
-        self.assertEqual(p1_new_rank, p1_old_rank + 1)
-        self.assertEqual(p2_new_rank, p2_old_rank)
         self.assertQuerysetEqual(MatchesTable.objects.all(), [
                                  '<MatchesTable: c --> b (True)>'])
 
     def test_post_match_2(self):
-        p1_old_rank = self.p1.rank
-        p2_old_rank = self.p2.rank
         self.client.force_login(self.u2)
+        self.client.get('/home/')  # to set first_login = False
         self.client.post('/home/', {
             'r_id': 'b',
             'reject': 'reject'
         })
-        p1_new_rank = self.p1.rank
-        p2_new_rank = self.p2.rank
-        self.assertEqual(p1_new_rank, p1_old_rank)
-        self.assertEqual(p2_new_rank, p2_old_rank)
         self.assertQuerysetEqual(MatchesTable.objects.all(), [
                                  '<MatchesTable: c --> b (False)>'])
 
