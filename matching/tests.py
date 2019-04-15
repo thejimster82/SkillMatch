@@ -193,23 +193,23 @@ class SearchTest(TestCase):
     def test_search_by_username(self):
         search_query = 'b'
         results_list = Profile.objects.raw(
-            "SELECT * from auth_User where username LIKE %s COLLATE utf8_general_ci", ['%' + search_query + '%'])
+            "SELECT * from auth_User where username ILIKE %s", ['%' + search_query + '%'])
         self.assertEquals(results_list[0].username, 'b')
 
     def test_search_by_first_name(self):
         search_query = "first1"
         results_list_name = Profile.objects.raw(
-            "SELECT * from auth_User where first_name LIKE %s COLLATE utf8_general_ci", ['%' + search_query + '%'])
+            "SELECT * from auth_User where first_name ILIKE %s", ['%' + search_query + '%'])
 
     def tests_search_by_major(self):
         results_list_major = Profile.objects.raw(
-            "SELECT * from matching_profile where major LIKE %s COLLATE utf8_general_ci", ['%' + search_query + '%'])
+            "SELECT * from matching_profile where major ILIKE %s", ['%' + search_query + '%'])
         self.assertEquals(results_list_major[0].major, 'major1')
 
     def tests_search_by_courses(self):
         search_query = "course1"
         searched_course = Course.objects.raw(
-            "SELECT * from matching_course where course_title LIKE %s COLLATE utf8_general_ci", ['%' + search_query + '%'])
+            "SELECT * from matching_course where course_title ILIKE %s", ['%' + search_query + '%'])
         searched_course_profile_list = []
         for tmp_cs in searched_course:
             for tmp_user in tmp_cs.profile_set.all():
