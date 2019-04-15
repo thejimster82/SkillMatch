@@ -6,17 +6,39 @@ from .forms import UserForm, ProfileForm
 from .views import update_profile, profile
 
 # Create your tests here.
+# EDIT PROFILE TEST
+
+
+class EditProfileTest(TestCase):
+    def setUp(self):
+        self.requestTest = RequestFactory()
+        self.user1 = User.objects.create(username="1", email="test1@virginia.edu",
+                                         first_name="first1", last_name="last1")
+        User.objects.create(username="2", email="test2@virginia.edu",
+                            first_name="first2", last_name="last2")
+        self.profile = Profile.objects.get(user=self.user1)
+        self.server = UserSocialAuth.objects.create(
+            user=self.user1, provider="google-oauth2", uid="1234")
+        self.client = Client()
+
+    def test_editBtn(self):
+        response = self.client.get('/profile/2')
+        buttonString = "Edit Profile</button>"
+        buttonBytes = bytearray(buttonString, 'utf-8')
+        self.assertTrue(buttonBytes not in response.content)
 
 # PROFILE TESTS
+
+
 class CreateUserTest(TestCase):
 
     def setUp(self):
-        User.objects.create(username="a", email="hehe@virginia.edu",
+        User.objects.create(username="a", email="test@virginia.edu",
                             first_name="first", last_name="last")
 
     def test_email(self):
         em = User.objects.get(username="a")
-        self.assertEqual(em.email, "hehe@virginia.edu")
+        self.assertEqual(em.email, "test@virginia.edu")
 
     def test_username(self):
         em = User.objects.get(username="a")
@@ -31,6 +53,8 @@ class CreateUserTest(TestCase):
         self.assertEqual(em.last_name, "last")
 
 # LOGIN TESTS
+
+
 class LoginTest(TestCase):
 
     def setUp(self):
@@ -67,7 +91,9 @@ class LoginTest(TestCase):
         response = self.client.get('/home/')
         self.assertTemplateUsed('home.html')
 
-#MATCHING TESTS
+# MATCHING TESTS
+
+
 class MatchesTest(TestCase):
 
     def setUp(self):
@@ -92,6 +118,8 @@ class MatchesTest(TestCase):
         self.assertFalse(p2.matches.all().exists())
 
 # SEARCHING TESTS
+
+
 class SearchTest(TestCase):
 
     def setUp(self):
@@ -113,26 +141,30 @@ class SearchTest(TestCase):
 
     def test_search_by_username(self):
         search_query = 'b'
-        results_list = Profile.objects.raw("SELECT * from auth_User where username LIKE %s", ['%' + search_query + '%'])
+        results_list = Profile.objects.raw(
+            "SELECT * from auth_User where username LIKE %s COLLATE utf8_general_ci", ['%' + search_query + '%'])
         self.assertEquals(results_list[0].username, 'b')
 
     def test_search_by_first_name(self):
         search_query = "first1"
-        results_list_name = Profile.objects.raw("SELECT * from auth_User where first_name LIKE %s", ['%' + search_query + '%'])
+        results_list_name = Profile.objects.raw(
+            "SELECT * from auth_User where first_name LIKE %s COLLATE utf8_general_ci", ['%' + search_query + '%'])
         self.assertEquals(results_list_name[0].first_name, 'first1')
 
     def tests_search_by_major(self):
         search_query = "major1"
-        results_list_major = Profile.objects.raw("SELECT * from matching_profile where major LIKE %s", ['%' + search_query + '%'])
+        results_list_major = Profile.objects.raw(
+            "SELECT * from matching_profile where major LIKE %s COLLATE utf8_general_ci", ['%' + search_query + '%'])
         self.assertEquals(results_list_major[0].major, 'major1')
 
     def tests_search_by_courses(self):
         search_query = "course1"
         searched_course = Course.objects.raw(
-            "SELECT * from matching_course where course_title LIKE %s", ['%' + search_query + '%'])
+            "SELECT * from matching_course where course_title LIKE %s COLLATE utf8_general_ci", ['%' + search_query + '%'])
         searched_course_profile_list = []
         for tmp_cs in searched_course:
             for tmp_user in tmp_cs.profile_set.all():
                 if tmp_user not in searched_course_profile_list:
                     searched_course_profile_list.append(tmp_user)
-        self.assertQuerysetEqual(searched_course_profile_list[0].courses.all(), ['<Course: course1>'])
+        self.assertQuerysetEqual(searched_course_profile_list[0].courses.all(), [
+                                 '<Course: course1>'])
