@@ -28,22 +28,28 @@ def match_exists(user_a, user_b):
 
 @login_required
 def home(request):
+    print('in home view')
+    print(request.user.profile.first_login)
     user = User.objects.get(username=request.user.username)
     profile = Profile.objects.get(user=user)
 
     if (profile.first_login):
+        print('in first login')
         profile.first_login = False
         profile.save()
         return redirect('update_profile', username=user)
 
     if request.method == 'POST':
+        print('POST request')
         seconduser = User.objects.get(username=request.POST['r_id'])
         if 'accept' in request.POST:
+            print('accept')
             MatchesTable.objects.create(
                 from_user=user, to_user=seconduser, like=True)
             seconduser.profile.rank += 1
             seconduser.profile.save()
         if 'reject' in request.POST:
+            print('reject')
             MatchesTable.objects.create(
                 from_user=user, to_user=seconduser, like=False)
 
@@ -197,10 +203,10 @@ def search(request):
             "SELECT * from matching_profile where major LIKE %s", ['%' + search_query + '%'])
         searched_course = Course.objects.raw(
             "SELECT * from matching_course where course_title LIKE %s", ['%' + search_query + '%'])
-        searched_course_profile_list=[]
+        searched_course_profile_list = []
         for tmp_cs in searched_course:
             for tmp_user in tmp_cs.profile_set.all():
-                if  tmp_user not in searched_course_profile_list:
+                if tmp_user not in searched_course_profile_list:
                     searched_course_profile_list.append(tmp_user)
         print(searched_course_profile_list)
     return render(request, 'search.html', {
