@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
+{% load static %}
 
 {% block content %}
 <div class="justify-content-center">
@@ -14,6 +15,8 @@
 					{{ match.0.last_name }}?</h5>
 				{% if match.0.profile.profilePicture %}
 				<img src="{{match.0.profile.profilePicture.url}}" width="100%">
+				{% else %}
+				<img src="{% static 'matching/usrimg.jpg' %}" width="100%">
 				{% endif %}
 				<p>Major: {{ match.0.profile.major}} <br />
 					Graduation Year: {{ match.0.profile.grad_year}}</p>

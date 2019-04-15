@@ -136,3 +136,4 @@ class SearchTest(TestCase):
                 if tmp_user not in searched_course_profile_list:
                     searched_course_profile_list.append(tmp_user)
         self.assertQuerysetEqual(searched_course_profile_list[0].courses.all(), ['<Course: course1>'])
+        
