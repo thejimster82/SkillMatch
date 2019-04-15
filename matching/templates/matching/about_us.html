@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}About Study Buddies{% endblock %}
-
 {% block content %}
+{% load static %}
 
 <div class="container">
 	<style type="text/css">
@@ -142,7 +142,7 @@
 				<!-- Wrapper for carousel items -->
 				<div class="carousel-inner">
 					<div class="item carousel-item active">
-						<div class="img-box"><img src="../static/matching/caleb.jpg"></div>
+						<div class="img-box"><img src="{% static 'matching/caleb.jpg' %}" alt=""></div>
 						<p class="overview"><b>Caleb</b></p>
 						<p class="testimonial">Caleb is a third year majoring in the dismal science (econ) and the
 							science
@@ -152,14 +152,14 @@
 						<p class="overview">Special Talent: He's a God of Design</p>
 					</div>
 					<div class="item carousel-item">
-						<div class="img-box"><img src="../static/matching/david.jpg" alt=""></div>
+						<div class="img-box"><img src="{% static 'matching/david.jpg' %}" alt=""></div>
 						<p class="overview"><b>David</b></p>
 						<p class="testimonial">David is a third year majoring in Computer Science. He enjoys
 							roast beef sandwiches and wants to live in New York City one day.</p>
 						<p class="overview">Special Talent: Django Genius</p>
 					</div>
 					<div class="item carousel-item">
-						<div class="img-box" id="gradypic"><img src="../static/matching/grady.jpg" alt=""></div>
+						<div class="img-box" id="gradypic"><img src="{% static 'matching/grady.jpg' %}" alt=""></div>
 						<p class="overview"><b>Grady</b></p>
 						<p class="testimonial">Grady is a second year majoring in Computer Science. In his free time he
 							enjoys - SIKE he's
@@ -170,8 +170,8 @@
 						</p>
 					</div>
 					<div class="item carousel-item">
-						<div class="img-box"><img src="../static/matching/jimHead.jpg" alt=""></div>
-						<div class="img-box"><img src="../static/matching/lyla.png" alt=""></div>
+						<div class="img-box"><img src="{% static 'matching/jimHead.jpg' %}" alt=""></div>
+						<div class="img-box"><img src="{% static 'matching/lyla.jpg' %}" alt=""></div>
 						<p class="overview"><b>Jimmy & Lyla</b></p>
 						<p class="testimonial">Despite his favorite breakfast food being a plain bowl of oatmeal (no
 							kidding), Jimmy
@@ -192,7 +192,7 @@
 						<p class="overview">Special Talent: None yet seen</p>
 					</div>
 					<div class="item carousel-item">
-						<div class="img-box" id="yifanpic"><img src="../static/matching/yiffan.jpg"></div>
+						<div class="img-box" id="yifanpic"><img src="{% static 'matching/yiffan.jpg' %}" alt=""></div>
 						<p class="overview"><b>Yifan</b></p>
 						<p class="testimonial">Yifan loves guo bao rou (legend has it he used to be fat because he ate
 							it so often).
