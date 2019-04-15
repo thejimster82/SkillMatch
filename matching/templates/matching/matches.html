@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load ttag %}
 {% block title %}Matches{% endblock %}
+{% load static %}
 
 
 <!--
@@ -15,8 +16,13 @@
         <a style="text-decoration: none; color:inherit;" href="{% url 'profile' match.to_user.username %}">
             <div class="row no-gutters">
                 <div class="col-auto">
+                {% if match.to_user.profile.profilePicture%}
                     <img src="{{match.to_user.profile.profilePicture.url}}" class="img-fluid"
                         style="object-fit: cover; height: 200px; width:200px;" alt="">
+                {% else %}
+                    <img src="{% static 'matching/usrimg.jpg' %}" class="img-fluid"
+                        style="object-fit: cover; height: 200px; width:200px;" alt="">
+                {% endif %}
                 </div>
                 <div class="col">
                     <div class="card-block px-2">
