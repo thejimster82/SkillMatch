@@ -202,6 +202,7 @@ class SearchTest(TestCase):
             "SELECT * from auth_User where first_name ILIKE %s", ['%' + search_query + '%'])
 
     def tests_search_by_major(self):
+        search_query = "major1"
         results_list_major = Profile.objects.raw(
             "SELECT * from matching_profile where major ILIKE %s", ['%' + search_query + '%'])
         self.assertEquals(results_list_major[0].major, 'major1')
