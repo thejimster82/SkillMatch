@@ -28,7 +28,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     GENDER_CHOICES = [('M', 'Male'), ('F', 'Female'), ('O', 'Other')]
     major = models.CharField(max_length=100, blank=True)
-    grad_year = models.CharField(max_length=4)
+    grad_year = models.IntegerField(default=0)
     bio = models.TextField()
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
     matches = models.ManyToManyField(User, blank=True, related_name='matching')
