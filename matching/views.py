@@ -64,6 +64,7 @@ def home(request):
     })
 
 
+
 @login_required
 def matches(request):
     user = User.objects.get(username=request.user.username)
@@ -75,6 +76,12 @@ def matches(request):
         if match_exists(user, match.to_user):
             match_filter.append(Q(to_user=match.to_user))
     valid_matches = all_matches.filter(reduce(operator.ior, match_filter))
+
+    if request.method == 'POST':
+        seconduser = User.objects.get(username=request.POST['r_id'])
+        if 'Delete Match' in request.POST:
+            MatchesTable.objects.edit(from_user=user, to_user=seconduser, like=False)
+            MatchesTable.save()
 
     return render(request, 'matches.html', {
         'matches_list': valid_matches,
