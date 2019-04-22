@@ -12,6 +12,8 @@
 {% block content %}
 {% for match in matches_list %}
 <div class="container" style="height: 200px">
+
+
     <div class="card h-100" style="margin-top: 1em">
         <a style="text-decoration: none; color:inherit;" href="{% url 'profile' match.to_user.username %}">
             <div class="row no-gutters">
@@ -41,7 +43,7 @@
                                     {% csrf_token %}
                                     <input type="hidden" value="{{ match.to_user.username }}" name="r_id">
                                     <input class="btn-danger btn mt-0 mb-3" type="submit" value="Delete Match"
-                                        name="delete">
+                                        name="Delete Match">
                                 </form>
                             </div>
                         </div>
