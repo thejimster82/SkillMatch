@@ -1,4 +1,7 @@
+from datetime import datetime
+
 from django import forms
+from django.core.validators import validate_integer
 from django.contrib.auth.models import User
 from .models import Profile
 from django.core.files.images import get_image_dimensions
@@ -11,6 +14,17 @@ class UserForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
+
+    def clean_grad_year(self):
+        now = datetime.now().year
+        data = self.cleaned_data['grad_year']
+        if data < 2019 or data > (now + 5):
+            raise forms.ValidationError(
+                "Graduation year must be of the form YYYY "
+                "and a possible graduation year."
+            )
+        return data
+
     class Meta:
         model = Profile
         fields = ('profilePicture', 'gender', 'major', 'bio',

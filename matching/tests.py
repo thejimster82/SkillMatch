@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.test import TestCase, RequestFactory, Client
 from .models import Profile, Course, MatchesTable
 from django.contrib.auth.models import User
@@ -26,6 +28,45 @@ class EditProfileTest(TestCase):
         buttonString = "Edit Profile</button>"
         buttonBytes = bytearray(buttonString, 'utf-8')
         self.assertTrue(buttonBytes not in response.content)
+
+    def test_year_validation_1(self):
+        form_data = {
+            'gender':'M',
+            'grad_year':2019,
+            'bio':'Bio'
+        }
+        form = ProfileForm(data=form_data)
+        self.assertTrue(form.is_valid())
+    
+    def test_year_validation_2(self):
+        super_senior = datetime.now().year + 5
+        form_data = {
+            'gender':'M',
+            'grad_year':super_senior,
+            'bio':'Bio'
+        }
+        form = ProfileForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_year_validation_3(self):
+        senior_citizen = 1960
+        form_data = {
+            'gender':'M',
+            'grad_year':senior_citizen,
+            'bio':'Bio'
+        }
+        form = ProfileForm(data=form_data)
+        self.assertFalse(form.is_valid())
+    
+    def test_year_validation_4(self):
+        smart_baby = datetime.now().year + 20
+        form_data = {
+            'gender':'M',
+            'grad_year':smart_baby,
+            'bio':'Bio'
+        }
+        form = ProfileForm(data=form_data)
+        self.assertFalse(form.is_valid())
 
 
 class CreateUserTest(TestCase):

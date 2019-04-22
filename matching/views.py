@@ -1,4 +1,5 @@
 import operator
+from datetime import datetime
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -111,9 +112,15 @@ def profile(request, username):
     })
 
 
+def graduation_range():
+    now = datetime.now().year
+    return (2019, now + 4)
+
+
 @login_required
 def update_profile(request, username):
     user = User.objects.get(username=request.user.username)
+    grad_range = graduation_range()
     if request.method == 'POST':
         profile_form = ProfileForm(
             request.POST, request.FILES, instance=request.user.profile)
@@ -127,7 +134,8 @@ def update_profile(request, username):
             course_form.save()
             return redirect('profile', username=user.username)
     else:
-        profile_form = ProfileForm(instance=user.profile)
+        profile_form = ProfileForm(
+            instance=user.profile)
         user_form = UserForm(instance=user)
         course_form = ProfileCoursesForm(instance=user.profile)
     return render(request, 'update_profile.html', {
