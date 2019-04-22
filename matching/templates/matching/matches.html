@@ -11,50 +11,30 @@
 
 {% block content %}
 {% for match in matches_list %}
-<div class="container" style="height: 200px">
-
-
-    <div class="card h-100" style="margin-top: 1em">
-        <a style="text-decoration: none; color:inherit;" href="{% url 'profile' match.to_user.username %}">
-            <div class="mx-auto" style="width: 100%; text-align: center;">
-                <div class="col-auto">
-                {% if match.to_user.profile.profilePicture%}
-                    <img src="{{match.to_user.profile.profilePicture.url}}" class="img-fluid"
-                        style="object-fit: cover; height: 200px; width:200px;" alt="">
-                {% else %}
-                    <img src="{% static 'matching/usrimg.jpg' %}" class="img-fluid"
-                        style="object-fit: cover; height: 200px; width:200px;" alt="">
-                {% endif %}
-                </div>
-                <div class="col">
-                    <div class="card-block px-2">
-                        <div style="height: 200px; text-overflow: clip; overflow: hidden;">
-                            <h4 class="card-title">{{ match.to_user.first_name }}
-                                {{ match.to_user.last_name }}
-                            </h4>
-                            <p class="card-text">
-                                {{ match.to_user.email }}
-                            </p>
-                            <p class="card-text">
-                                {{ match.to_user.profile.bio }}
-                            </p>
-                            <div style="text-align: center;">
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" value="{{ match.to_user.username }}" name="r_id">
-                                    <input class="btn-danger btn mt-0 mb-3" type="submit" value="Delete Match"
-                                        name="Delete Match">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer w-100 text-muted" style="text-overflow: clip; font-size: smaller">
-                {{ match|common_courses }}
-            </div>
-        </a>
-    </div>
+<div style=“width: 20rem; display:inline-block; margin-right: 1rem; margin-top: 3rem;“>
+       <a style=“text-decoration: none; color:inherit;” href=“{% url ‘profile’ match.to_user.username %}“>
+           <div class=“card” style=“width: 100%; padding-bottom: 1rem;“>
+               <img src=“{{match.to_user.profile.profilePicture.url}}” class=“card-img-top” alt=“...“>
+               <div class=“card-body” style=“overflow: hidden; white-space: normal; height: 15vh;“>
+                   <h5 class=“card-title” style=“text-overflow: clip”>{{ match.to_user.first_name }}
+                       {{ match.to_user.last_name }}</h5>
+                   <p class=“card-text text-muted” style=“font-size: 10pt; text-overflow: clip”>
+                       {{ match.to_user.email }}</p>
+                   <p class=“card-text text-muted” style=“font-size: 10pt; text-overflow: clip”>
+                       {{ match.to_user.profile.bio }}</p>
+                   <p class=“card-text text-muted” style=“font-size: 10pt; text-overflow: clip”>
+                       {{ result.user.profile.courses.all|join:“, ” }}</p>
+                   <div style=“text-align: center;“>
+                       <form method=“post”>
+                           {% csrf_token %}
+                           <input type=“hidden” value=“{{ match.to_user.username }}” name=“r_id”>
+                           <input class=“btn-danger btn mt-0 mb-3” type=“submit” value=“Delete Match”
+                               name=“delete”>
+                       </form>
+                   </div>
+               </div>
+           </div>
+       </a>
 </div>
 {% empty %}
 <h5 style="text-align: center; margin-top: 4rem">No matches yet! Study buddies will appear here when a mutual match
