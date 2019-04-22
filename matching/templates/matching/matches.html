@@ -16,7 +16,7 @@
 
     <div class="card h-100" style="margin-top: 1em">
         <a style="text-decoration: none; color:inherit;" href="{% url 'profile' match.to_user.username %}">
-            <div class="card" style="width: 100%; padding-bottom: 1rem;">
+            <div class="row no-gutters">
                 <div class="col-auto">
                 {% if match.to_user.profile.profilePicture%}
                     <img src="{{match.to_user.profile.profilePicture.url}}" class="img-fluid"
