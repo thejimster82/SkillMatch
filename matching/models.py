@@ -39,8 +39,9 @@ class Profile(models.Model):
 
     #   TUTOR FIELDS
     tutor = models.BooleanField(default=False)
-    tutor_bio = models.TextField(blank=True)
-    tutor_gpa = models.CharField(max_length=4, blank=True)
+    tutor_bio = models.TextField(blank=True, default="")
+    tutor_gpa = models.DecimalField(
+        blank=True, null=True, default=0.0, max_digits=3, decimal_places=2)
 
     def __str__(self):
         return self.user.username
