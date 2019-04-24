@@ -119,6 +119,7 @@ def graduation_range():
 
 @login_required
 def update_profile(request, username):
+    UserForm(instance=request.user)
     user = User.objects.get(username=request.user.username)
     grad_range = graduation_range()
     if request.method == 'POST':
@@ -179,6 +180,7 @@ def update_become_tutor(request, username):
 
 @login_required
 def update_tutorprofile(request, username):
+    UserForm(instance=request.user)
     user = User.objects.get(username=request.user.username)
     if request.method == 'POST':
         tutorprofile_form = TutorProfileForm(
