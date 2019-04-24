@@ -4,11 +4,8 @@ from django.test import TestCase, RequestFactory, Client
 from .models import Profile, Course, MatchesTable
 from django.contrib.auth.models import User
 from social_django.models import UserSocialAuth
-from .forms import UserForm, ProfileForm
+from .forms import UserForm, ProfileForm, TutorProfileForm
 from .views import update_profile, profile, match_exists
-
-# Create your tests here.
-# EDIT PROFILE TEST
 
 
 class EditProfileTest(TestCase):
@@ -67,7 +64,30 @@ class EditProfileTest(TestCase):
         }
         form = ProfileForm(data=form_data)
         self.assertFalse(form.is_valid())
-
+    
+    def test_gpa_validation_1(self):
+        gpa = -1
+        form_data = {
+            'tutor_gpa':gpa
+        }
+        form = TutorProfileForm(data=form_data)
+        self.assertFalse(form.is_valid())
+    
+    def test_gpa_validation_2(self):
+        gpa = 5.1
+        form_data = {
+            'tutor_gpa':gpa
+        }
+        form = TutorProfileForm(data=form_data)
+        self.assertFalse(form.is_valid())
+    
+    def test_gpa_validation_3(self):
+        gpa = 3.6
+        form_data = {
+            'tutor_gpa':gpa
+        }
+        form = TutorProfileForm(data=form_data)
+        self.assertTrue(form.is_valid())
 
 class CreateUserTest(TestCase):
 

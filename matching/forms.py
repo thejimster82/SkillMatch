@@ -43,7 +43,16 @@ class ProfileCoursesForm(forms.ModelForm):
 class TutorProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('tutor', 'grad_year', 'tutor_gpa', 'tutor_bio')
+        fields = ('tutor', 'tutor_gpa', 'tutor_bio')
+
+    def clean_tutor_gpa(self):
+        data = self.cleaned_data['tutor_gpa']
+        print('data', data)
+        if data < 0 or data > 4.0:
+            raise forms.ValidationError(
+                "GPA must be between 0.0 and 4.0 "
+            )
+        return data
 
 
 class BecomeTutorForm(forms.ModelForm):

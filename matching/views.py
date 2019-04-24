@@ -180,8 +180,6 @@ def update_become_tutor(request, username):
 
 @login_required
 def update_tutorprofile(request, username):
-    UserForm(instance=request.user)
-    user = User.objects.get(username=request.user.username)
     if request.method == 'POST':
         tutorprofile_form = TutorProfileForm(
             request.POST, request.FILES, instance=request.user.profile)
@@ -190,11 +188,12 @@ def update_tutorprofile(request, username):
         if tutorprofile_form.is_valid() and user_form.is_valid():
             tutorprofile_form.save()
             user_form.save()
-            return redirect('tutorprofile', username=user)
+            return redirect('tutorprofile', username=request.user.username)
     else:
         tutorprofile_form = TutorProfileForm(instance=request.user.profile)
         user_form = UserForm(instance=request.user)
     return render(request, 'update_tutorprofile.html', {
+        'username': request.user.username,
         'user_form': user_form,
         'tutorprofile_form': tutorprofile_form,
     })

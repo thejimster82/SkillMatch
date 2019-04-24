@@ -17,7 +17,7 @@
 <div class="container emp-profile">
 	<div class="justify-content-center">
 		<h1 class="mt-2"> Update Tutor Profile </h1>
-		<form method="post" enctype="multipart/form-data">
+		<form method="post" enctype="multipart/form-data" action={% url 'update_tutorprofile' username=username %}>
 			{% csrf_token %}
 			{% bootstrap_form user_form %}
 			{% bootstrap_form tutorprofile_form %}
