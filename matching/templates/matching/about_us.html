@@ -42,7 +42,7 @@
 		}
 
 		.carousel .item {
-			color: #999;
+			color: #333; /* old val: #999 */
 			font-size: 14px;
 			text-align: center;
 			overflow: hidden;
@@ -82,7 +82,7 @@
 
 		.carousel .overview b {
 			text-transform: uppercase;
-			color: #7AA641;
+			color: #333; /* old val: 7AA641 */
 		}
 
 		.carousel .carousel-control {
@@ -125,7 +125,17 @@
 			box-shadow: inset 0 2px 1px rgba(0, 0, 0, 0.2);
 		}
 	</style>
-
+	<div class="container emp-profile">
+			<style type="text/css">
+        
+				.emp-profile{
+					padding: 3%;
+					margin-top: 3%;
+					margin-bottom: 3%;
+					border-radius: 0.5rem;
+					background: #eee;
+				}
+			</style>
 	<div class="row">
 		<div class="col-md-8 col-center m-auto">
 			<h2>About Us</h2>
@@ -148,7 +158,7 @@
 							science
 							that makes you dismal (Computer Science). His favorite cookie is oatmeal raisin and if you
 							disagree
-							you're "definitely wrong".</p>
+							you're "definitely wrong."</p>
 						<p class="overview">Special Talent: He's a God of Design</p>
 					</div>
 					<div class="item carousel-item">
@@ -188,7 +198,7 @@
 						<p class="testimonial">Mark is a third year majoring in Computer Science and minoring in
 							Business.
 							He hates Django, and is the only member of the team who has ever bailed hay.
-							In his free time he enjoys watching Tom Brady embarass DBs.</p>
+							In his free time he enjoys watching Tom Brady embarrass DBs.</p>
 						<p class="overview">Special Talent: None yet seen</p>
 					</div>
 					<div class="item carousel-item">
@@ -210,6 +220,7 @@
 				</a>
 			</div>
 		</div>
+	</div>
 	</div>
 </div>
 {% endblock %}

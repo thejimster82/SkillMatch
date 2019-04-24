@@ -65,17 +65,28 @@ def home(request):
     })
 
 
+
 @login_required
 def matches(request):
     user = User.objects.get(username=request.user.username)
     profile = Profile.objects.get(user=user)
     all_matches = MatchesTable.objects.filter(from_user=user)
 
+    if request.method == 'POST':
+        seconduser = User.objects.get(username=request.POST['r_id'])
+        if 'Delete Match' in request.POST:
+            t = all_matches.filter(to_user=seconduser).values_list('id', flat=True)
+            match = MatchesTable.objects.get(id = t[0])
+            match.like = False
+            match.save()
+
     match_filter = [Q()]
     for match in all_matches:
         if match_exists(user, match.to_user):
             match_filter.append(Q(to_user=match.to_user))
     valid_matches = all_matches.filter(reduce(operator.ior, match_filter))
+
+
 
     return render(request, 'matches.html', {
         'matches_list': valid_matches,
@@ -108,6 +119,7 @@ def graduation_range():
 
 @login_required
 def update_profile(request, username):
+    UserForm(instance=request.user)
     user = User.objects.get(username=request.user.username)
     grad_range = graduation_range()
     if request.method == 'POST':
@@ -168,6 +180,7 @@ def update_become_tutor(request, username):
 
 @login_required
 def update_tutorprofile(request, username):
+    UserForm(instance=request.user)
     user = User.objects.get(username=request.user.username)
     if request.method == 'POST':
         tutorprofile_form = TutorProfileForm(

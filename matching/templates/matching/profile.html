@@ -8,9 +8,7 @@
 
 <div class="container emp-profile">
     <style type="text/css">
-        body{
-            background: -webkit-linear-gradient(left, #0099cc, #b3ecff);
-        }
+        
         .emp-profile{
             padding: 3%;
             margin-top: 3%;
@@ -119,10 +117,7 @@
                     <div class="col-md-6">
                         <div class="profile-head">
                                     <h5>
-                                        First Name: {{user.first_name}}
-                                    </h5>
-                                    <h5>
-                                        Last Name: {{user.last_name}}
+                                        {{user.first_name}} {{user.last_name}}
                                     </h5>
                                     <p class="proile-rating">LIKES : <span>{{user.profile.rank}}</span></p>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -169,19 +164,31 @@
                                                 <label>Courses:</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <ul>
 					                                {% for c in courses %}
-					                                <li>{{ c }}</li>
+					                                <p>{{ c }}</p>
 					                                {% endfor %}
-                                                </ul>
                                             </div>
                                         </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Student Bio:</label><br/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{user.profile.bio}}</p>
+                                    </div>
+                                </div>
+
+                                <!-- 
+                                The other way of displaying the student bio where it takes the whole width!
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label>Student Bio:</label><br/>
                                         <p>{{user.profile.bio}}</p>
                                     </div>
-                                </div>
+                                </div> 
+                                -->
+
+
                                 {% if request.user.first_name == user.first_name and request.user.last_name == user.last_name %}
                                 <a href="{% url 'update_profile' username %}">
                                     <button type="button" class='btn btn-primary'>Edit Profile</button>

@@ -7,9 +7,6 @@
 
 {% block content %}
 <style type="text/css">
-        body{
-            background: -webkit-linear-gradient(left, #0099cc, #b3ecff);
-        }
         .emp-profile{
             padding: 3%;
             margin-top: 3%;
@@ -52,7 +49,7 @@
                 </div>
             </div>
             <div class="row">{{ profile_form.profilePicture|as_crispy_field }}</div>
-            <h1 class="mt-2"> Tutor Profile </h1>
+            <h1 class="mt-2"> Be A Tutor? </h1>
             <div class="row">
                 <div class="col-3" style="text-align: center;">
                     {{profile_form.tutor|as_crispy_field}}
@@ -62,6 +59,7 @@
                 </div>
 
             </div>
+            <!--
             <div class="row">
                 <div class="col-12">
                 {{ profile_form.tutor_gpa|as_crispy_field }}
@@ -72,6 +70,7 @@
                 {{ profile_form.tutor_bio|as_crispy_field }}
               </div>
             </div>
+             -->
             <input class="btn-primary btn btn mt-0 mb-0" type="submit" value="Update" style="float: right;">
 		</form>
 	</div>
