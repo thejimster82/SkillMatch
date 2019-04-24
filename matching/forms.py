@@ -43,7 +43,7 @@ class ProfileCoursesForm(forms.ModelForm):
 class TutorProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('grad_year', 'tutor_gpa', 'tutor_bio')
+        fields = ('tutor', 'grad_year', 'tutor_gpa', 'tutor_bio')
 
 
 class BecomeTutorForm(forms.ModelForm):
