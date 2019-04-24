@@ -27,10 +27,11 @@ class ProfileForm(forms.ModelForm):
 
     def clean_tutor_gpa(self):
         data = self.cleaned_data['tutor_gpa']
-        if data < 0 or data > 4.0:
-            raise forms.ValidationError(
-                "GPA must be between 0.0 and 4.0 "
-            )
+        if data is not None:
+            if data < 0 or data > 4.0:
+                raise forms.ValidationError(
+                    "GPA must be between 0.0 and 4.0 "
+                )
 
     class Meta:
         model = Profile
@@ -54,10 +55,11 @@ class TutorProfileForm(forms.ModelForm):
 
     def clean_tutor_gpa(self):
         data = self.cleaned_data['tutor_gpa']
-        if data < 0 or data > 4.0:
-            raise forms.ValidationError(
-                "GPA must be between 0.0 and 4.0 "
-            )
+        if data is not None:
+            if data < 0 or data > 4.0:
+                raise forms.ValidationError(
+                    "GPA must be between 0.0 and 4.0 "
+                )
 
 
 class BecomeTutorForm(forms.ModelForm):
