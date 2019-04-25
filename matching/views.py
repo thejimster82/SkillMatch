@@ -2,7 +2,7 @@ import operator
 from datetime import datetime
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import reverse
@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.db.models import Q
+from django.db.models.expressions import RawSQL
 from django.utils.six.moves import reduce
 
 from .forms import UserForm, ProfileForm, ProfileCoursesForm, TutorProfileForm, BecomeTutorForm
@@ -65,7 +66,6 @@ def home(request):
     })
 
 
-
 @login_required
 def matches(request):
     user = User.objects.get(username=request.user.username)
@@ -75,18 +75,22 @@ def matches(request):
     if request.method == 'POST':
         seconduser = User.objects.get(username=request.POST['r_id'])
         if 'Delete Match' in request.POST:
-            t = all_matches.filter(to_user=seconduser).values_list('id', flat=True)
-            match = MatchesTable.objects.get(id = t[0])
+            t = all_matches.filter(
+                to_user=seconduser).values_list('id', flat=True)
+            match = MatchesTable.objects.get(id=t[0])
             match.like = False
             match.save()
+            return HttpResponseRedirect(reverse('matches'))
 
     match_filter = [Q()]
     for match in all_matches:
         if match_exists(user, match.to_user):
             match_filter.append(Q(to_user=match.to_user))
-    valid_matches = all_matches.filter(reduce(operator.ior, match_filter))
-
-
+    
+    if len(match_filter) > 1:
+        valid_matches = all_matches.filter(reduce(operator.ior, match_filter))
+    else:
+        valid_matches = Profile.objects.none()
 
     return render(request, 'matches.html', {
         'matches_list': valid_matches,
@@ -112,16 +116,10 @@ def profile(request, username):
     })
 
 
-def graduation_range():
-    now = datetime.now().year
-    return (2019, now + 4)
-
-
 @login_required
 def update_profile(request, username):
     UserForm(instance=request.user)
     user = User.objects.get(username=request.user.username)
-    grad_range = graduation_range()
     if request.method == 'POST':
         profile_form = ProfileForm(
             request.POST, request.FILES, instance=request.user.profile)
@@ -210,24 +208,25 @@ def tutors(request):
 def search(request):
     if request.method == 'GET':  # If the form is submitted
         search_query = request.GET.get('search_box', None)
-        print(search_query)
-        results_list = Profile.objects.raw(
-            "SELECT * from auth_User where username ILIKE %s", ['%' + search_query + '%'])
-        results_list_name = Profile.objects.raw(
-            "SELECT * from auth_User where first_name ILIKE %s", ['%' + search_query + '%'])
-        results_list_major = Profile.objects.raw(
-            "SELECT * from matching_profile where major ILIKE %s", ['%' + search_query + '%'])
-        searched_course = Course.objects.raw(
-            "SELECT * from matching_course where course_title ILIKE %s", ['%' + search_query + '%'])
-        searched_course_profile_list = []
+
+        results_list_username = Profile.objects.filter(id__in=RawSQL(
+            "SELECT id from auth_User where username ILIKE %s", ['%' + search_query + '%']))
+        results_list_name = Profile.objects.filter(id__in=RawSQL(
+            "SELECT id from auth_User where first_name ILIKE %s", ['%' + search_query + '%']))
+        results_list_major = Profile.objects.filter(id__in=RawSQL(
+            "SELECT id from matching_profile where major ILIKE %s", ['%' + search_query + '%']))
+        searched_course = Course.objects.filter(id__in=RawSQL(
+            "SELECT id from matching_course where course_title ILIKE %s", ['%' + search_query + '%']))
+
+        searched_course_profile_list = Profile.objects.none()
         for tmp_cs in searched_course:
-            for tmp_user in tmp_cs.profile_set.all():
-                if tmp_user not in searched_course_profile_list:
-                    searched_course_profile_list.append(tmp_user)
-        print(searched_course_profile_list)
+            searched_course_profile_list.union(tmp_cs.profile_set.all())
+
+        results_list = Profile.objects.none().union(
+            results_list_username,
+            results_list_name,
+            results_list_major,
+            searched_course_profile_list)
     return render(request, 'search.html', {
         'results_list': results_list,
-        'results_list_major': results_list_major,
-        'results_list_name': results_list_name,
-        'results_list_courses': searched_course_profile_list,
     })

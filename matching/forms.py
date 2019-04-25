@@ -18,7 +18,7 @@ class ProfileForm(forms.ModelForm):
     def clean_grad_year(self):
         now = datetime.now().year
         data = self.cleaned_data['grad_year']
-        if data < 2019 or data > (now + 5):
+        if data < now or data > (now + 5):
             raise forms.ValidationError(
                 "Graduation year must be of the form YYYY "
                 "and a possible graduation year."
