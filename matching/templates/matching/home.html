@@ -9,26 +9,32 @@
 	{% if finished is True %}
 	<h5 style="text-align: center; margin-top: 4rem">No more available matches.</h5>
 	{% else %}
-	<div class="mx-auto" style="height: 580px; width: 24rem; margin-top: 20px;">
+	<div class="mx-auto" style="height: 525px; width: 24rem; margin-top: 20px;">
 		<div class="card h-100" style="width: 22rem;">
 			<div class="card-body" style="text-overflow: clip; overflow: hidden;">
 				<h5 class="card-title">Match with {{ match.0.first_name }}
 					{{ match.0.last_name }}?</h5>
-				{% if match.0.profile.profilePicture %}
-				<img src="{{match.0.profile.profilePicture.url}}" width="100%">
-				{% else %}
-				<img src="{% static 'matching/usrimg.jpg' %}" width="100%">
-				{% endif %}
+				<div class="mx-auto" style="width: 200px; padding-bottom: 20px">
+					{% if match.0.profile.profilePicture %}
+					<img src="{{match.0.profile.profilePicture.url}}" style="width: 200px; height: 200px; object-fit: cover;">
+					{% else %}
+					<img src="{% static 'matching/usrimg.jpg' %}" style="width: 200px; height: 200px; object-fit: cover;">
+					{% endif %}
+				</div>
 				<p>Major: {{ match.0.profile.major}} <br />
 					Graduation Year: {{ match.0.profile.grad_year}}</p>
-				<p class="card-subtitle mb-2 text-muted">{{ match.0.profile.bio }}</p>
+				<p class="card-subtitle mb-2 text-muted">{{ match.0.profile.bio|truncatechars_html:165 }}</p>
 			</div>
 			<div style="margin-top: 1em; text-align: center;">
 				<form method="post">
 					{% csrf_token %}
 					<input type="hidden" name="r_id" value="{{ match.0.username }}">
-					<input class="btn-success btn mt-0 mb-3" type="submit" value="accept" name="accept" />
-					<input class="btn-danger btn mt-0 mb-3" type="submit" value="reject" name="reject" />
+					<button class="btn" style="float: left; padding-left: 30px" type="submit" value="reject" name="reject">
+                        <i style="color: red; font-size: 4em" class="fas fa-chevron-left"></i>
+                    </button>
+					<button class="btn" style="float: right; padding-right: 30px" type="submit" value="accept" name="accept">
+                        <i style="color: green; font-size: 4em" class="fas fa-chevron-right"></i>
+                    </button>
 				</form>
 			</div>
 		</div>
@@ -40,3 +46,8 @@
 	{% endif %}
 </div>
 {% endblock %}
+
+{% comment %}
+<input class="btn-success btn mt-0 mb-3" type="submit" value="accept" name="accept" />
+<input class="btn-danger btn mt-0 mb-3" type="submit" value="reject" name="reject" />
+{% endcomment %}
