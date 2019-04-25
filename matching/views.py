@@ -208,7 +208,7 @@ def tutors(request):
 def search(request):
     if request.method == 'GET':  # If the form is submitted
         search_query = request.GET.get('search_box', None)
-        print(search_query)
+
         results_list = Profile.objects.raw(
             "SELECT * from auth_User where username ILIKE %s", ['%' + search_query + '%'])
         results_list_name = Profile.objects.raw(
@@ -217,15 +217,15 @@ def search(request):
             "SELECT * from matching_profile where major ILIKE %s", ['%' + search_query + '%'])
         searched_course = Course.objects.raw(
             "SELECT * from matching_course where course_title ILIKE %s", ['%' + search_query + '%'])
-        searched_course_profile_list = []
+        searched_course_profile_list = Profile.objects.none()
         for tmp_cs in searched_course:
-            for tmp_user in tmp_cs.profile_set.all():
-                if tmp_user not in searched_course_profile_list:
-                    searched_course_profile_list.append(tmp_user)
-        print(searched_course_profile_list)
+            searched_course_profile_list.union(tmp_cs.profile_set.all())
+            # for tmp_user in tmp_cs.profile_set.all():
+            #     if tmp_user not in searched_course_profile_list:
+            #         searched_course_profile_list.append(tmp_user)
+        
+        results_list.union(results_list_name, results_list_major, searched_course_profile_list).distinct('username')
+    
     return render(request, 'search.html', {
         'results_list': results_list,
-        'results_list_major': results_list_major,
-        'results_list_name': results_list_name,
-        'results_list_courses': searched_course_profile_list,
     })
