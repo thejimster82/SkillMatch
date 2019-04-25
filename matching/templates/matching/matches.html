@@ -11,47 +11,44 @@
 
 {% block content %}
 {% for match in matches_list %}
-<div class="container" style="height: 200px">
-
-
-    <div class="card h-100" style="margin-top: 1em">
+<div class="container" style="padding-top: 1em; overflow: hidden">
+    <div class="card h-100">
         <a style="text-decoration: none; color:inherit;" href="{% url 'profile' match.to_user.username %}">
             <div class="row no-gutters">
                 <div class="col-auto">
-                {% if match.to_user.profile.profilePicture%}
-                    <img src="{{match.to_user.profile.profilePicture.url}}" class="img-fluid"
-                        style="object-fit: cover; height: 200px; width:200px;" alt="">
-                {% else %}
-                    <img src="{% static 'matching/usrimg.jpg' %}" class="img-fluid"
-                        style="object-fit: cover; height: 200px; width:200px;" alt="">
-                {% endif %}
+                    {% if match.to_user.profile.profilePicture%}
+                        <img src="{{match.to_user.profile.profilePicture.url}}" class="img-fluid"
+                            style="object-fit: cover; height: 200px; width:200px;" alt="">
+                    {% else %}
+                        <img src="{% static 'matching/usrimg.jpg' %}" class="img-fluid"
+                            style="object-fit: cover; height: 200px; width:200px;" alt="">
+                    {% endif %}
                 </div>
                 <div class="col">
-                    <div class="card-block px-2">
-                        <div style="height: 200px; text-overflow: clip; overflow: hidden;">
-                            <h4 class="card-title">{{ match.to_user.first_name }}
-                                {{ match.to_user.last_name }}
-                            </h4>
-                            <p class="card-text">
-                                {{ match.to_user.email }}
-                            </p>
-                            <p class="card-text">
-                                {{ match.to_user.profile.bio }}
-                            </p>
-                            <div style="overflow: hidden; text-align: center;">
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" value="{{ match.to_user.username }}" name="r_id">
-                                    <input class="btn-danger btn mt-0 mb-3" type="submit" value="Delete Match"
-                                        name="Delete Match">
-                                </form>
-                            </div>
+                    <div class="card-block px-2" style="overflow: hidden; text-overflow: clip">
+                        <h4 class="card-title">{{ match.to_user.first_name }}
+                            {{ match.to_user.last_name }}
+                        </h4>
+                        <p class="card-text" style="max-height: 1em">
+                            {{ match.to_user.email }}
+                        </p>
+                        <p class="card-text" style="max-height: 4em">
+                            {{ match.to_user.profile.bio }}
+                        </p>
+                        <p class="card-text text-muted" style="max-height: 2em">
+                            Common courses:<br/>
+                            {{ match|common_courses }}
+                        </p>
+                        <div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ match.to_user.username }}" name="r_id">
+                                <input class="btn-danger btn mt-0 mb-3" type="submit" value="Delete Match"
+                                    name="Delete Match">
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer w-100 text-muted" style="text-overflow: clip; overflow: hidden; font-size: smaller">
-                {{ match|common_courses }}
             </div>
         </a>
     </div>
