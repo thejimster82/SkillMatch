@@ -216,16 +216,16 @@ def search(request):
             id__in=RawSQL("SELECT * from auth_User where first_name ILIKE %s", ['%' + search_query + '%']))
         results_list_major = Profile.objects.filter(
             id__in=RawSQL("SELECT * from matching_profile where major ILIKE %s", ['%' + search_query + '%']))
-        searched_course = Course.objects.filter(
-            id__in=RawSQL("SELECT * from matching_course where course_title ILIKE %s", ['%' + search_query + '%']))
-        searched_course_profile_list = Profile.objects.none()
-        for tmp_cs in searched_course:
-            searched_course_profile_list.union(tmp_cs.profile_set.all())
+        # searched_course = Course.objects.filter(
+        #     id__in=RawSQL("SELECT * from matching_course where course_title ILIKE %s", ['%' + search_query + '%']))
+        # searched_course_profile_list = Profile.objects.none()
+        # for tmp_cs in searched_course:
+        #     searched_course_profile_list.union(tmp_cs.profile_set.all())
             # for tmp_user in tmp_cs.profile_set.all():
             #     if tmp_user not in searched_course_profile_list:
             #         searched_course_profile_list.append(tmp_user)
         
-        results_list.union(results_list_name, results_list_major, searched_course_profile_list).distinct('username')
+        results_list.union(results_list_name, results_list_major).distinct('username')
     
     return render(request, 'search.html', {
         'results_list': results_list,
