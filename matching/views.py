@@ -10,7 +10,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.db.models import Q
-from django.db.models.expressions import RawSQL
 from django.utils.six.moves import reduce
 
 from .forms import UserForm, ProfileForm, ProfileCoursesForm, TutorProfileForm, BecomeTutorForm
@@ -207,25 +206,24 @@ def tutors(request):
 def search(request):
     if request.method == 'GET':  # If the form is submitted
         search_query = request.GET.get('search_box', None)
-
-        results_list = Profile.objects.filter(
-            id__in=RawSQL("SELECT id from auth_User where username ILIKE %s", ['%' + search_query + '%']))
+        
+        results_list_username = Profile.objects.filter(
+            username__icontains=search_query).profile_set.all()
         results_list_name = Profile.objects.filter(
-            id__in=RawSQL("SELECT id from auth_User where first_name ILIKE %s", ['%' + search_query + '%']))
+            Q(first_name__icontains=search_query) | Q(last_name__icontains=search_query))
         results_list_major = Profile.objects.filter(
-            id__in=RawSQL("SELECT id from matching_profile where major ILIKE %s", ['%' + search_query + '%']))
+            major__icontains=search_query)
         searched_course = Course.objects.filter(
-            id__in=RawSQL("SELECT id from matching_course where course_title ILIKE %s", ['%' + search_query + '%']))
-        searched_course_profile_list = Profile.objects.none()
+            course_title__icontains=search_query)
+        searched_course_profile_list = []
         for tmp_cs in searched_course:
-            searched_course_profile_list.union(tmp_cs.profile_set.all())
-            # for tmp_user in tmp_cs.profile_set.all():
-            #     if tmp_user not in searched_course_profile_list:
-            #         searched_course_profile_list.append(tmp_user)
-
-        results_list.union(results_list_name, results_list_major,
-                           searched_course_profile_list).distinct('username')
-
+            for tmp_user in tmp_cs.profile_set.all():
+                if tmp_user not in searched_course_profile_list:
+                    searched_course_profile_list.append(tmp_user)
+        
     return render(request, 'search.html', {
         'results_list': results_list,
+        'results_list_major': results_list_major,
+        'results_list_name': results_list_name,
+        'results_list_courses': searched_course_profile_list,
     })
