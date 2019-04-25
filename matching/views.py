@@ -208,9 +208,9 @@ def search(request):
         search_query = request.GET.get('search_box', None)
 
         results_list_username = User.objects.filter(
-            username__icontains=search_query).profile_set.all()
+            username__icontains=search_query).values_list('profile',flat=True)
         results_list_name = User.objects.filter(
-            Q(first_name__icontains=search_query) | Q(last_name__icontains=search_query)).profile_set.all()
+            Q(first_name__icontains=search_query) | Q(last_name__icontains=search_query)).values_list('profile',flat=True)
         results_list_major = Profile.objects.filter(
             major__icontains=search_query)
         searched_course = Course.objects.filter(
