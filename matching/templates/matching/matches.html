@@ -38,7 +38,7 @@
                             <p class="card-text">
                                 {{ match.to_user.profile.bio }}
                             </p>
-                            <div style="text-align: center;">
+                            <div style="overflow: hidden; text-align: center;">
                                 <form method="post">
                                     {% csrf_token %}
                                     <input type="hidden" value="{{ match.to_user.username }}" name="r_id">
@@ -57,7 +57,7 @@
     </div>
 </div>
 {% empty %}
-<h5 style="text-align: center; margin-top: 4rem">No matches yet! Study buddies will appear here when a mutual match
+<h5 style="text-align: center; margin-top: 4rem">No matches yet! Study buddies will appear here when a <strong>mutual</strong> match
     is created!</h5>
 {% endfor %}
 {% endblock %}
