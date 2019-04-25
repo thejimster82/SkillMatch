@@ -2,7 +2,7 @@
 {% block title %}Search Results{% endblock %}
 
 {% block content %}
-<div class="mx-auto" style="width: 100%; text-align: center;">
+<div class="mx-auto" style="width: 100%; text-align: center; padding-bottom: 1em">
     {% for result in results_list %}
         {% include 'snippets/profile_view.html' with result=result %}
     {% empty %}
