@@ -66,7 +66,6 @@ def home(request):
     })
 
 
-
 @login_required
 def matches(request):
     user = User.objects.get(username=request.user.username)
@@ -76,8 +75,9 @@ def matches(request):
     if request.method == 'POST':
         seconduser = User.objects.get(username=request.POST['r_id'])
         if 'Delete Match' in request.POST:
-            t = all_matches.filter(to_user=seconduser).values_list('id', flat=True)
-            match = MatchesTable.objects.get(id = t[0])
+            t = all_matches.filter(
+                to_user=seconduser).values_list('id', flat=True)
+            match = MatchesTable.objects.get(id=t[0])
             match.like = False
             match.save()
 
@@ -86,8 +86,6 @@ def matches(request):
         if match_exists(user, match.to_user):
             match_filter.append(Q(to_user=match.to_user))
     valid_matches = all_matches.filter(reduce(operator.ior, match_filter))
-
-
 
     return render(request, 'matches.html', {
         'matches_list': valid_matches,
@@ -211,22 +209,23 @@ def search(request):
         search_query = request.GET.get('search_box', None)
 
         results_list = Profile.objects.filter(
-            id__in=RawSQL("SELECT * from auth_User where username ILIKE %s", ['%' + search_query + '%']))
+            id__in=RawSQL("SELECT id from auth_User where username ILIKE %s", ['%' + search_query + '%']))
         results_list_name = Profile.objects.filter(
-            id__in=RawSQL("SELECT * from auth_User where first_name ILIKE %s", ['%' + search_query + '%']))
+            id__in=RawSQL("SELECT id from auth_User where first_name ILIKE %s", ['%' + search_query + '%']))
         results_list_major = Profile.objects.filter(
-            id__in=RawSQL("SELECT * from matching_profile where major ILIKE %s", ['%' + search_query + '%']))
-        # searched_course = Course.objects.filter(
-        #     id__in=RawSQL("SELECT * from matching_course where course_title ILIKE %s", ['%' + search_query + '%']))
-        # searched_course_profile_list = Profile.objects.none()
-        # for tmp_cs in searched_course:
-        #     searched_course_profile_list.union(tmp_cs.profile_set.all())
+            id__in=RawSQL("SELECT id from matching_profile where major ILIKE %s", ['%' + search_query + '%']))
+        searched_course = Course.objects.filter(
+            id__in=RawSQL("SELECT id from matching_course where course_title ILIKE %s", ['%' + search_query + '%']))
+        searched_course_profile_list = Profile.objects.none()
+        for tmp_cs in searched_course:
+            searched_course_profile_list.union(tmp_cs.profile_set.all())
             # for tmp_user in tmp_cs.profile_set.all():
             #     if tmp_user not in searched_course_profile_list:
             #         searched_course_profile_list.append(tmp_user)
-        
-        results_list.union(results_list_name, results_list_major).distinct('username')
-    
+
+        results_list.union(results_list_name, results_list_major,
+                           searched_course_profile_list).distinct('username')
+
     return render(request, 'search.html', {
         'results_list': results_list,
     })
