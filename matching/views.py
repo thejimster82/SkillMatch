@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.db.models import Q
+from django.db.models.expressions import RawSQL
 from django.utils.six.moves import reduce
 
 from .forms import UserForm, ProfileForm, ProfileCoursesForm, TutorProfileForm, BecomeTutorForm
@@ -209,14 +210,14 @@ def search(request):
     if request.method == 'GET':  # If the form is submitted
         search_query = request.GET.get('search_box', None)
 
-        results_list = Profile.objects.raw(
-            "SELECT * from auth_User where username ILIKE %s", ['%' + search_query + '%'])
-        results_list_name = Profile.objects.raw(
-            "SELECT * from auth_User where first_name ILIKE %s", ['%' + search_query + '%'])
-        results_list_major = Profile.objects.raw(
-            "SELECT * from matching_profile where major ILIKE %s", ['%' + search_query + '%'])
-        searched_course = Course.objects.raw(
-            "SELECT * from matching_course where course_title ILIKE %s", ['%' + search_query + '%'])
+        results_list = Profile.objects.filter(
+            id__in=RawSQL("SELECT * from auth_User where username ILIKE %s", ['%' + search_query + '%']))
+        results_list_name = Profile.objects.filter(
+            id__in=RawSQL("SELECT * from auth_User where first_name ILIKE %s", ['%' + search_query + '%']))
+        results_list_major = Profile.objects.filter(
+            id__in=RawSQL("SELECT * from matching_profile where major ILIKE %s", ['%' + search_query + '%']))
+        searched_course = Course.objects.filter(
+            id__in=RawSQL("SELECT * from matching_course where course_title ILIKE %s", ['%' + search_query + '%']))
         searched_course_profile_list = Profile.objects.none()
         for tmp_cs in searched_course:
             searched_course_profile_list.union(tmp_cs.profile_set.all())
