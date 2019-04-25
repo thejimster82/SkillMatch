@@ -215,15 +215,16 @@ def search(request):
             major__icontains=search_query)
         searched_course = Course.objects.filter(
             course_title__icontains=search_query)
-        searched_course_profile_list = []
-        for tmp_cs in searched_course:
-            for tmp_user in tmp_cs.profile_set.all():
-                if tmp_user not in searched_course_profile_list:
-                    searched_course_profile_list.append(tmp_user)
 
+        searched_course_profile_list = Profile.objects.none()
+        for tmp_cs in searched_course:
+            searched_course_profile_list.union(tmp_cs.profile_set.all())
+    
+    results_list = Profile.objects.none().union(
+        results_list_username, 
+        results_list_name, 
+        results_list_major, 
+        searched_course_profile_list)
     return render(request, 'search.html', {
         'results_list': results_list,
-        'results_list_major': results_list_major,
-        'results_list_name': results_list_name,
-        'results_list_courses': searched_course_profile_list,
     })
