@@ -206,11 +206,11 @@ def tutors(request):
 def search(request):
     if request.method == 'GET':  # If the form is submitted
         search_query = request.GET.get('search_box', None)
-        
-        results_list_username = Profile.objects.filter(
+
+        results_list_username = User.objects.filter(
             username__icontains=search_query).profile_set.all()
-        results_list_name = Profile.objects.filter(
-            Q(first_name__icontains=search_query) | Q(last_name__icontains=search_query))
+        results_list_name = User.objects.filter(
+            Q(first_name__icontains=search_query) | Q(last_name__icontains=search_query)).profile_set.all()
         results_list_major = Profile.objects.filter(
             major__icontains=search_query)
         searched_course = Course.objects.filter(
@@ -220,7 +220,7 @@ def search(request):
             for tmp_user in tmp_cs.profile_set.all():
                 if tmp_user not in searched_course_profile_list:
                     searched_course_profile_list.append(tmp_user)
-        
+
     return render(request, 'search.html', {
         'results_list': results_list,
         'results_list_major': results_list_major,
