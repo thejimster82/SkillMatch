@@ -2,7 +2,7 @@ import operator
 from datetime import datetime
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import reverse
@@ -80,12 +80,17 @@ def matches(request):
             match = MatchesTable.objects.get(id=t[0])
             match.like = False
             match.save()
+            return HttpResponseRedirect(reverse('matches'))
 
     match_filter = [Q()]
     for match in all_matches:
         if match_exists(user, match.to_user):
             match_filter.append(Q(to_user=match.to_user))
-    valid_matches = all_matches.filter(reduce(operator.ior, match_filter))
+    
+    if len(match_filter) > 1:
+        valid_matches = all_matches.filter(reduce(operator.ior, match_filter))
+    else:
+        valid_matches = Profile.objects.none()
 
     return render(request, 'matches.html', {
         'matches_list': valid_matches,
@@ -111,16 +116,10 @@ def profile(request, username):
     })
 
 
-def graduation_range():
-    now = datetime.now().year
-    return (2019, now + 4)
-
-
 @login_required
 def update_profile(request, username):
     UserForm(instance=request.user)
     user = User.objects.get(username=request.user.username)
-    grad_range = graduation_range()
     if request.method == 'POST':
         profile_form = ProfileForm(
             request.POST, request.FILES, instance=request.user.profile)
@@ -224,9 +223,9 @@ def search(request):
             searched_course_profile_list.union(tmp_cs.profile_set.all())
 
         results_list = Profile.objects.none().union(
-            results_list_username, 
-            results_list_name, 
-            results_list_major, 
+            results_list_username,
+            results_list_name,
+            results_list_major,
             searched_course_profile_list)
     return render(request, 'search.html', {
         'results_list': results_list,
