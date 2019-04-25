@@ -206,12 +206,14 @@
                                                 <p>{{user.profile.tutor_gpa}}</p>
                                             </div>
                                         </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Tutor Bio :</label><br/>
-                                        <p>{{user.profile.tutor_bio}}</p>
-                                    </div>
-                                </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Tutor Bio : </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.profile.tutor_bio}}</p>
+                                            </div>
+                                        </div>
                                 <a href="{% url 'update_tutorprofile' username %}">
                                     <button type="button" class='btn btn-primary'>Edit Tutor Profile</button>
                                 </a>
