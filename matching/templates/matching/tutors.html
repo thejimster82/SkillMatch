@@ -7,7 +7,7 @@
     {% for tutor in tutor_list %}
     <div class="container" style="height: 200px">
         <div class="card h-100" style="margin-top: 1em">
-            <a style="text-decoration: none; color:inherit;" href="{% url 'profile' tutor.user.username %}">
+            <a style="text-decoration: none; color:inherit;" href="{% url 'Tprofile' tutor.user.username %}">
                 <div class="row no-gutters">
                     <div class="col-auto">
                         {% if tutor.user.profile.profilePicture %}
