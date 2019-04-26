@@ -86,7 +86,7 @@ def matches(request):
     for match in all_matches:
         if match_exists(user, match.to_user):
             match_filter.append(Q(to_user=match.to_user))
-    
+
     if len(match_filter) > 1:
         valid_matches = all_matches.filter(reduce(operator.ior, match_filter))
     else:
@@ -115,6 +115,18 @@ def profile(request, username):
         "tutor": tutor,
     })
 
+@login_required
+def Tprofile(request, username):
+    user = User.objects.get(username=username)
+    profile = Profile.objects.get(user=user)
+    courses = profile.courses.all()
+    tutor_u = Profile.objects.get(user=user)
+    tutor = tutor_u.tutor
+    return render(request, 'Tprofile.html', {
+        'user': user,
+        'courses': courses,
+        "tutor": tutor,
+    })
 
 @login_required
 def update_profile(request, username):

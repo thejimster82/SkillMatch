@@ -35,6 +35,7 @@ urlpatterns = [
     # path('update_match/<value>', views.update_match, name='update_match'),
     path('profile/<username>/edit/', views.update_profile, name='update_profile'),
     path('profile/<username>', views.profile, name='profile'),
+    path('Tprofile/<username>', views.Tprofile, name='Tprofile'),
     path('tutorprofile/<username>', views.tutorprofile, name='tutorprofile'),
     path('tutorprofile/<username>/becometutor', views.update_become_tutor,
          name='update_become_tutor'),
