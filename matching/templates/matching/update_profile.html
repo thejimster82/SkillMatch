@@ -48,17 +48,29 @@
                     {{ profile_form.bio|as_crispy_field }}
                 </div>
             </div>
-            <div class="row">{{ profile_form.profilePicture|as_crispy_field }}</div>
+            <div class="row">
+                <div class="col-1">
+                {{ profile_form.profilePicture|as_crispy_field }}
+            </div>
+            </div>
+            <p></p>
             <h1 class="mt-2"> Be A Tutor? </h1>
             <div class="row">
-                <div class="col-3" style="text-align: center;">
+                <div class="col-sm-2" style="text-align: left;">
                     {{profile_form.tutor|as_crispy_field}}
                 </div>
-                <div class="col-9">
+                <div class="col-sm-8">
                     <a>By filling in the square on the left, you agree that your profile will be visible in tutor tab of study buddies</a>
                 </div>
-
             </div>
+            <div class="row">
+                    <div class="col-sm-10">
+                        </div>
+                    <div class="col-sm-2" >
+                        <input class="btn-primary btn btn mt-0 mb-0" type="submit" value="Submit">
+                    </div>
+                </div>
+
             <!--
             <div class="row">
                 <div class="col-12">
@@ -71,9 +83,8 @@
               </div>
             </div>
              -->
-            <input class="btn-primary btn btn mt-0 mb-0" type="submit" value="Update" style="float: right;">
-		</form>
-	</div>
+        </form>
+    </div>
 </div>
 
 {% endblock %}
