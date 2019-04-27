@@ -190,14 +190,14 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOpenId',
     'social_core.backends.google.GoogleOAuth2',
 
-    # for GitHub authentication
-    'social_core.backends.github.GithubOAuth2',
-
     # need to log in to admin with username and password regardless of allauth
     'django.contrib.auth.backends.ModelBackend',
 
     # allauth specific authentication methods, such as log in by email
     'allauth.account.auth_backends.AuthenticationBackend',
+
+    # for GitHub authentication
+    'social_core.backends.github.GithubOAuth2',
 )
 
 SITE_ID = 1
