@@ -14,6 +14,7 @@ from django.views import generic
 from django.db.models import Q
 from django.db.models.expressions import RawSQL
 from django.utils.six.moves import reduce
+from .filters import TutorFilter
 
 from .forms import UserForm, ProfileForm, ProfileCoursesForm, TutorProfileForm, BecomeTutorForm
 from .models import Profile, MatchesTable, Course
@@ -228,7 +229,8 @@ def update_tutorprofile(request, username):
 @login_required
 def tutors(request):
     tutor_list = Profile.objects.filter(tutor=True)
-    return render(request, 'tutors.html', {'tutor_list': tutor_list})
+    tutor_filter = TutorFilter(request.GET, queryset=tutor_list)
+    return render(request, 'tutors.html', {'filter': tutor_filter})
 
 
 def search(request):

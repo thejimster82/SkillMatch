@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'social_django',
     # storage for media
     'storages',
+    'widget_tweaks',
     # clearing unused imagefield
     # 'django_cleanup.apps.CleanupConfig',
 

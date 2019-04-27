@@ -20,8 +20,8 @@
             text-align: center;
         }
         .profile-img img{
-            width: 70%;
-            height: 100%;
+            object-fit: cover;
+            height: 200px; width:200px;
         }
         .profile-img .file {
             position: relative;
@@ -54,12 +54,12 @@
             color: #6c757d;
             cursor: pointer;
         }
-        .proile-rating{
+        .profile-rating{
             font-size: 12px;
             color: #818182;
             margin-top: 5%;
         }
-        .proile-rating span{
+        .profile-rating span{
             color: #495057;
             font-size: 15px;
             font-weight: 600;
@@ -80,8 +80,8 @@
             margin-top: -15%;
         }
         .profile-work p{
-            font-size: 12px;
-            color: #818182;
+            font-size: 15px;
+            color: #0062cc;
             font-weight: 600;
             margin-top: 10%;
         }
@@ -89,7 +89,7 @@
             text-decoration: none;
             color: #495057;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 15px;
         }
         .profile-work ul{
             list-style: none;
@@ -100,6 +100,12 @@
         .profile-tab p{
             font-weight: 600;
             color: #0062cc;
+        }
+        .tboverflow{
+            word-wrap:break-word;
+            overflow: auto;
+            height:200px;
+            width:100%;
         }
     </style>
             <form method="post">
@@ -119,15 +125,14 @@
                                     <h5>
                                         {{user.first_name}} {{user.last_name}}
                                     </h5>
-                                    <p class="proile-rating">LIKES : <span>{{user.profile.rank}}</span></p>
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link" id="tutor-tab" data-toggle="tab" href="#tutor" role="tab" aria-controls="tutor" aria-selected="false">Tutor Profile</a>
-                                </li>
-                            </ul>
+                                    <p class="profile-rating">LIKES : <span>{{user.profile.rank}}</span></p>
+
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                        <p></p>
+                    </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-work">
@@ -163,11 +168,12 @@
                                                 <label>Tutor Bio : </label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>{{user.profile.tutor_bio}}</p>
+                                                <div class="tboverflow">{{user.profile.tutor_bio}}</div>
                                             </div>
                                         </div>
+                                        <p></p>
                                 <a href="{% url 'update_tutorprofile' username %}">
-                                    <button type="button" class='btn btn-primary'>Edit Tutor Profile</button>
+                                    <button type="button" class='btn btn-primary'  style="float:right;">Edit Tutor Profile</button>
                                 </a>
                                 {% elif tutor is False %}
                                 <a href="{% url 'update_become_tutor' username %}">
@@ -189,7 +195,8 @@
                                         <label>Tutor Bio : </label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{{user.profile.tutor_bio}}</p>
+                                            <div class="tboverflow">
+                                            {{user.profile.tutor_bio}}</div>
                                     </div>
                                 </div>
                                 {% elif tutor is False %}
