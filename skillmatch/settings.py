@@ -41,6 +41,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # for django-autocomplete
+    'dal',
+    'dal_select2',
+
     'django.contrib.admin',
     'django.contrib.auth',
 
@@ -158,7 +162,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-#setting up s3 storage
+# setting up s3 storage
 
 AWS_ACCESS_KEY_ID = 'AKIAJMFCKQIB7QGDCMBA'
 AWS_SECRET_ACCESS_KEY = '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'

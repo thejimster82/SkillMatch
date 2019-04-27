@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
 {% bootstrap_css %}
 
+
 {% block title %}Update Profile{% endblock %}
 
 {% block content %}
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+{{ course_form.media }}
+
 <style type="text/css">
         .emp-profile{
             padding: 3%;
@@ -42,7 +47,7 @@
             </div>
             <div class="row">
                 <div class="col-6" style="height: 260px; overflow: auto; margin-top: 1em; margin-bottom: 1em;">
-                    {% bootstrap_form course_form %}
+                    {{ course_form.as_p }}
                 </div>
                 <div class="col-6">
                     {{ profile_form.bio|as_crispy_field }}

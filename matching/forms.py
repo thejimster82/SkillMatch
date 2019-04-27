@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from .models import Profile
 from django.core.files.images import get_image_dimensions
 
+from dal import autocomplete
+
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -36,7 +38,7 @@ class ProfileCoursesForm(forms.ModelForm):
         model = Profile
         fields = ('courses',)
         widgets = {
-            'courses': forms.CheckboxSelectMultiple,
+            'courses': autocomplete.ModelSelect2Multiple(url='course-autocomplete'),
         }
 
 
