@@ -25,15 +25,15 @@
 					Graduation Year: {{ match.0.profile.grad_year}}</p>
 				<p class="card-subtitle mb-2 text-muted">{{ match.0.profile.bio|truncatechars_html:165 }}</p>
 			</div>
-			<div style="margin-top: 1em; text-align: center;">
+			<div style="margin-top: 1em; margin-bottom: 1em; text-align: center;">
 				<form method="post">
 					{% csrf_token %}
 					<input type="hidden" name="r_id" value="{{ match.0.username }}">
-					<button class="btn" style="float: left; padding-left: 30px" type="submit" value="reject" name="reject">
-                        <i style="color: red; font-size: 4em" class="fas fa-chevron-left"></i>
+					<button class="btn" style="float: left; padding-left: 45px" type="submit" value="reject" name="reject">
+                        <i style="color: red; font-size: 3em" class="fas fa-thumbs-down"></i>
                     </button>
-					<button class="btn" style="float: right; padding-right: 30px" type="submit" value="accept" name="accept">
-                        <i style="color: green; font-size: 4em" class="fas fa-chevron-right"></i>
+					<button class="btn" style="float: right; padding-right: 45px" type="submit" value="accept" name="accept">
+                        <i style="color: green; font-size: 3em" class="fas fa-thumbs-up"></i>
                     </button>
 				</form>
 			</div>
