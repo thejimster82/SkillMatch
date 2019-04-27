@@ -2,6 +2,5 @@ from .models import Profile
 import django_filters
 
 class TutorFilter(django_filters.FilterSet):
-    class Meta:
-        model = Profile
-        fields = ['tutor_gpa', 'grad_year', ]
+    gpa_gt = django_filters.NumberFilter(field_name='tutor_gpa', lookup_expr='gt')
+    grad_year = django_filters.CharFilter(field_name='grad_year')
