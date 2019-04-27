@@ -21,7 +21,13 @@
 			{% csrf_token %}
 			{% bootstrap_form user_form %}
 			{% bootstrap_form tutorprofile_form %}
-			<input class="btn-primary btn btn mt-0 mb-3" type="submit" value="Update" style="float: right;">
+			<div class="row">
+                    <div class="col-sm-10">
+                        </div>
+                    <div class="col-sm-2" >
+						<input class="btn-primary btn btn mt-0 mb-3" type="submit" value="Update" style="float: right;">
+                    </div>
+            </div>
 		</form>
 	</div>
 </div>
