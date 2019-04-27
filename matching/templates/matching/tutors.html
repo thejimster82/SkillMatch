@@ -6,12 +6,11 @@
 {% block content %}
 <style>
         /* Style the input field */
-        #myInput {
-          padding: 20px;
-          margin-top: -6px;
-          border: 0;
-          border-radius: 0;
-          background: #f1f1f1;
+        .tboverflow{
+            height: 100px; 
+            width: 100%;
+            word-wrap:break-word;
+            overflow: auto;
         }
         </style>
 <form method="get">
@@ -56,9 +55,9 @@
                         {% endif %}
                             </a>
                     </div>
-                    <div class="col">
+                    <div class="col-auto">
                         <div class="card-block px-2">
-                            <div style="height: 200px; text-overflow: clip; overflow: hidden;">
+                            <div>
                                     <a style="text-decoration: none; color:inherit;" href="{% url 'Tprofile' tutor.user.username %}">
                                 <h4 class="card-title">{{ tutor.user.first_name }}
                                     {{ tutor.user.last_name }}
@@ -69,9 +68,6 @@
                                 </p>
                                 <p class="card-text">
                                     GPA: {{ tutor.user.profile.tutor_gpa }}
-                                </p>
-                                <p class="card-text">
-                                    {{ tutor.user.profile.tutor_bio }}
                                 </p>
                             </div>
                         </div>

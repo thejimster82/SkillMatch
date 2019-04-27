@@ -19,8 +19,14 @@
 		<h1 class="mt-2"> Become a Tutor? </h1>
 		<form method="post">
 			{% csrf_token %}
-			{% bootstrap_form become_tutor_form %}
-			<input class="btn-primary btn btn mt-0 mb-3" type="submit" value="Update" style="float: right;">
+            {% bootstrap_form become_tutor_form %}
+            <div class="row">
+                    <div class="col-sm-10">
+                        </div>
+                    <div class="col-sm-2" >
+                            <input class="btn-primary btn btn mt-0 mb-3" type="submit" value="Update" style="float: right;">
+                        </div>
+            </div>
 		</form>
 	</div>
 </div>
