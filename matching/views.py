@@ -1,6 +1,8 @@
 import operator
 from datetime import datetime
 
+from dal import autocomplete
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
@@ -26,6 +28,16 @@ def match_exists(user_a, user_b):
         from_user=user_a, to_user=user_b, like=True).exists() and MatchesTable.objects.filter(
             from_user=user_b, to_user=user_a, like=True).exists()
     return mutual
+
+
+class CourseAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Course.objects.all()
+
+        if self.q:
+            qs = qs.filter(course_title__icontains=self.q)
+
+        return qs
 
 
 @login_required
@@ -115,6 +127,7 @@ def profile(request, username):
         "tutor": tutor,
     })
 
+
 @login_required
 def Tprofile(request, username):
     user = User.objects.get(username=username)
@@ -127,6 +140,7 @@ def Tprofile(request, username):
         'courses': courses,
         "tutor": tutor,
     })
+
 
 @login_required
 def update_profile(request, username):

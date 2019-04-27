@@ -14,13 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, re_path, include
 from django.views.generic.base import RedirectView
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 import os
 
 from matching import views
+from matching.views import CourseAutocomplete
 
 
 urlpatterns = [
@@ -44,4 +45,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('search/', views.search, name='search'),
     path('tutors/', views.tutors, name='tutors'),
+    re_path(r'^course-autocomplete/$', CourseAutocomplete.as_view(),
+            name='course-autocomplete'),
 ]
