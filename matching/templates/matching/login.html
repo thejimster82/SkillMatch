@@ -38,8 +38,11 @@
         <img src="{% static 'logo.png' %}" class="mx-auto" width="200" height="200">
         <h1>Study Buddies</h1>
         <p class="lead">Sign In or Register an Account</p>
-        <p class="lead">
-          <a class="btn btn-lg btn-secondary" href="{% url 'social:begin' 'google-oauth2' %}">Sign In With Google</a>
+        <p class="lead mx-auto">
+          <a class="btn btn-lg btn-secondary" style="width: 14rem" href="{% url 'social:begin' 'google-oauth2' %}">Sign In With Google</a>
+        </p>
+        <p class="lead mx-auto">
+          <a class="btn btn-lg btn-secondary" style="width: 14rem" href="{% url 'social:begin' 'github' %}">Sherriff Login</a>
         </p>
       </div>
     </div>
