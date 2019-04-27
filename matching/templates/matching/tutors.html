@@ -25,10 +25,10 @@
                                     {{ tutor.user.last_name }}
                                 </h4>
                                 <p class="card-text">
-                                    {{ tutor.user.email }}
+                                    Email: <a target="_top" href="mailto:{{tutor.user.email}}">{{ tutor.user.email }}</a>
                                 </p>
                                 <p class="card-text">
-                                    {{ tutor.user.profile.tutor_gpa }}
+                                    GPA: {{ tutor.user.profile.tutor_gpa }}
                                 </p>
                                 <p class="card-text">
                                     {{ tutor.user.profile.tutor_bio }}

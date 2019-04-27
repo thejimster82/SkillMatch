@@ -30,7 +30,7 @@
                             {{ match.to_user.last_name }}
                         </h4>
                         <p class="card-text" style="max-height: 1em">
-                            {{ match.to_user.email }}
+                            <a target="_top" href="mailto:{{match.to_user.email}}">{{ match.to_user.email }}</a>
                         </p>
                         <p class="card-text" style="max-height: 4em">
                             {{ match.to_user.profile.bio }}
