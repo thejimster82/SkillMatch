@@ -109,6 +109,9 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1061382063618-9knv0ir8ri03g6bb27u3vedbijmf4940.
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'lzR11GumvtNnorntHvqrvFr_'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
+SOCIAL_AUTH_GITHUB_KEY = 'bf1bd960272d3a683384'
+SOCIAL_AUTH_GITHUB_SECRET = '2e4c36a74dbb4b4b02dc8151104e086f8fbec30a'
+
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = '/'
@@ -192,6 +195,9 @@ AUTHENTICATION_BACKENDS = (
 
     # allauth specific authentication methods, such as log in by email
     'allauth.account.auth_backends.AuthenticationBackend',
+
+    # for GitHub authentication
+    'social_core.backends.github.GithubOAuth2',
 )
 
 SITE_ID = 1
