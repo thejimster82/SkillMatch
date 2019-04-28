@@ -142,6 +142,18 @@ def Tprofile(request, username):
         "tutor": tutor,
     })
 
+@login_required
+def Sprofile(request, username):
+    user = User.objects.get(username=username)
+    profile = Profile.objects.get(user=user)
+    courses = profile.courses.all()
+    tutor_u = Profile.objects.get(user=user)
+    tutor = tutor_u.tutor
+    return render(request, 'Sprofile.html', {
+        'user': user,
+        'courses': courses,
+        "tutor": tutor,
+    })
 
 @login_required
 def update_profile(request, username):
