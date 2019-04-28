@@ -240,7 +240,7 @@ def search(request):
         results_list_username = Profile.objects.filter(id__in=RawSQL(
             "SELECT id from auth_User where username ILIKE %s", ['%' + search_query + '%']))
         results_list_name = Profile.objects.filter(id__in=RawSQL(
-            "SELECT id from auth_User where CONCAT(first_name, last_name) ILIKE %s", ['%' + search_query + '%']))
+            "SELECT id from auth_User where CONCAT(first_name, ' ', last_name) ILIKE %s", ['%' + search_query + '%']))
         results_list_major = Profile.objects.filter(id__in=RawSQL(
             "SELECT id from matching_profile where major ILIKE %s", ['%' + search_query + '%']))
         searched_course = Course.objects.filter(id__in=RawSQL(
