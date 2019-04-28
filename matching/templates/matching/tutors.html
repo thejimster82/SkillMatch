@@ -64,13 +64,13 @@
                                 </h4>
                                 </a>
                                 <p class="card-text">
-                                    Email: <a target="_top" href="mailto:{{tutor.user.email}}">{{ tutor.user.email }}</a>
+                                    <a target="_top" href="mailto:{{tutor.user.email}}">{{ tutor.user.email }}</a>
                                 </p>
                                 <p class="card-text">
                                     GPA: {{ tutor.user.profile.tutor_gpa }}
                                 </p>
                                 <p class="card-text">
-                                    Tutor Bio: {{ tutor.user.profile.tutor_bio|truncatechars_html:100 }}
+                                    {{ tutor.user.profile.tutor_bio|truncatechars_html:100 }}
                                 </p>
                             </div>
                         </div>
