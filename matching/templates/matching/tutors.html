@@ -30,7 +30,7 @@
                         <div class="form-group">
                                 Grad Year
                                 {% render_field filter.form.grad_year class="form-control" %}
-                    </div>
+                        </div>
                     </div>   
                     <button type="submit" class="btn btn-secondary" style="float:right;margin-bottom: 1em;">Search</button>
                 </div>
@@ -64,10 +64,13 @@
                                 </h4>
                                 </a>
                                 <p class="card-text">
-                                    Email: <a target="_top" href="mailto:{{tutor.user.email}}">{{ tutor.user.email }}</a>
+                                    <a target="_top" href="mailto:{{tutor.user.email}}">{{ tutor.user.email }}</a>
                                 </p>
                                 <p class="card-text">
                                     GPA: {{ tutor.user.profile.tutor_gpa }}
+                                </p>
+                                <p class="card-text">
+                                    {{ tutor.user.profile.tutor_bio|truncatechars_html:100 }}
                                 </p>
                             </div>
                         </div>
